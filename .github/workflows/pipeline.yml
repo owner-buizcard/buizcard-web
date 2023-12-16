@@ -22,7 +22,10 @@ jobs:
       - name: Install Node.js dependencies
         run: npm install --force
 
-      - name: Build the React application
+      - name: Install Rollup Dependencies
+        run: npm install @rollup/rollup-linux-x64-gnu
+
+      - name: Build the React application with Vite
         run: npm run build
 
       - name: Install Firebase CLI
