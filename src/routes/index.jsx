@@ -17,7 +17,7 @@ const CheckAuthAndStorage = ({ children }) => {
   useEffect(() => {
       const isLoggedIn = checkCookies();
       const hasLocalStorage = user !== null;
-      const isUnAuthRoute = ['/', '/login', '/signup'].includes(currentLocation.pathname);
+      const isUnAuthRoute = ['/', '/login', '/signup', '/auth/callback'].includes(currentLocation.pathname);
       const isCardPath = currentLocation.pathname.includes('/app/p/card');
       const isConfig = config!=null;
 
@@ -39,7 +39,7 @@ const CheckAuthAndStorage = ({ children }) => {
                   const authRedirect = Cookies.get('auth-redirect');
                   Cookies.remove('auth-redirect');
 
-                  navigate(hasLocalStorage ? (authRedirect ?? '/app/cards') : '/loading');
+                  navigate(hasLocalStorage ? (authRedirect ?? '/dashboard') : '/loading');
               }
           } else {
               if (!isLoggedIn && isCardPath) {

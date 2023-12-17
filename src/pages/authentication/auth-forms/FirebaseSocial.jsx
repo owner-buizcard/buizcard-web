@@ -6,7 +6,9 @@ import { useMediaQuery, Button, Stack } from '@mui/material';
 import Google from '../../../assets/images/icons/google.svg';
 import Twitter from '../../../assets/images/icons/twitter.svg';
 import Facebook from '../../../assets/images/icons/facebook.svg';
-import { loginWithGoogle } from '../../../network/service/authService';
+import Github from '../../../assets/images/icons/github.svg';
+import Linkedin from '../../../assets/images/icons/linkedin.svg';
+import { loginWithGithub, loginWithGoogle, loginWithLinkedin } from '../../../network/service/authService';
 
 // ==============================|| FIREBASE - SOCIAL BUTTON ||============================== //
 
@@ -14,17 +16,11 @@ const FirebaseSocial = () => {
   const theme = useTheme();
   const matchDownSM = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const googleHandler = async () => {
-    await loginWithGoogle();
-  };
+  const googleHandler = async () => await loginWithGoogle();
 
-  const twitterHandler = async () => {
-    // login || singup
-  };
+  const githubHandler = async () => await loginWithGithub();
 
-  const facebookHandler = async () => {
-    // login || singup
-  };
+  const linkedinHandler = async () => await loginWithLinkedin()
 
   return (
     <Stack
@@ -46,19 +42,19 @@ const FirebaseSocial = () => {
         variant="outlined"
         color="secondary"
         fullWidth={!matchDownSM}
-        startIcon={<img src={Twitter} alt="Twitter" />}
-        onClick={twitterHandler}
+        startIcon={<img src={Github} alt="Github" />}
+        onClick={githubHandler}
       >
-        {!matchDownSM && 'Twitter'}
+        {!matchDownSM && 'Github'}
       </Button>
       <Button
         variant="outlined"
         color="secondary"
         fullWidth={!matchDownSM}
-        startIcon={<img src={Facebook} alt="Facebook" />}
-        onClick={facebookHandler}
+        startIcon={<img src={Linkedin} alt="Linkedin" />}
+        onClick={linkedinHandler}
       >
-        {!matchDownSM && 'Facebook'}
+        {!matchDownSM && 'Linkedin'}
       </Button>
     </Stack>
   );
