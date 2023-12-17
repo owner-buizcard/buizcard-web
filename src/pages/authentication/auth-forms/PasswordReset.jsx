@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 // material-ui
@@ -15,7 +15,9 @@ import {
   InputLabel,
   OutlinedInput,
   Stack,
-  Typography
+  Typography,
+  FormControl,
+  Box
 } from '@mui/material';
 
 // third party
@@ -28,21 +30,31 @@ import AnimateButton from '../../../components/@extended/AnimateButton';
 
 // assets
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
-import { signInWithEmail } from '../../../network/service/authService';
+import { resetPassword, signInWithEmail } from '../../../network/service/authService';
+import { strengthColor, strengthIndicator } from '../../../utils/password-strength';
 
 
 
-const AuthLogin = () => {
-  const [checked, setChecked] = React.useState(false);
+const PasswordReset = () => {
+  const [level, setLevel] = useState();
 
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
+  const changePassword = (value) => {
+    const temp = strengthIndicator(value);
+    setLevel(strengthColor(temp));
+  };
+
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+
+  useEffect(() => {
+    changePassword('');
+  }, []);
 
   const navigate = useNavigate();
 
@@ -50,23 +62,23 @@ const AuthLogin = () => {
     <>
       <Formik
         initialValues={{
-          email: '',
           password: '',
+          confirmPassword: '',
           submit: null
         }}
         validationSchema={Yup.object().shape({
-          email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-          password: Yup.string().max(255).required('Password is required')
+          password: Yup.string().max(255).required('Password is required'),
+          confirmPassword: Yup.string().max(255).required('Confirm password is required')
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
 
-            await signInWithEmail({email: values.email, password: values.password});
+            await resetPassword({newPassword: values.password});
 
             setStatus({ success: true });
             setSubmitting(false);
 
-            navigate('/loading');
+            navigate('/login');
 
           } catch (err) {
             setStatus({ success: false });
@@ -80,27 +92,6 @@ const AuthLogin = () => {
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <Stack spacing={1}>
-                  <InputLabel htmlFor="email-login">Email Address</InputLabel>
-                  <OutlinedInput
-                    id="email-login"
-                    type="email"
-                    value={values.email}
-                    name="email"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    placeholder="Enter email address"
-                    fullWidth
-                    error={Boolean(touched.email && errors.email)}
-                  />
-                  {touched.email && errors.email && (
-                    <FormHelperText error id="standard-weight-helper-text-email-login">
-                      {errors.email}
-                    </FormHelperText>
-                  )}
-                </Stack>
-              </Grid>
-              <Grid item xs={12}>
-                <Stack spacing={1}>
                   <InputLabel htmlFor="password-login">Password</InputLabel>
                   <OutlinedInput
                     fullWidth
@@ -110,7 +101,10 @@ const AuthLogin = () => {
                     value={values.password}
                     name="password"
                     onBlur={handleBlur}
-                    onChange={handleChange}
+                    onChange={(e) => {
+                        handleChange(e);
+                        changePassword(e.target.value);
+                    }}
                     endAdornment={
                       <InputAdornment position="end">
                         <IconButton
@@ -132,27 +126,54 @@ const AuthLogin = () => {
                     </FormHelperText>
                   )}
                 </Stack>
+                <FormControl fullWidth sx={{ mt: 2 }}>
+                  <Grid container spacing={2} alignItems="center">
+                    <Grid item>
+                      <Box sx={{ bgcolor: level?.color, width: 85, height: 8, borderRadius: '7px' }} />
+                    </Grid>
+                    <Grid item>
+                      <Typography variant="subtitle1" fontSize="0.75rem">
+                        {level?.label}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </FormControl>
               </Grid>
-
-              <Grid item xs={12} sx={{ mt: -1 }}>
-                <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={checked}
-                        onChange={(event) => setChecked(event.target.checked)}
-                        name="checked"
-                        color="primary"
-                        size="small"
-                      />
+              <Grid item xs={12}>
+                <Stack spacing={1}>
+                  <InputLabel htmlFor="confirm-password-login">Confirm Password</InputLabel>
+                  <OutlinedInput
+                    fullWidth
+                    error={Boolean(touched.password && errors.password)}
+                    id="-confirm-password-login"
+                    type={showPassword ? 'text' : 'password'}
+                    value={values.password}
+                    name="confirmPassword"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                          size="large"
+                        >
+                          {showPassword ? <EyeOutlined /> : <EyeInvisibleOutlined />}
+                        </IconButton>
+                      </InputAdornment>
                     }
-                    label={<Typography variant="h6">Keep me sign in</Typography>}
+                    placeholder="Enter confirm password"
                   />
-                  <Link variant="h6" component={RouterLink} to="/password/forgot" color="text.primary">
-                    Forgot Password?
-                  </Link>
+                  {touched.password && errors.password && (
+                    <FormHelperText error id="standard-weight-helper-text-password-login">
+                      {errors.password}
+                    </FormHelperText>
+                  )}
                 </Stack>
               </Grid>
+
               {errors.submit && (
                 <Grid item xs={12}>
                   <FormHelperText error>{errors.submit}</FormHelperText>
@@ -161,17 +182,9 @@ const AuthLogin = () => {
               <Grid item xs={12}>
                 <AnimateButton>
                   <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="primary">
-                    Login
+                    Reset Password
                   </Button>
                 </AnimateButton>
-              </Grid>
-              <Grid item xs={12}>
-                <Divider>
-                  <Typography variant="caption"> Login with</Typography>
-                </Divider>
-              </Grid>
-              <Grid item xs={12}>
-                <FirebaseSocial />
               </Grid>
             </Grid>
           </form>
@@ -181,4 +194,4 @@ const AuthLogin = () => {
   );
 };
 
-export default AuthLogin;
+export default PasswordReset;

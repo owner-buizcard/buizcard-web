@@ -17,7 +17,7 @@ const CheckAuthAndStorage = ({ children }) => {
   useEffect(() => {
       const isLoggedIn = checkCookies();
       const hasLocalStorage = user !== null;
-      const isUnAuthRoute = ['/', '/login', '/signup', '/auth/callback'].includes(currentLocation.pathname);
+      const isUnAuthRoute = ['/', '/login', '/signup', '/auth/callback', '/password/forgot', '/password/reset', '/check-mail'].includes(currentLocation.pathname);
       const isCardPath = currentLocation.pathname.includes('/app/p/card');
       const isConfig = config!=null;
 
