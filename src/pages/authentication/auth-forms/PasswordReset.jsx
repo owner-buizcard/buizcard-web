@@ -43,6 +43,11 @@ const PasswordReset = () => {
     setShowPassword(!showPassword);
   };
 
+  const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
+  const handleClickShowConfirmPassword = () => {
+    setShowConfirmPassword(!showPassword);
+  };
+
   const changePassword = (value) => {
     const temp = strengthIndicator(value);
     setLevel(strengthColor(temp));
@@ -146,8 +151,8 @@ const PasswordReset = () => {
                     fullWidth
                     error={Boolean(touched.password && errors.password)}
                     id="-confirm-password-login"
-                    type={showPassword ? 'text' : 'password'}
-                    value={values.password}
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    value={values.confirmPassword}
                     name="confirmPassword"
                     onBlur={handleBlur}
                     onChange={handleChange}
@@ -155,7 +160,7 @@ const PasswordReset = () => {
                       <InputAdornment position="end">
                         <IconButton
                           aria-label="toggle password visibility"
-                          onClick={handleClickShowPassword}
+                          onClick={handleClickShowConfirmPassword}
                           onMouseDown={handleMouseDownPassword}
                           edge="end"
                           size="large"
