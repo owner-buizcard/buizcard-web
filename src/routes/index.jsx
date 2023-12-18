@@ -15,40 +15,44 @@ const CheckAuthAndStorage = ({ children }) => {
   const currentLocation = useLocation();
 
   useEffect(() => {
+      
       const isLoggedIn = checkCookies();
+
+      const redirect = Cookies.get('redirect');
+
+      const isUnAuthRoute = ['/', '/login', '/register', '/auth/callback', '/password/forgot', '/password/reset', '/check-mail'].includes(redirect ?? currentLocation.pathname);
+      const isConfigRoute = ['/app/p/card'].includes(redirect ?? currentLocation.pathname);
       const hasLocalStorage = user !== null;
-      const isUnAuthRoute = ['/', '/login', '/signup', '/auth/callback', '/password/forgot', '/password/reset', '/check-mail'].includes(currentLocation.pathname);
-      const isCardPath = currentLocation.pathname.includes('/app/p/card');
-      const isConfig = config!=null;
+      const hasConfig = config !== null;
 
-      if (isLoggedIn && isCardPath) {
-          if (!hasLocalStorage) {
-              Cookies.set('redirect', currentLocation.pathname);
-              navigate('/loading');
-          }
-      } else if (isLoggedIn && isCardPath && hasLocalStorage) {
+      if(currentLocation.pathname=='/loading'){
+        return;
+      }
 
-      } else if (!isLoggedIn && !isConfig && isCardPath) {
+      if(isLoggedIn){
+
+        if(!hasLocalStorage){
           Cookies.set('redirect', currentLocation.pathname);
           navigate('/loading');
-      } else if(isConfig && isCardPath){
+        }
 
-      } else if (currentLocation.pathname !== '/loading') {
-          if (isUnAuthRoute) {
-              if (isLoggedIn) {
-                  const authRedirect = Cookies.get('auth-redirect');
-                  Cookies.remove('auth-redirect');
-
-                  navigate(hasLocalStorage ? (authRedirect ?? '/dashboard') : '/loading');
-              }
-          } else {
-              if (!isLoggedIn && isCardPath) {
-                  navigate('/login');
-              } else if (!hasLocalStorage) {
-                  Cookies.set('redirect', currentLocation.pathname);
-                  navigate('/loading');
-              }
+        if(isUnAuthRoute){
+          navigate('/dashboard');
+        }
+        
+      }else{
+        if(!isUnAuthRoute && isConfigRoute){
+          if(!hasConfig){
+            Cookies.set('redirect', currentLocation.pathname);
+            navigate('/loading');
           }
+        }else if(!isUnAuthRoute){
+          navigate('/login')
+        }
+      }
+
+      if(redirect){
+        navigate(redirect);
       }
 
   }, [user, navigate, currentLocation]);

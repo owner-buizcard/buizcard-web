@@ -1,6 +1,7 @@
 
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { showSnackbar } from '../utils/snackbar-utils';
 
 const axiosClient = axios.create({
     baseURL: `https://x9a0br47t1.execute-api.us-east-1.amazonaws.com/dev`,
@@ -30,6 +31,11 @@ axiosClient.interceptors.request.use(
 axiosClient.interceptors.response.use(
     response=>{
         const data = response.data["data"];
+        const message = response.data["message"];
+
+        if(message){
+            showSnackbar(message, { variant: 'success' });
+        }
 
         if(data?.token){
             Cookies.set('accessToken', data.token.accessToken);

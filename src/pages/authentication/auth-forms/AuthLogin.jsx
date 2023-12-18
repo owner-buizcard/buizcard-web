@@ -31,7 +31,6 @@ import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import { signInWithEmail } from '../../../network/service/authService';
 
 
-
 const AuthLogin = () => {
   const [checked, setChecked] = React.useState(false);
 
@@ -61,7 +60,11 @@ const AuthLogin = () => {
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
 
-            await signInWithEmail({email: values.email, password: values.password});
+            const data = await signInWithEmail({email: values.email, password: values.password});
+
+            if(!data){
+              return;
+            }
 
             setStatus({ success: true });
             setSubmitting(false);

@@ -28,7 +28,9 @@ const MainLoader =()=>{
             dispatch(initialize(data));
 
             const redirect = Cookies.get('redirect');
-            navigate(redirect ?? '/app/cards');
+            Cookies.remove('redirect');
+            
+            navigate(redirect ?? '/dashboard');
         }
         initApp();
     })
