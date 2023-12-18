@@ -2,6 +2,7 @@ import { Grid, Stack, Typography } from "@mui/material";
 import AuthWrapper from "./AuthWrapper";
 import PasswordReset from "./auth-forms/PasswordReset";
 import { useLocation } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const ResetPassword =()=>{
 
