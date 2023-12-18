@@ -36,7 +36,7 @@ const CheckAuthAndStorage = ({ children }) => {
           navigate('/loading');
         }
 
-        if(isUnAuthRoute){
+        if(isUnAuthRoute && currentLocation.pathname!='/dashboard'){
           navigate('/dashboard');
         }
         
