@@ -25,7 +25,7 @@ const CardPreview = ({cardData}) => {
           <Stack justifyContent={"center"} alignItems={"center"} sx={{width: "100%", mb: 1}} spacing={0.6}>
             <Typography variant='h5'>Card Live Preview</Typography>
             <Stack direction={"row"} sx={{color: theme.palette.primary.main}} spacing={0.5} alignItems={"center"}>
-              <Typography variant='caption' >View Card</Typography>
+              <Typography variant='caption' sx={{cursor: "pointer"}} onClick={()=> window.open(cardData.cardLink, "_blank")}>View Card</Typography>
               <IoMdOpen />
             </Stack>
           </Stack>
