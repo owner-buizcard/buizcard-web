@@ -1,19 +1,20 @@
-import { Avatar, Box, Button, Chip, Divider, Stack, Typography } from '@mui/material';
+import { Avatar, Box, Button, Chip, CircularProgress, Divider, Stack, Typography } from '@mui/material';
 import MainCard from '../MainCard';
 import Banner from './Banner';
 import { BANNER_PLACEHOLDER } from '../../utils/global';
 import CardOptions from './CardOptions';
 import { useNavigate } from 'react-router-dom';
 import { formatDateDistance } from '../../utils/utils';
+import { useState } from 'react';
 
-const CardItem = ({cardData, handlePreviewClick, handleDeleteClick}) => {
+const CardItem = ({cardData, handlePreviewClick, handleDeleteClick, isLoading}) => {
 
   const navigate = useNavigate();
 
   const isUpdated = cardData.updated;
 
   const timestamp = `${isUpdated ? 'Updated ': 'Created '} ${formatDateDistance(isUpdated ?? cardData.created)}`;
-  console.log(cardData?.picture)
+  
   return (
     <MainCard
       title={
@@ -35,25 +36,25 @@ const CardItem = ({cardData, handlePreviewClick, handleDeleteClick}) => {
       }
     >
       <Stack spacing={2}>
-        <Box display={'flex'}>
+        <Box display={'flex'} sx={{height: "80px", alignItems: "center"}}>
           <Box sx={{ flexGrow: 1 }}>
             <Typography variant="h5">{cardData?.name?.firstName} {cardData?.name?.lastName}</Typography>
             <Typography variant="body2" sx={{ color: 'gray' }}>
-              {cardData?.company?.title} at {cardData?.company?.companyName}
+              {cardData?.company?.title} {cardData?.company?.companyName!=null ? `at ${cardData?.company?.companyName}` : ''}
             </Typography>
           </Box>
           <Box sx={{ flexShrink: 0, ml: 0.75 }}>
-            <CardOptions
+            { !isLoading && <CardOptions
               cardData={cardData}
               onDelete={handleDeleteClick}
               onEdit={()=>navigate(`/dashboard/card?cardId=${cardData._id}`)}
-            />
+            /> }
+            {
+              isLoading && <CircularProgress size="1.5rem" sx={{mx: 1}}/>
+            }
           </Box>
         </Box>
         <Divider />
-        <Typography variant="body1">
-          {cardData?.bio}
-        </Typography>
         <div>
           <Chip size="small" variant="outlined" label={cardData?.cardName} sx={{ color: 'grey' }} />
         </div>

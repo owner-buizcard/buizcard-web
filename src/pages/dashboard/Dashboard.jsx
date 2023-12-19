@@ -18,6 +18,8 @@ const Dashboard = () => {
   const [open, setOpen] = useState(false);
   const [openCreate, setOpenCreate] = useState(false);
   const [deleteItem, setDeleteItem] = useState(null);
+
+  const [cardItemLoading, setCardItemLoading] = useState(null);
   
   const dispatch = useDispatch();
 
@@ -39,8 +41,10 @@ const Dashboard = () => {
 
   const deleteClick =async()=>{
     setOpen(false);
+    setCardItemLoading(deleteItem._id);
     await deleteCard(deleteItem._id);
     const updated = cards.filter(item=>item._id!==deleteItem._id);
+    setCardItemLoading(null);
     dispatch(updateCards(updated))
   }
 
@@ -92,6 +96,7 @@ const Dashboard = () => {
                   cardData={item}
                   handlePreviewClick={()=>openCardDetails(item._id)}
                   handleDeleteClick={()=>handleDelete(item._id)}
+                  isLoading={cardItemLoading==item._id}
                 />
               </Grid>
             )
