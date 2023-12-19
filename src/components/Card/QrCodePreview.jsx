@@ -21,7 +21,7 @@ const QrCodePreview = ({cardData}) => {
                 
                 <div id="qrcode-container">
                     <QRCodeView
-                        cardId={'test'} 
+                        cardLink={'test'} 
                         logo={cardData?.qr?.logo}
                         qrStyle={cardData?.qr?.codeStyle}
                         fgColor={cardData?.qr?.fgColor}

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Box, Toolbar, useMediaQuery } from '@mui/material';
+import { Box, CircularProgress, Toolbar, useMediaQuery } from '@mui/material';
 
 // project import
 import Header from './header/Header';
@@ -14,6 +14,7 @@ import Breadcrumbs from '../../components/@extended/Breadcrumbs';
 // types
 import { openDrawer } from '../../store/reducers/menu';
 import MainDrawer from './drawer/MainDrawer';
+import WindowLoader from '../../components/WindowLoader';
 
 
 const MainLayout = () => {
@@ -22,6 +23,9 @@ const MainLayout = () => {
   const dispatch = useDispatch();
 
   const { drawerOpen } = useSelector((state) => state.menu);
+
+
+  const isLoading = useSelector((state)=>state.app.isLoading);
 
   // drawer toggler
   const [open, setOpen] = useState(drawerOpen);
@@ -44,7 +48,9 @@ const MainLayout = () => {
   }, [drawerOpen]);
 
   return (
-    <Box sx={{ display: 'flex', width: '100%' }}>
+    <Box sx={{ display: 'flex', width: '100%', position: 'relative' }}>
+
+      { isLoading && <WindowLoader/>}
       <Header open={open} handleDrawerToggle={handleDrawerToggle} />
       <MainDrawer open={open} handleDrawerToggle={handleDrawerToggle} />
       <Box component="main" sx={{ width: '100%', flexGrow: 1, p: { xs: 2, sm: 3 } }}>

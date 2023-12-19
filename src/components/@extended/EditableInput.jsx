@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { TextField } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const CustomInput = styled(TextField)(({ theme }) => ({
     "& .MuiInputBase-input": {
@@ -18,6 +18,10 @@ const EditableInput =({text, onChange})=>{
     const defaultName = "Untitled Card";
 
     const [value, setValue] = useState( text ?? defaultName)
+
+    useEffect(() => {
+        setValue(text || defaultName);
+    }, [text]);
 
     const handleChange =(e)=>{
         setValue(e.target.value);

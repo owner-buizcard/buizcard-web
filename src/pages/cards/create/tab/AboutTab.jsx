@@ -5,6 +5,9 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { updateCardData } from "../../../../store/reducers/card-builder";
 import ImagePicker from "../../../../components/ImagePicker";
+import { UserOutlined } from "@ant-design/icons";
+import { uploadCardImage } from "../../../../network/service/cardService";
+
 
 const AboutTab =()=>{
 
@@ -19,8 +22,8 @@ const AboutTab =()=>{
         dispatch(updateCardData({path: "picture", value: image}));
     }   
 
-    const removeImage=()=>{
-        dispatch(updateCardData({path: "picture", value: null}));
+    const uploadPicture = async(blob)=>{
+        return await uploadCardImage({cardId: cardData._id, key: 'picture', file: blob, fileName: 'picture.jpeg' });
     }
 
     return ( 
@@ -35,18 +38,12 @@ const AboutTab =()=>{
                         <Stack spacing={2} alignItems={"center"} justifyContent={"center"} display={"flex"}>
                             <InputLabel>Profile Picture</InputLabel>
                             <ImagePicker 
-                                id={'picture'}
+                                tag={'picture'}
+                                icon={<UserOutlined style={{fontSize: "36px"}}/>}
                                 value={cardData?.picture}
                                 onChange={handleImageChange}
-                                onRemove={removeImage} 
-                                height={120} 
-                                width={120}
-                            >
-                                <Stack spacing={1} sx={{height: 120, width: 120, alignItems: "center", justifyContent: "center", display: "flex", backgroundColor: "#f5f5f5", border: "1px dashed #b0b0b0", borderRadius: "3px", flexDirection: "column", cursor: "pointer" }}>
-                                    <FaUserCircle  fontSize={"46px"} style={{color: "#aaa"}}/>
-                                    <Typography variant="caption" sx={{ color: "grey" }}>Upload</Typography>
-                                </Stack>
-                            </ImagePicker>
+                                onUpload={uploadPicture}
+                            />
                         </Stack>
                     </Grid>
                     <Grid item xs={6}>
@@ -158,6 +155,48 @@ const AboutTab =()=>{
                             />
                         </Stack>
                     </Grid>
+                    <Grid item xs={12}>
+                        <Stack spacing={1}>
+                            <InputLabel htmlFor="address">Address</InputLabel>
+                            <OutlinedInput
+                                id="address"
+                                type="text"
+                                name="address"
+                                placeholder="Enter address"
+                                value={cardData?.address?.addressLine1??""}
+                                onChange={(event)=>handleChange("address.addressLine1", event)}
+                                fullWidth
+                            />
+                        </Stack>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Stack spacing={1}>
+                            <InputLabel htmlFor="city">City</InputLabel>
+                            <OutlinedInput
+                                id="city"
+                                type="text"
+                                name="city"
+                                placeholder="Enter city"
+                                value={cardData?.address?.city??""}
+                                onChange={(event)=>handleChange("address.city", event)}
+                                fullWidth
+                            />
+                        </Stack>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Stack spacing={1}>
+                            <InputLabel htmlFor="state">State</InputLabel>
+                            <OutlinedInput
+                                id="state"
+                                type="text"
+                                name="state"
+                                placeholder="Enter state"
+                                value={cardData?.address?.state??""}
+                                onChange={(event)=>handleChange("address.state", event)}
+                                fullWidth
+                            />
+                        </Stack>
+                    </Grid>
                     <Grid item xs={6}>
                         <Stack spacing={1}>
                             <InputLabel htmlFor="country">Country</InputLabel>
@@ -166,8 +205,8 @@ const AboutTab =()=>{
                                 type="text"
                                 name="country"
                                 placeholder="Enter country"
-                                value={cardData?.country??""}
-                                onChange={(event)=>handleChange("country", event)}
+                                value={cardData?.address?.country??""}
+                                onChange={(event)=>handleChange("address.country", event)}
                                 fullWidth
                             />
                         </Stack>
@@ -180,22 +219,8 @@ const AboutTab =()=>{
                                 type="text"
                                 name="pincode"
                                 placeholder="Enter pincode"
-                                value={cardData?.pincode??""}
-                                onChange={(event)=>handleChange("pincode", event)}
-                                fullWidth
-                            />
-                        </Stack>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Stack spacing={1}>
-                            <InputLabel htmlFor="address">Address</InputLabel>
-                            <OutlinedInput
-                                id="address"
-                                type="text"
-                                name="address"
-                                placeholder="Enter address"
-                                value={cardData?.address??""}
-                                onChange={(event)=>handleChange("address", event)}
+                                value={cardData?.address?.pincode??""}
+                                onChange={(event)=>handleChange("address.pincode", event)}
                                 fullWidth
                             />
                         </Stack>

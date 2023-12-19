@@ -15,7 +15,7 @@ const axiosClient = axios.create({
 axiosClient.interceptors.request.use(
     config=>{
         const accessToken = Cookies.get('accessToken');
-        if(config.url==="/card" && config.method==="post"){
+        if(config.url==="/card-image" && config.method==="post"){
             config.headers['Content-Type'] = 'multipart/form-data';
         }
         if(accessToken){

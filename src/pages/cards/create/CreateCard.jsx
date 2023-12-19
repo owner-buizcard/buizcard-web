@@ -8,11 +8,11 @@ import EditableInput from "../../../components/@extended/EditableInput";
 import { FaArrowLeft } from "react-icons/fa";
 import QrCodePreview from "../../../components/Card/QrCodePreview";
 import { useSelector } from "react-redux";
-import { saveBizcard, updateBizcard } from "../../../network/service/cardService";
 import { useDispatch } from "react-redux";
 import { updateCards } from "../../../store/reducers/app";
 import { initializeCardData, updateCardData } from "../../../store/reducers/card-builder";
 import { useLocation, useNavigate } from "react-router-dom";
+import { updateBizcard } from "../../../network/service/cardService";
 
 
 const CreateCard = ()=>{
@@ -37,7 +37,6 @@ const CreateCard = ()=>{
     if(cardEditId && cardData?._id!=cardEditId){
         const editCard = cards.find((item)=>item._id===cardEditId);
         dispatch(initializeCardData(editCard));
-        console.log(editCard)
     }
 
     const [updated, setUpdated] = useState({ ...cardData });
@@ -47,10 +46,9 @@ const CreateCard = ()=>{
     }, [cardData]);
 
     const saveCard =async ()=>{
-        const result = await saveBizcard(updated);
-        console.log([...cards??[], result])
-        dispatch(updateCards([...cards??[], result]));
-        navigate("/dashboard");
+        // const result = await saveBizcard(updated);
+        // dispatch(updateCards([...cards??[], result]));
+        // navigate("/dashboard");
     }
 
     const updateCard =async ()=>{
@@ -62,7 +60,6 @@ const CreateCard = ()=>{
             }
             return item;
         });
-        console.log(updateCards)
         dispatch(updateCards(updatedCards));
         navigate("/dashboard");
     }
@@ -90,6 +87,7 @@ const CreateCard = ()=>{
                             <FaArrowLeft/>
                         </IconButton>
                         <EditableInput
+                            id='cardName'
                             text={updated?.cardName}
                             onChange={handleCardNameChange}
                         />

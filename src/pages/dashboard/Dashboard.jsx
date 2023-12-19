@@ -3,10 +3,11 @@ import CardItem from "../../components/Card/CardItem";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { PlusOutlined } from "@ant-design/icons";
-import { deleteCard } from "../../network/service/cardService";
-import { updateCards } from "../../store/reducers/app";
+import { createBizcard, deleteCard } from "../../network/service/cardService";
+import { hideLoader, showLoader, updateCards } from "../../store/reducers/app";
 import ConfirmDialog from "../../components/dialogs/ConfirmDialog";
 import { useState } from "react";
+import CreateCardDialog from "../../components/dialogs/CreateCardDialog";
 
 const Dashboard = () => {
 
@@ -15,13 +16,10 @@ const Dashboard = () => {
   const cards = useSelector((state)=>state.app.cards)??[];
 
   const [open, setOpen] = useState(false);
+  const [openCreate, setOpenCreate] = useState(false);
   const [deleteItem, setDeleteItem] = useState(null);
   
   const dispatch = useDispatch();
-
-  const createCard =()=>{
-    navigate('/dashboard/card');
-  }
 
   const openCardDetails =(cardId)=>{
     navigate(`/dashboard/card-details?cardId=${cardId}`);
@@ -46,8 +44,23 @@ const Dashboard = () => {
     dispatch(updateCards(updated))
   }
 
+  const createClick =async(data)=>{
+    setOpenCreate(false);
+    dispatch(showLoader());
+    const cardData = await createBizcard(data);
+    dispatch(hideLoader());
+    const updated = [...cards, cardData];
+    dispatch(updateCards(updated))
+    navigate(`/dashboard/card?cardId=${cardData._id}`);
+  }
+
   return (
     <Box>
+      <CreateCardDialog
+        open={openCreate} 
+        onCancel={()=>setOpenCreate(false)} 
+        onOk={createClick}
+      />
       <ConfirmDialog 
         open={open} 
         onOk={deleteClick} 
@@ -63,7 +76,7 @@ const Dashboard = () => {
         </Grid>
         <Grid item xs={4} justifyContent={"end"} display={"flex"}>
           <Button variant="contained" size="medium" sx={{px: 4}} 
-            onClick={createCard}
+            onClick={()=>setOpenCreate(true)}
             startIcon={
               <PlusOutlined style={{fontSize: "16px"}}/>
             }>

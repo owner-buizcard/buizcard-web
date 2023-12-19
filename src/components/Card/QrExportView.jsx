@@ -5,7 +5,7 @@ const QrExportView = forwardRef(({cardData}, ref)=>{
     return (
         <div ref={ref} style={{ position: 'absolute', left: '-9999px' }}>
             <QRCodeView
-                cardId={cardData._id}
+                cardLink={cardData?.cardLink}
                 logo={cardData?.qr?.logo}
                 qrStyle={cardData?.qr?.codeStyle}
                 fgColor={cardData?.qr?.fgColor}

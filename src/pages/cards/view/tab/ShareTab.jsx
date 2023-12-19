@@ -16,10 +16,8 @@ const ShareTab =({cardData, captureQr})=>{
 
     const [showToast, setShowToast] = useState(false);
 
-    const cardLink = formCardLink(cardData._id);
-
     const copyLink = ()=>{
-        navigator.clipboard.writeText(cardLink);
+        navigator.clipboard.writeText(cardData.cardLink);
         setShowToast(true);
     }
 
@@ -38,7 +36,7 @@ const ShareTab =({cardData, captureQr})=>{
             <Stack direction={"row"} sx={{py: 1, px: 4}} spacing={6} alignItems={"center"}>
                 <Stack spacing={4}>
                     <QRCodeView
-                        cardId={cardData._id}
+                        cardLink={cardData?.cardLink}
                         logo={cardData?.qr?.logo}
                         qrStyle={cardData?.qr?.codeStyle}
                         fgColor={cardData?.qr?.fgColor}
@@ -61,7 +59,7 @@ const ShareTab =({cardData, captureQr})=>{
                             <OutlinedInput
                                 sx={{flexGrow: 1}}
                                 size="small"
-                                value={cardLink}
+                                value={cardData.cardLink}
                                 id="header-search"
                                 readOnly={true}
                                 aria-describedby="header-search-text"
@@ -87,7 +85,7 @@ const ShareTab =({cardData, captureQr})=>{
                         <MainCard>
                         <Grid container spacing={2}>
                             <Grid item xs={6} >
-                                <EmailShareButton url={cardLink} quote={"Hello from bizcard!"} style={{width: "100%"}}>
+                                <EmailShareButton url={cardData.cardLink} quote={"Hello from bizcard!"} style={{width: "100%"}}>
                                 <Box sx={{backgroundColor: theme.palette.grey[200], p: 1, borderRadius: '3px'}}>
                                     <Stack direction={"row"} alignItems={"center"} spacing={1}>
                                         <Avatar src={`https://firebasestorage.googleapis.com/v0/b/bizcard-web.appspot.com/o/cardbuilder%2Ficons%2Fcommunication%2Femail.png?alt=media`} sx={{width: 24, height: 24}}/>
@@ -98,7 +96,7 @@ const ShareTab =({cardData, captureQr})=>{
                                 </EmailShareButton>
                             </Grid>
                             <Grid item xs={6}>
-                                <FacebookShareButton url={cardLink} quote={"Hello from bizcard!"} style={{width: "100%"}}>
+                                <FacebookShareButton url={cardData.cardLink} quote={"Hello from bizcard!"} style={{width: "100%"}}>
                                 <Box sx={{backgroundColor: theme.palette.grey[200], p: 1, borderRadius: '3px'}}>
                                     <Stack direction={"row"} alignItems={"center"} spacing={1}>
                                         <Avatar src={`https://firebasestorage.googleapis.com/v0/b/bizcard-web.appspot.com/o/cardbuilder%2Ficons%2Fsocial%2Ffacebook.png?alt=media`} sx={{width: 24, height: 24}}/>
@@ -109,7 +107,7 @@ const ShareTab =({cardData, captureQr})=>{
                                 </FacebookShareButton>
                             </Grid>
                             <Grid item xs={6}>
-                                <LinkedinShareButton url={cardLink} quote={"Hello from bizcard!"} style={{width: "100%"}}>
+                                <LinkedinShareButton url={cardData.cardLink} quote={"Hello from bizcard!"} style={{width: "100%"}}>
                                 <Box sx={{backgroundColor: theme.palette.grey[200], p: 1, borderRadius: '3px'}}>
                                     <Stack direction={"row"} alignItems={"center"} spacing={1}>
                                         <Avatar src={`https://firebasestorage.googleapis.com/v0/b/bizcard-web.appspot.com/o/cardbuilder%2Ficons%2Fsocial%2Flinkedin.png?alt=media`} sx={{width: 24, height: 24}}/>
@@ -120,7 +118,7 @@ const ShareTab =({cardData, captureQr})=>{
                                 </LinkedinShareButton>
                             </Grid>
                             <Grid item xs={6}>
-                                <WhatsappShareButton url={cardLink} quote={"Hello from bizcard!"} style={{width: "100%"}}>
+                                <WhatsappShareButton url={cardData.cardLink} quote={"Hello from bizcard!"} style={{width: "100%"}}>
                                 <Box sx={{backgroundColor: theme.palette.grey[200], p: 1, borderRadius: '3px'}}>
                                     <Stack direction={"row"} alignItems={"center"} spacing={1}>
                                         <Avatar src={`https://firebasestorage.googleapis.com/v0/b/bizcard-web.appspot.com/o/cardbuilder%2Ficons%2Fcommunication%2Fwhatsapp.png?alt=media`} sx={{width: 24, height: 24}}/>

@@ -3,7 +3,7 @@ import React from 'react'
 import { QRCode } from 'react-qrcode-logo'
 import { useTheme } from '@emotion/react';
 
-function QRCodeView({cardId, qrStyle, fgColor, eyeColor, eyeStyle, logo, ignoreOutline}) {
+function QRCodeView({cardLink, qrStyle, fgColor, eyeColor, eyeStyle, logo, ignoreOutline}) {
 
     const eyeRadius = eyeStyle==='leaf'
         ? [[10, 10, 0, 10], [10, 10, 10, 0], [10, 0, 10, 10]]
@@ -48,7 +48,7 @@ function QRCodeView({cardId, qrStyle, fgColor, eyeColor, eyeStyle, logo, ignoreO
                 logoWidth={168 * 0.25}
                 logoHeight={168 * 0.25}
                 fgColor={fgColor ?? '#000'}
-                value={`${window.origin}/app/p/card/${cardId}`}
+                value={cardLink}
                 logoImage={logo}  
                 eyeRadius={eyeRadius}
                 qrStyle= {qrStyle ?? 'dots'}

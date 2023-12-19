@@ -1,79 +1,130 @@
+import React, { useState } from "react";
+import Button from "@mui/material/Button";
+import ImageUpload from "./ImageUpload";
+import axiosClient from "../network/axiosClient";
+import { Box, CircularProgress, IconButton, Skeleton, Stack } from "@mui/material";
 import { CloseOutlined } from "@ant-design/icons";
-import styled from "@emotion/styled";
-import { IconButton, Stack } from "@mui/material";
-import { useState } from "react";
+import { useTheme } from "@emotion/react";
 
-const CloseButton = styled(IconButton)(({ theme }) => ({
-    borderRadius: 25,
-    '&:hover': {
-      backgroundColor: '#000000',
-    },
-    '&.MuiIconButton-sizeLarge': {
-      width: theme.spacing(5.5),
-      height: theme.spacing(5.5),
-      fontSize: '1.25rem',
-    },
-    '&.MuiIconButton-sizeMedium': {
-      width: theme.spacing(4.5),
-      height: theme.spacing(4.5),
-      fontSize: '1rem',
-    },
-    '&.MuiIconButton-sizeSmall': {
-      width: theme.spacing(3.75),
-      height: theme.spacing(3.75),
-      fontSize: '0.75rem',
+function ImagePicker({tag, onChange, onUpload,icon, value, type}) {
+
+  const theme = useTheme();
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [croppedImage, setCroppedImage] = useState(value);
+  const [loading, setLoading] = useState(false);
+
+  const handleOpen = () => {
+    setIsOpen(true);
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
+  };
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        handleOpen();
+        setSelectedImage(reader.result);
+      };
+      reader.readAsDataURL(file);
     }
-  }));
+  };
 
-const ImagePicker =({id, children, value, height, width, onRemove, onChange})=>{
-
-    const [image, setImage] = useState(value);
-
-    const removeImage = ()=>{
-        setImage((_)=>{
-            onRemove();
-            return null;
-        });
+  const  handleUpload = async(type, blob, isDelete) => {
+    if(blob){
+      // const imageUrl = URL.createObjectURL(blob);
+      handleClose();
+      setLoading(true);
+      const uploaded = await onUpload(blob);
+      setLoading(false);
+      setCroppedImage(uploaded);
+      onChange(uploaded)
     }
+  };
 
-    const handleFileChange = (e) => {
-        if (e.target.files && e.target.files.length > 0) {
-          const selectedFile = e.target.files[0];
-          const reader = new FileReader();
-          reader.onload = () => {
-            setImage(reader.result);
-            onChange(reader.result);
-          };
-          reader.readAsDataURL(selectedFile);
+  const pickImage = ()=>{
+    document.getElementById(`${tag}-raised-button-file`).click();
+  }
+
+  const removeImage =()=>{
+    setCroppedImage(null);
+    onChange(null);
+  }
+
+  return (
+    <div>
+      <Box
+        sx={{
+          cursor: "pointer",
+          width: type=="rect" ? 230 : 130,
+          height: 130,
+          position: "relative",
+          border: `1px solid ${theme.palette.grey[300]}`,
+          borderRadius: "3px"
+        }}
+      >
+        {
+          loading && <Skeleton animation="wave" variant="rectangular" width={126} height={126} sx={{m: "1px"}}/>
         }
-    };
-
-    return ( 
-        <Stack
-            sx={{
-                cursor: "pointer",
-                position: "relative"
-            }}
-        >
-            <input
-                type="file"
-                accept="image/*"
-                onChange={handleFileChange}
-                style={{ display: 'none' }}
-                id={`fileInput-${id}`}
+        {
+          croppedImage && !loading && <>
+            <Box
+              onClick={pickImage}
+              sx={{
+                
+                width: "100%",
+                height: "100%",
+                borderRadius: "3px",
+                background: `url(${croppedImage}) center/cover`,
+              }}
             />
-            { image && <CloseButton size="small" onClick={removeImage} sx={{position: "absolute", zIndex: "1000", top: -6, right: -6, background: "#00000088"}}>
-                    <CloseOutlined style={{color: "white"}} fontSize={"18px"} />
-                </CloseButton> }
-            <label htmlFor={`fileInput-${id}`}>
-                {
-                    image
-                        ? <img src={image} width={width} height={height} style={{borderRadius: "8px", cursor: "pointer"}} alt="Preview" />
-                        : children
-                }
-            </label>
-        </Stack>
-    )
+            <IconButton 
+              sx={{
+                position: "absolute", 
+                top: 0, 
+                right: 0
+              }} onClick={removeImage}>
+              <CloseOutlined style={{color: "#000000"}}/> 
+            </IconButton>
+          </>
+        }
+
+        {
+          !croppedImage && !loading && <Stack spacing={2} p={2} justifyContent={"center"} height={"100%"}>
+            {icon}
+            <Button variant="contained" onClick={pickImage}>
+              Upload
+            </Button>
+          </Stack>
+        }
+      </Box>
+      <input
+        style={{ display: "none" }}
+        id={`${tag}-raised-button-file`}
+        onChange={handleImageChange}
+        type="file"
+        accept=".jpg,.png,.jpeg,.webpp"
+      />
+      {isOpen && (
+        <ImageUpload
+          isOpen={isOpen}
+          handleClose={handleClose}
+          aspectRatio={ type=="rect" ? 2 : 1}
+          type="cover" 
+          title="Crop Image"
+          isPreview={false}
+          selectedImage={selectedImage}
+          handleUpload={handleUpload}
+          changeImage={handleImageChange}
+        />
+      )}
+    </div>
+  );
 }
 
 export default ImagePicker;

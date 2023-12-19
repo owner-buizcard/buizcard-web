@@ -5,6 +5,8 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { updateCardData } from "../../../../store/reducers/card-builder";
 import ImagePicker from "../../../../components/ImagePicker";
+import { FileImageOutlined, PicCenterOutlined, PictureOutlined } from "@ant-design/icons";
+import { uploadCardImage } from "../../../../network/service/cardService";
 
 const BusinessTab =()=>{
 
@@ -16,21 +18,19 @@ const BusinessTab =()=>{
     }
 
     const handleLogoChange=(image)=>{
-        console.log('logo');
         dispatch(updateCardData({path: "logo", value: image}));
     }   
 
     const handleBannerChange=(image)=>{
-        console.log('banner');
         dispatch(updateCardData({path: "banner", value: image}));
     }   
 
-    const removeLogo=()=>{
-        dispatch(updateCardData({path: "logo", value: null}));
+    const uploadLogo = async(blob)=>{
+        return await uploadCardImage({cardId: cardData._id, key: 'logo', file: blob, fileName: 'logo.jpeg' });
     }
 
-    const removeBanner=()=>{
-        dispatch(updateCardData({path: "banner", value: null}));
+    const uploadBanner = async(blob)=>{
+        return await uploadCardImage({cardId: cardData._id, key: 'banner', file: blob, fileName: 'banner.jpeg' });
     }
 
     return ( 
@@ -48,29 +48,23 @@ const BusinessTab =()=>{
                             <Stack spacing={2} alignItems={"center"} justifyContent={"center"} display={"flex"}>
                                 <InputLabel>Company Logo</InputLabel>
                                 <ImagePicker 
-                                    id={'logo'}
+                                    tag={'logo'}
+                                    icon={<PictureOutlined style={{fontSize: "36px"}}/>}
                                     value={cardData?.logo}
                                     onChange={handleLogoChange}
-                                    onRemove={removeLogo} 
-                                    height={120} 
-                                    width={120}
-                                >
-                                    <Stack spacing={1} sx={{height: 120, width: 120, alignItems: "center", justifyContent: "center", display: "flex", backgroundColor: "#f5f5f5", border: "1px dashed #b0b0b0", borderRadius: "3px", flexDirection: "column", cursor: "pointer" }}>
-                                        <FaImage  fontSize={"46px"} style={{color: "#aaa"}}/>
-                                        <Typography variant="caption" sx={{ color: "grey" }}>Upload</Typography>
-                                    </Stack>
-                                </ImagePicker>
+                                    onUpload={uploadLogo}
+                                />
                             </Stack>
 
                             <Stack spacing={2} alignItems={"center"} justifyContent={"center"} display={"flex"}>
                                 <InputLabel>Banner</InputLabel>
                                 <ImagePicker 
-                                    id={'banner'}
+                                    tag={'banner'}
+                                    type={"rect"}
+                                    icon={<PictureOutlined style={{fontSize: "36px"}}/>}
                                     value={cardData?.banner}
                                     onChange={handleBannerChange}
-                                    onRemove={removeBanner} 
-                                    height={120} 
-                                    width={280}
+                                    onUpload={uploadBanner}
                                 >
                                     <Stack spacing={1} sx={{ height: 120, width: 280, alignItems: "center", justifyContent: "center", display: "flex", backgroundColor: "#f5f5f5", border: "1px dashed #b0b0b0", borderRadius: "3px", flexDirection: "column", cursor: "pointer" }}>
                                         <FaAd  fontSize={"46px"} style={{color: "#aaa"}}/>
@@ -145,8 +139,8 @@ const BusinessTab =()=>{
                                 type="text"
                                 name="About Company"
                                 placeholder="Enter company description"
-                                value={cardData?.company?.about??""}
-                                onChange={(event)=>handleChange("company.about", event)}
+                                value={cardData?.company?.companyDescription??""}
+                                onChange={(event)=>handleChange("company.companyDescription", event)}
                                 fullWidth
                                 multiline
                                 rows={3}
