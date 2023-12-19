@@ -9,7 +9,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import QrCodePreview from "../../../components/Card/QrCodePreview";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { updateCards } from "../../../store/reducers/app";
+import { hideLoader, showLoader, updateCards } from "../../../store/reducers/app";
 import { initializeCardData, updateCardData } from "../../../store/reducers/card-builder";
 import { useLocation, useNavigate } from "react-router-dom";
 import { updateBizcard } from "../../../network/service/cardService";
@@ -52,7 +52,9 @@ const CreateCard = ()=>{
     }
 
     const updateCard =async ()=>{
+        dispatch(showLoader());
         const result = await updateBizcard(cardEditId, updated);
+
 
         const updatedCards = cards.map(item => {
             if (item._id === result._id) {
@@ -61,6 +63,7 @@ const CreateCard = ()=>{
             return item;
         });
         dispatch(updateCards(updatedCards));
+        dispatch(hideLoader());
         navigate("/dashboard");
     }
 

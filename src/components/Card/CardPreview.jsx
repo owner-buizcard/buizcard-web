@@ -30,7 +30,7 @@ const CardPreview = ({cardData}) => {
             </Stack>
           </Stack>
 
-          <div style={{ position: 'relative' }}>
+          <div style={{ position: 'relative', marginBottom: "20px" }}>
             <Banner image={cardData?.banner??BANNER_PLACEHOLDER} />
             <Avatar
               src={cardData?.picture}
@@ -46,8 +46,8 @@ const CardPreview = ({cardData}) => {
             />
           </div>
 
-        <Stack display={'flex'} alignItems={'center'} sx={{mt: 2}}>
-          <Typography variant="h4">{cardData?.name?.firstName} {cardData?.name?.middleName} {cardData?.name?.lastName}</Typography>
+        <Stack display={'flex'} alignItems={'center'} sx={{marginTop: "30px"}}>
+          <Typography variant="h4">{cardData?.name?.prefix} {cardData?.name?.firstName} {cardData?.name?.middleName} {cardData?.name?.lastName}</Typography>
           <Typography variant="body1">{cardData?.company?.title}</Typography>
         </Stack>
 
@@ -94,22 +94,28 @@ const CardPreview = ({cardData}) => {
         }
 
         {
-          cardData?.location && (
+          cardData?.address && (
             <Stack direction={'row'} alignItems={'center'} spacing={2}>
               <EnvironmentOutlined />
-              <Typography>{cardData?.location}</Typography>
+              <Typography>{cardData?.address?.addressLine1}, {cardData?.address?.city}, {cardData?.address?.state}, {cardData?.address?.country} - {cardData?.address?.pincode}</Typography>
             </Stack>
           )
         }
 
         {
-          cardData?.website && (
+          cardData?.company?.companyWebsite && (
             <Stack direction={'row'} alignItems={'center'} spacing={2}>
               <GlobalOutlined />
-              <Typography>{cardData?.website}</Typography>
+              <Typography>{cardData?.company?.companyWebsite}</Typography>
             </Stack>
           )
         }
+
+        { cardData?.company?.companyDescription && <MainCard>
+        <Typography variant="body2" sx={{ textAlign: "justify" }}>
+          {cardData?.company?.companyDescription}
+        </Typography>
+        </MainCard> }
 
         {
           cardData?.fields && cardData?.fields.length>0 && (

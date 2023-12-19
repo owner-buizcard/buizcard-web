@@ -1,6 +1,5 @@
-import { Avatar, Box, Grid, InputLabel, OutlinedInput, Stack, Typography } from "@mui/material";
+import { Grid, InputLabel, OutlinedInput, Stack } from "@mui/material";
 import MainCard from "../../../../components/MainCard";
-import { FaUserCircle } from 'react-icons/fa';
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { updateCardData } from "../../../../store/reducers/card-builder";
