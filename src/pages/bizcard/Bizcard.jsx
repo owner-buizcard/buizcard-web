@@ -13,30 +13,30 @@ import CardsDialog from "../../components/dialogs/CardsDialog";
 import { getCardPreviewDetails } from "../../network/service/cardService";
 import { checkCookies, downloadFile, generateVcard } from "../../utils/utils";
 import { addCardLog } from "../../network/service/analyticsService";
+import AvatarBanner from "../../components/Card/AvatarBanner";
 
 let count = 0;
 
 const ICON_SIZE = "20px";
-const AVATAR_SIZE = 104;
 const MAX_CARD_WIDTH = "440px";
 
-const AvatarBanner = ({ image, picture }) => (
-  <div style={{ position: 'relative' }}>
-    <Banner image={image} />
-    <Avatar
-      src={picture}
-      sx={{
-        border: '4px solid white',
-        width: AVATAR_SIZE,
-        height: AVATAR_SIZE,
-        position: 'absolute',
-        bottom: 0,
-        left: '50%',
-        transform: 'translate(-50%, 50%)'
-      }}
-    />
-  </div>
-);
+// const AvatarBanner = ({ image, picture }) => (
+//   <div style={{ position: 'relative' }}>
+//     <Banner image={image} />
+//     <Avatar
+//       src={picture}
+//       sx={{
+//         border: '4px solid white',
+//         width: AVATAR_SIZE,
+//         height: AVATAR_SIZE,
+//         position: 'absolute',
+//         bottom: 0,
+//         left: '50%',
+//         transform: 'translate(-50%, 50%)'
+//       }}
+//     />
+//   </div>
+// );
 
 const Bizcard = () => {
   const { cardId } = useParams();

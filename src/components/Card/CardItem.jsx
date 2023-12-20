@@ -19,7 +19,7 @@ const CardItem = ({cardData, handlePreviewClick, handleDeleteClick, isLoading}) 
     <MainCard
       title={
         <div style={{ position: 'relative' }}>
-          <Banner image={cardData?.banner ?? BANNER_PLACEHOLDER}/>
+          <Banner image={cardData?.banner ?? BANNER_PLACEHOLDER} height={130}/>
           <Avatar
             src={cardData?.picture}
             sx={{

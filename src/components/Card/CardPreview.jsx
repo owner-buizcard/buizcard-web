@@ -7,14 +7,18 @@ import { useSelector } from 'react-redux';
 import { BANNER_PLACEHOLDER } from '../../utils/global';
 import { IoMdOpen } from 'react-icons/io';
 import { useTheme } from '@emotion/react';
+import AvatarBanner from './AvatarBanner';
 
-const CardPreview = ({cardData}) => {
+const CardPreview = ({cardData, isLive=true, removePadding=false}) => {
   
   const theme = useTheme();
 
   return (
     <MainCard
       headerPadding={1}
+      title={ !isLive && <Box sx={{marginBottom: "24px"}}>
+        <AvatarBanner image={cardData?.banner} picture={cardData?.picture} />
+      </Box>}
       sx={{
         minHeight: "calc(100vh - 180px)",
         width: "100%"
@@ -22,15 +26,15 @@ const CardPreview = ({cardData}) => {
     >
       <Stack spacing={2}>
 
-          <Stack justifyContent={"center"} alignItems={"center"} sx={{width: "100%", mb: 1}} spacing={0.6}>
+          { isLive && <Stack justifyContent={"center"} alignItems={"center"} sx={{width: "100%", mb: 1}} spacing={0.6}>
             <Typography variant='h5'>Card Live Preview</Typography>
             <Stack direction={"row"} sx={{color: theme.palette.primary.main}} spacing={0.5} alignItems={"center"}>
               <Typography variant='caption' sx={{cursor: "pointer"}} onClick={()=> window.open(cardData.cardLink, "_blank")}>View Card</Typography>
               <IoMdOpen />
             </Stack>
-          </Stack>
+          </Stack> }
 
-          <div style={{ position: 'relative', marginBottom: "20px" }}>
+          { isLive && <div style={{ position: 'relative', marginBottom: "20px" }}>
             <Banner image={cardData?.banner??BANNER_PLACEHOLDER} />
             <Avatar
               src={cardData?.picture}
@@ -44,7 +48,7 @@ const CardPreview = ({cardData}) => {
                 transform: 'translate(-50%, 50%)'
               }}
             />
-          </div>
+          </div> }
 
         <Stack display={'flex'} alignItems={'center'} sx={{marginTop: "30px"}}>
           <Typography variant="h4">{cardData?.name?.prefix} {cardData?.name?.firstName} {cardData?.name?.middleName} {cardData?.name?.lastName}</Typography>

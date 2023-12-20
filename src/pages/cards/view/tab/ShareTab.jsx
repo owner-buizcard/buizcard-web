@@ -1,18 +1,12 @@
-import { Avatar, Box, Button, Grid, IconButton, OutlinedInput, Stack, Typography } from "@mui/material";
+import { Avatar, Button, Divider, Grid, Stack, Typography } from "@mui/material";
 import CardPreview from "../../../../components/Card/CardPreview";
 import QRCodeView from "../../../../components/QRCodeView";
 import { CopyOutlined, DownloadOutlined } from "@ant-design/icons";
-import { IoMdOpen } from "react-icons/io";
-import MainCard from "../../../../components/MainCard";
-import { useTheme } from "@emotion/react";
-import { formCardLink } from "../../../../utils/utils";
 import Toaster from "../../../../components/@extended/Toaster";
 import { useState } from "react";
 import { EmailShareButton, FacebookShareButton, LinkedinShareButton, WhatsappShareButton } from 'react-share';
 
 const ShareTab =({cardData, captureQr})=>{
-
-    const theme = useTheme();
 
     const [showToast, setShowToast] = useState(false);
 
@@ -28,13 +22,16 @@ const ShareTab =({cardData, captureQr})=>{
             close={()=>setShowToast(false)}
             message={"Card link copied successfully!"}
         />
-        {/* <Grid item xs={4}>
-            <CardPreview cardData={cardData}/>
-        </Grid> */}
-        <Grid item xs={2}/>
+        <Grid item xs={4}>
+            <CardPreview cardData={cardData} isLive={false} removePadding={true}/>
+        </Grid>
         <Grid item xs={8} >
-            <Stack direction={"row"} sx={{py: 1, px: 4}} spacing={6} alignItems={"center"}>
-                <Stack spacing={4}>
+            <Stack direction={"row"} sx={{py: 1, px: 4}} spacing={6} justifyContent={"center"}>
+                <Stack spacing={5} alignItems={"center"}>
+                    <Stack alignItems={"center"} spacing={0.8}>
+                    <Typography variant='h5'>Personalized Qrcode</Typography>
+                    <Typography variant="body1" sx={{color: "grey"}}>Scan or tap on Qr code to go to your card</Typography>
+                    </Stack>
                     <QRCodeView
                         cardLink={cardData?.cardLink}
                         logo={cardData?.qr?.logo}
@@ -43,96 +40,32 @@ const ShareTab =({cardData, captureQr})=>{
                         eyeColor={cardData?.qr?.eyeColor}
                         eyeStyle={cardData?.qr?.eyeStyle}
                     />
-                    <Box sx={{display: "flex", justifyContent: "center"}}>
-                        <Button variant="contained" startIcon={<DownloadOutlined/>} onClick={captureQr}>
-                            Download Qr Code
+                    <Stack direction={"row"} sx={{display: "flex", justifyContent: "center"}} spacing={2}>
+                        <Button sx={{minWidth: "160px"}} variant="contained" startIcon={<DownloadOutlined/>} onClick={captureQr}>
+                            Download Qr
                         </Button>
-                    </Box>
-                </Stack>
-
-                <Stack sx={{flexGrow: 1}} spacing={4}>
-
-                    <Stack spacing={2}>
-                        <Typography variant="h5">Copy Card Link</Typography>
-
-                        <Stack direction={"row"} spacing={2}>
-                            <OutlinedInput
-                                sx={{flexGrow: 1}}
-                                size="small"
-                                value={cardData.cardLink}
-                                id="header-search"
-                                readOnly={true}
-                                aria-describedby="header-search-text"
-                                inputProps={{
-                                'aria-label': 'weight'
-                                }}
-                            />
-                                <IconButton
-                                    onClick={copyLink}
-                                    disableRipple
-                                    color="secondary"
-                                    title="Download Free Version"
-                                    sx={{ color: 'text.primary', }}
-                                >
-                                    <CopyOutlined />
-                                </IconButton>
-                        </Stack>
+                        <Button sx={{minWidth: "160px"}} variant="outlined" startIcon={<CopyOutlined/>} onClick={copyLink}>
+                            Copy Link
+                        </Button>
                     </Stack>
+                    <Divider sx={{width: "100%"}}>Share On</Divider>
+                    <Stack direction={"row"} sx={{display: "flex", justifyContent: "center"}} spacing={2}>
+                        <EmailShareButton url={cardData.cardLink} quote={"Hello from bizcard!"} style={{width: "100%"}}>
+                        <Avatar sx={{p: 0.55, cursor: "pointer"}} src={`https://firebasestorage.googleapis.com/v0/b/bizcard-web.appspot.com/o/cardbuilder%2Ficons%2Fsocial%2Fgmail.png?alt=media`} />
+                        </EmailShareButton>
 
-                    <Stack spacing={2} sx={{flexGrow: 1}}>
-                        <Typography variant="h5">Share Card</Typography>
+                        <FacebookShareButton url={cardData.cardLink} quote={"Hello from bizcard!"} style={{width: "100%"}}>
+                        <Avatar sx={{p: 0.3, cursor: "pointer"}}  src={`https://firebasestorage.googleapis.com/v0/b/bizcard-web.appspot.com/o/cardbuilder%2Ficons%2Fsocial%2Ffacebook.png?alt=media`} />
+                        </FacebookShareButton>
 
-                        <MainCard>
-                        <Grid container spacing={2}>
-                            <Grid item xs={6} >
-                                <EmailShareButton url={cardData.cardLink} quote={"Hello from bizcard!"} style={{width: "100%"}}>
-                                <Box sx={{backgroundColor: theme.palette.grey[200], p: 1, borderRadius: '3px'}}>
-                                    <Stack direction={"row"} alignItems={"center"} spacing={1}>
-                                        <Avatar src={`https://firebasestorage.googleapis.com/v0/b/bizcard-web.appspot.com/o/cardbuilder%2Ficons%2Fcommunication%2Femail.png?alt=media`} sx={{width: 24, height: 24}}/>
-                                        <Typography variant="body1" sx={{flexGrow: 1, textAlign: "left"}}>Email</Typography>
-                                        <IoMdOpen/>
-                                    </Stack>
-                                </Box>
-                                </EmailShareButton>
-                            </Grid>
-                            <Grid item xs={6}>
-                                <FacebookShareButton url={cardData.cardLink} quote={"Hello from bizcard!"} style={{width: "100%"}}>
-                                <Box sx={{backgroundColor: theme.palette.grey[200], p: 1, borderRadius: '3px'}}>
-                                    <Stack direction={"row"} alignItems={"center"} spacing={1}>
-                                        <Avatar src={`https://firebasestorage.googleapis.com/v0/b/bizcard-web.appspot.com/o/cardbuilder%2Ficons%2Fsocial%2Ffacebook.png?alt=media`} sx={{width: 24, height: 24}}/>
-                                        <Typography variant="body1" sx={{flexGrow: 1, textAlign: "left"}}>Facebook</Typography>
-                                        <IoMdOpen/>
-                                    </Stack>
-                                </Box>
-                                </FacebookShareButton>
-                            </Grid>
-                            <Grid item xs={6}>
-                                <LinkedinShareButton url={cardData.cardLink} quote={"Hello from bizcard!"} style={{width: "100%"}}>
-                                <Box sx={{backgroundColor: theme.palette.grey[200], p: 1, borderRadius: '3px'}}>
-                                    <Stack direction={"row"} alignItems={"center"} spacing={1}>
-                                        <Avatar src={`https://firebasestorage.googleapis.com/v0/b/bizcard-web.appspot.com/o/cardbuilder%2Ficons%2Fsocial%2Flinkedin.png?alt=media`} sx={{width: 24, height: 24}}/>
-                                        <Typography variant="body1" sx={{flexGrow: 1, textAlign: "left"}}>Linkedin</Typography>
-                                        <IoMdOpen/>
-                                    </Stack>
-                                </Box>
-                                </LinkedinShareButton>
-                            </Grid>
-                            <Grid item xs={6}>
-                                <WhatsappShareButton url={cardData.cardLink} quote={"Hello from bizcard!"} style={{width: "100%"}}>
-                                <Box sx={{backgroundColor: theme.palette.grey[200], p: 1, borderRadius: '3px'}}>
-                                    <Stack direction={"row"} alignItems={"center"} spacing={1}>
-                                        <Avatar src={`https://firebasestorage.googleapis.com/v0/b/bizcard-web.appspot.com/o/cardbuilder%2Ficons%2Fcommunication%2Fwhatsapp.png?alt=media`} sx={{width: 24, height: 24}}/>
-                                        <Typography variant="body1" sx={{flexGrow: 1, textAlign: "left"}}>Whatsapp</Typography>
-                                        <IoMdOpen/>
-                                    </Stack>
-                                </Box>
-                                </WhatsappShareButton>
-                            </Grid>
-                        </Grid>
-                        </MainCard>
+                        <LinkedinShareButton url={cardData.cardLink} quote={"Hello from bizcard!"} >
+                        <Avatar sx={{p: 0.3, cursor: "pointer"}}  src={`https://firebasestorage.googleapis.com/v0/b/bizcard-web.appspot.com/o/cardbuilder%2Ficons%2Fsocial%2Flinkedin.png?alt=media`} />
+                        </LinkedinShareButton>
+                        
+                        <WhatsappShareButton url={cardData.cardLink} quote={"Hello from bizcard!"} style={{width: "100%"}}>
+                        <Avatar sx={{p: 0.2, cursor: "pointer"}}  src={`https://firebasestorage.googleapis.com/v0/b/bizcard-web.appspot.com/o/cardbuilder%2Ficons%2Fcommunication%2Fwhatsapp.png?alt=media`} />
+                        </WhatsappShareButton>
                     </Stack>
-
-
                 </Stack>
             </Stack>
         </Grid>
