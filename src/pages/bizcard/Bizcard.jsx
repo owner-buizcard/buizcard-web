@@ -91,7 +91,7 @@ const Bizcard = ()=>{
                 sx={{
                     display: "flex",
                     justifyContent: "center",
-                    px: 2,
+                    px: 1,
                     pt: 2,
                     pb: 14,
                     overflow: "auto",
@@ -100,6 +100,9 @@ const Bizcard = ()=>{
                 >
 
                 <MainCard
+                    contentSX={{
+                        padding: "24px 8px"
+                    }}
                     headerPadding={0}
                     sx={{
                         maxWidth: "440px",
@@ -133,7 +136,7 @@ const Bizcard = ()=>{
                     {cardData?.bio}
                     </Typography>
                     
-                    <Grid container spacing={2} sx={{m: 0.5}}>
+                    <Grid container spacing={2} sx={{m: 0}}>
 
                         <Grid item xs={12}>
                         {
