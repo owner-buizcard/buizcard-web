@@ -216,7 +216,7 @@ const Bizcard = ()=>{
                     {
                         cardData?.fields?.map((item)=>(
                             <Grid key={item.icon} item md={2} xs={3}>
-                                <Box sx={{justifyContent: "center", display: "flex"}}>
+                                <Box sx={{justifyContent: "center", display: "flex", cursor: "pointer"}} onClick={()=>window.open(item.link, "_blank", 'noopener,noreferrer')}>
                                     <img style={{width: "48px", height: "48px"}} src={`https://firebasestorage.googleapis.com/v0/b/bizcard-web.appspot.com/o/${item.icon}?alt=media`} />
                                 </Box>
                             </Grid>
