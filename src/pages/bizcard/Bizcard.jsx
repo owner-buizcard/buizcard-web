@@ -107,13 +107,13 @@ const Bizcard = ()=>{
                     }}
                     title={
                         <div style={{ position: 'relative' }}>
-                            <Banner image={`${CARD_IMAGE_PATH}${cardData._id}%2Fbanner.jpg?alt=media`} />
+                            <Banner image={cardData?.banner} />
                             <Avatar
-                            src={`${CARD_IMAGE_PATH}${cardData._id}%2Fprofile.jpg?alt=media`}
+                            src={cardData?.picture}
                             sx={{
                                 border: '4px solid white',
-                                width: 84,
-                                height: 84,
+                                width: 104,
+                                height: 104,
                                 position: 'absolute',
                                 bottom: 0,
                                 left: '50%',
@@ -124,8 +124,8 @@ const Bizcard = ()=>{
                     }
                 >
                     
-                    <Stack display={'flex'} alignItems={'center'} sx={{mt: 4}}>
-                        <Typography variant="h4">{cardData?.name?.firstName} {cardData?.name?.middleName} {cardData?.name?.lastName}</Typography>
+                    <Stack display={'flex'} alignItems={'center'} sx={{mt: 5}}>
+                        <Typography variant="h4">{cardData?.name?.prefix} {cardData?.name?.firstName} {cardData?.name?.middleName} {cardData?.name?.lastName}</Typography>
                         <Typography variant="body1">{cardData?.company?.title}</Typography>
                     </Stack>
 
@@ -135,7 +135,7 @@ const Bizcard = ()=>{
                     
                     <Grid container spacing={2} sx={{m: 0.5}}>
 
-                        <Grid item md={6} xs={12}>
+                        <Grid item xs={12}>
                         {
                             cardData?.email && (
                                 <Stack direction={'row'} alignItems={'center'} spacing={1}>
@@ -146,7 +146,7 @@ const Bizcard = ()=>{
                         }
                         </Grid>
 
-                        <Grid item md={6} xs={12}>
+                        <Grid item xs={12}>
                         {
                             cardData?.phoneNumber && (
                                 <Stack direction={'row'} alignItems={'center'} spacing={1}>
@@ -157,23 +157,24 @@ const Bizcard = ()=>{
                         }
                         </Grid>
 
-                        <Grid item md={6} xs={12}>
+                        <Grid item xs={12}>
                         {
-                            cardData?.location && (
+                            cardData?.company?.companyWebsite && (
                                 <Stack direction={'row'} alignItems={'center'} spacing={1}>
-                                <EnvironmentOutlined />
-                                <Typography>{cardData?.location}</Typography>
+                                <GlobalOutlined />
+                                <Typography>{cardData?.company?.companyWebsite}</Typography>
                                 </Stack>
                             )
                         }
                         </Grid>
 
-                        <Grid item md={6} xs={12}>
+
+                        <Grid item xs={12}>
                         {
-                            cardData?.website && (
+                            cardData?.address && (
                                 <Stack direction={'row'} alignItems={'center'} spacing={1}>
-                                <GlobalOutlined />
-                                <Typography>{cardData?.website}</Typography>
+                                <EnvironmentOutlined />
+                                <Typography>{cardData?.address?.addressLine1}, {cardData?.address?.city}, {cardData?.address?.state}, {cardData?.address?.country} - {cardData?.address?.pincode}</Typography>
                                 </Stack>
                             )
                         }

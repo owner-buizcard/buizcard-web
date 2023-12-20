@@ -13,7 +13,7 @@ const Banner =({image, height, sharpEdge})=>{
   return (
     <CardMedia
         component="img"
-        height= { height ?? 120 }
+        height= { height ?? 'auto' }
         image={ isEmpty ? 'none' : image}
         alt="Paella dish"
         onError={handleImageError}
