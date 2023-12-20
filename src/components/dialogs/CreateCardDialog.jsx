@@ -31,7 +31,6 @@ const CreateCardDialog =({open, onCancel, onOk})=>{
                             setSubmitting(false);
                 
                           } catch (err) {
-                            console.log(err)
                             setStatus({ success: false });
                             setErrors({ submit: err.message });
                             setSubmitting(false);

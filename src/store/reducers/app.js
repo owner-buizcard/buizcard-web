@@ -15,7 +15,6 @@ const app = createSlice({
   initialState,
   reducers: {
     initialize: (state, action)=>{
-      console.log(action.payload);
         state.user = action.payload?.user;
         state.contacts = action.payload?.contacts;
         state.cards = action.payload?.cards;

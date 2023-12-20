@@ -30,8 +30,6 @@ const CheckAuthAndStorage = ({ children }) => {
       const hasLocalStorage = user !== null;
       const hasConfig = config !== null;
 
-      console.log(isConfigRoute)
-
       if(currentLocation.pathname=='/loading'){
         return;
       }
