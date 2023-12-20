@@ -21,7 +21,7 @@ const CheckAuthAndStorage = ({ children }) => {
       const redirect = Cookies.get('redirect');
 
       const isUnAuthRoute = ['/', '/login', '/register', '/auth/callback', '/password/forgot', '/password/reset', '/check-mail'].includes(redirect ?? currentLocation.pathname);
-      const isConfigRoute = ['/app/p/card'].includes(redirect ?? currentLocation.pathname);
+      const isConfigRoute = ['/app/p/card/:cardId'].includes(redirect ?? currentLocation.pathname);
       const hasLocalStorage = user !== null;
       const hasConfig = config !== null;
 
