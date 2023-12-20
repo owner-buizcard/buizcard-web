@@ -97,10 +97,10 @@ export function generateVcard(cardData) {
         card.workUrl = cardData?.company?.companyWebsite;
     } 
     if(cardData?.picture){
-        card.photo.attachFromUrl(cardData.picture);
+        card.photo.attachFromUrl(cardData.picture, 'JPEG');
     }
     if(cardData?.logo){
-        card.logo.attachFromUrl(cardData.logo);
+        card.logo.attachFromUrl(cardData.logo, 'JPEG');
     }
     if(cardData?.phoneNumber){
         card.cellPhone = cardData?.phoneNumber;
@@ -112,19 +112,19 @@ export function generateVcard(cardData) {
         card.workAddress.label = 'Work Address';
     }
     if(cardData?.address?.city){
-        card.workAddress.city = cardData?.email;
+        card.workAddress.city = cardData?.address.city;
     } 
     if(cardData?.address?.state){
-        card.workAddress.stateProvince = cardData?.email;
+        card.workAddress.stateProvince = cardData?.address.state;
     } 
     if(cardData?.address?.country){
-        card.workAddress.countryRegion = cardData?.email;
+        card.workAddress.countryRegion = cardData?.address.country;
     } 
     if(cardData?.address?.pincode){
-        card.workAddress.postalCode = cardData?.email;
+        card.workAddress.postalCode = cardData?.address.pincode;
     } 
     if(cardData?.address?.addressLine1){
-        card.workAddress.street = cardData?.email;
+        card.workAddress.street = cardData?.address.addressLine1;
     } 
 
     const vcfData = card.getFormattedString();
