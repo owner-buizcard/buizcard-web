@@ -227,7 +227,7 @@ const Bizcard = ()=>{
 
                     { !isLoggedIn &&  <Stack alignItems={"center"} sx={{mt: 8}}>
                         <Typography variant="labelLight" sx={{color: "#FF8C00", fontWeight: 600}}> Want to create your Digital card? </Typography>
-                        <Button variant="outlined" sx={{boxShadow: 4, width: "320px", padding: "8px", my: 2}} onClick={goTocreate}>Create Your Own Profile</Button>
+                        <Button variant="outlined" sx={{boxShadow: 4, width: "300px", padding: "8px", my: 2}} onClick={goTocreate}>Create Your Own Profile</Button>
                         <Typography variant="labelLight" > Join Bizcard Now ! </Typography>
                     </Stack> }
 
