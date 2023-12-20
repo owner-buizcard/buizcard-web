@@ -132,14 +132,14 @@ export function generateVcard(cardData) {
     return vcfData;
 }
 
-export function downloadFile(data){
+export function downloadFile(data, fileName){
 
     const blob = new Blob([data], { type: 'text/vcard' });
     const url = window.URL.createObjectURL(blob);
 
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('download', 'contact.vcf');
+    link.setAttribute('download', `${fileName}.vcf`);
     document.body.appendChild(link);
 
     link.click();

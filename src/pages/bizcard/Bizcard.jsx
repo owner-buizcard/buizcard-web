@@ -42,7 +42,7 @@ const Bizcard = ()=>{
 
     const saveCard =()=>{
         const vcfData = generateVcard(cardData);
-        downloadFile(vcfData);
+        downloadFile(vcfData, `${cardData?.name?.firstName}-${cardData?.name?.lastName}-Bizcard`);
     }
 
     const goTocreate=()=>{
