@@ -20,7 +20,7 @@ TabPanelWrapper.propTypes = {
 };
 
 
-const TabPanel = ({value, cardData, captureQr})=>{
+const TabPanel = ({value, cardData, captureQr, handleSettingsChange})=>{
 
     return (
         <>
@@ -37,7 +37,7 @@ const TabPanel = ({value, cardData, captureQr})=>{
                 <AnalyticsTab cardData={cardData}/>
             </TabPanelWrapper>
             <TabPanelWrapper value={value} index={4}>
-                <SettingsTab cardData={cardData}/>
+                <SettingsTab cardData={cardData} onChange={handleSettingsChange}/>
             </TabPanelWrapper>
         </>
     )

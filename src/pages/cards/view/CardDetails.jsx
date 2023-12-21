@@ -6,14 +6,15 @@ import { useSelector } from "react-redux";
 import MainCard from "../../../components/MainCard";
 import TabBar from "./tab/TabBar";
 import { useRef, useState } from "react";
-import { useTheme } from "@emotion/react";
 import TabPanel from "./tab/TabPanel";
 import QrExportView from "../../../components/Card/QrExportView";
 import html2canvas from "html2canvas";
+import { useDispatch } from "react-redux";
+import { updateCards } from "../../../store/reducers/app";
 
 const CardDetails =()=>{
 
-    const theme = useTheme();
+    const dispatch = useDispatch();
 
     const [value, setValue] = useState(0);
 
@@ -28,7 +29,7 @@ const CardDetails =()=>{
     const cardId = queryParams.get('cardId');
 
     const cards = useSelector((state) => state.app.cards);
-    const cardData = cards.find((item)=>item._id===cardId);
+    const [cardData, setCardData] = useState(cards.find((item)=>item._id===cardId));
 
     const componentRef = useRef();
 
@@ -46,6 +47,18 @@ const CardDetails =()=>{
 
     const handleBack =()=>{
         navigate(-1);
+    }
+
+    const handleSettingsChange =(data)=>{
+        const updated = {...cardData, ...data};
+        const updatedCards = cards.map(item => {
+            if (item._id === updated._id) {
+              return { ...item, ...updated }; 
+            }
+            return item;
+        });
+        dispatch(updateCards(updatedCards));
+        setCardData(updated);
     }
     
     return (
@@ -121,6 +134,7 @@ const CardDetails =()=>{
                             value={value} 
                             cardData={cardData}
                             captureQr={captureQr}
+                            handleSettingsChange={handleSettingsChange}
                         />    
                     </MainCard>
 
