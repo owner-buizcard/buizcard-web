@@ -26,7 +26,7 @@ const SignatureTab = ({cardData})=>{
         <>
         <SignatureDialog 
             open={open}
-            data={{ name, jobTitle, company, phoneNumber, location, disclaimer, cardId: cardData._id }} 
+            data={{ name, jobTitle, company, phoneNumber, location, disclaimer, cardId: cardData._id, showQrCode: true }} 
             onCancel={handleClose}  
         />
         <Box sx={{ minHeight: "calc(100vh - 280px)" }}>
@@ -151,14 +151,14 @@ const SignatureTab = ({cardData})=>{
                                     <Typography variant="h5">{name}</Typography>
                                     <Stack>
                                     <Typography variant="caption">{jobTitle}</Typography>
-                                    <Typography variant="caption">{companyName}</Typography>
+                                    <Typography variant="caption">{company}</Typography>
                                     <Typography variant="caption">{phoneNumber}</Typography>
                                     <Typography variant="caption">{location}</Typography>
                                     </Stack>
 
                                     <div style={{height: "30px"}}/>
 
-                                    <Typography sx={{fontStyle: "italic"}} variant="caption">{desclaimer}</Typography>
+                                    <Typography sx={{fontStyle: "italic"}} variant="caption">{disclaimer}</Typography>
                                 </Box>
 
                             </Grid>
