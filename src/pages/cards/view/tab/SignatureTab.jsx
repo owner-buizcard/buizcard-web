@@ -1,4 +1,4 @@
-import { CopyOutlined } from "@ant-design/icons";
+import { CopyOutlined, PlusOutlined } from "@ant-design/icons";
 import { useTheme } from "@emotion/react";
 import { Box, Button, Divider, Grid, InputLabel, OutlinedInput, Stack, Typography } from "@mui/material";
 import { useState } from "react";
@@ -12,15 +12,18 @@ const SignatureTab = ({cardData})=>{
     const [jobTitle, setJobTitle] = useState(cardData?.designation??"");
     const [companyName, setCompanyName] = useState(cardData?.company?.companyName??"");
     const [phoneNumber, setPhoneNumber] = useState(cardData?.phoneNumber??"");
-    const [location, setLocation] = useState(cardData?.address??"");
+    const [location, setLocation] = useState(cardData?.address?.city??"");
     const [desclaimer, setDesclaimer] = useState('');
 
     return (
+        <Box sx={{ minHeight: "calc(100vh - 280px)" }}>
         <Grid container spacing={3} >
             <Grid item xs={7}>  
 
             <Box>
+                <Typography variant='h5' sx={{mb: "24px"}}>Email Signature</Typography>
                 <Grid container spacing={3}>
+                    
                     <Grid item xs={6}>
                         <Stack spacing={1}>
                             <InputLabel htmlFor="full-name">Full Name</InputLabel>
@@ -123,7 +126,7 @@ const SignatureTab = ({cardData})=>{
                         sx={{
                             width: "100%",
                             border: `1px solid ${theme.palette.grey[200]}`,
-                            p: 1,
+                            p: 2.5,
                             marginTop: "16px",
                             marginBottom: "32px"
                         }}
@@ -176,13 +179,14 @@ const SignatureTab = ({cardData})=>{
                     <Button
                         onClick={()=>{}}
                         variant="outlined"
-                        startIcon={<CopyOutlined/>}
+                        startIcon={<PlusOutlined/>}
                     >
-                        Copy Signature
+                        Add To Email
                     </Button>
                 </Box>
             </Grid>
         </Grid>
+        </Box>
     )
 }
 

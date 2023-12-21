@@ -44,6 +44,7 @@ const SettingsTab = ({ cardData, onChange }) => {
 
   return (
     <Box sx={{ minHeight: "calc(100vh - 280px)" }}>
+      <Typography variant='h5' sx={{mb: "24px"}}>Card Settings</Typography>
       <Grid container spacing={3}>
         {[["qrVisible", "View Qr code in card", "Share your card with qr code.", updateQrVisibleState, qrVisible],
           ["qrWithLogo", "Show logo in Qr code", "Personalized qr code with the card logo.", updateLogoInQrState, logoInQr],
