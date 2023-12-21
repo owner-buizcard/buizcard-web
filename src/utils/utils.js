@@ -161,6 +161,18 @@ export function formatDate(dateString){
     return formattedDate;
 }
 
+export function formatDateMin(dateString){
+
+    const dateObject = new Date(dateString);
+
+    const formattedDate = dateObject.toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+    });
+
+    return formattedDate;
+}
+
 export function getImage(id, type){
     return `${CARD_IMAGE_PATH}${id}%2F${type}.jpg?alt=media`;
 }
