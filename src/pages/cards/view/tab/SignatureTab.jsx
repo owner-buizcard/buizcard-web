@@ -1,8 +1,9 @@
-import { CopyOutlined, PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 import { useTheme } from "@emotion/react";
 import { Box, Button, Divider, Grid, InputLabel, OutlinedInput, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 import { QRCode } from "react-qrcode-logo";
+import SignatureDialog from "../../../../components/dialogs/SignatureDialog";
 
 const SignatureTab = ({cardData})=>{
 
@@ -10,13 +11,26 @@ const SignatureTab = ({cardData})=>{
 
     const [name, setName] = useState(`${cardData?.name?.firstName??""} ${cardData?.name?.lastName??""}`);
     const [jobTitle, setJobTitle] = useState(cardData?.designation??"");
-    const [companyName, setCompanyName] = useState(cardData?.company?.companyName??"");
+    const [company, setCompany] = useState(cardData?.company?.companyName??"");
     const [phoneNumber, setPhoneNumber] = useState(cardData?.phoneNumber??"");
     const [location, setLocation] = useState(cardData?.address?.city??"");
-    const [desclaimer, setDesclaimer] = useState('');
+    const [disclaimer, setDisclaimer] = useState('');
+
+    const [open, setOpen] = useState(false);
+
+    const handleClose=()=>{
+        setOpen(false);
+    }
 
     return (
+        <>
+        <SignatureDialog 
+            open={open}
+            data={{ name, jobTitle, company, phoneNumber, location, disclaimer, cardId: cardData._id }} 
+            onCancel={handleClose}  
+        />
         <Box sx={{ minHeight: "calc(100vh - 280px)" }}>
+
         <Grid container spacing={3} >
             <Grid item xs={7}>  
 
@@ -60,8 +74,8 @@ const SignatureTab = ({cardData})=>{
                                 type="text"
                                 name="Company Name"
                                 placeholder="Enter company name"
-                                value={companyName}
-                                onChange={(event)=>setCompanyName(event.target.value)}
+                                value={company}
+                                onChange={(event)=>setCompany(event.target.value)}
                                 fullWidth
                             />
                         </Stack>
@@ -102,8 +116,8 @@ const SignatureTab = ({cardData})=>{
                                 type="text"
                                 name="Desclaimer"
                                 placeholder="Enter desclaimer"
-                                value={desclaimer}
-                                onChange={(event)=>setDesclaimer(event.target.value)}
+                                value={disclaimer}
+                                onChange={(event)=>setDisclaimer(event.target.value)}
                                 fullWidth
                             />
                         </Stack>
@@ -177,7 +191,7 @@ const SignatureTab = ({cardData})=>{
 
                     </Box>
                     <Button
-                        onClick={()=>{}}
+                        onClick={()=>setOpen(true)}
                         variant="outlined"
                         startIcon={<PlusOutlined/>}
                     >
@@ -187,6 +201,7 @@ const SignatureTab = ({cardData})=>{
             </Grid>
         </Grid>
         </Box>
+        </>
     )
 }
 
