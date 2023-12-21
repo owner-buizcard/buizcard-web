@@ -9,7 +9,7 @@ const SignatureTab = ({cardData})=>{
 
     const theme = useTheme();
 
-    const [name, setName] = useState(`${cardData?.name?.firstName??""} ${cardData?.name?.lastName??""}`);
+    const [fullName, setFullName] = useState(`${cardData?.name?.firstName??""} ${cardData?.name?.lastName??""}`);
     const [jobTitle, setJobTitle] = useState(cardData?.designation??"");
     const [company, setCompany] = useState(cardData?.company?.companyName??"");
     const [phoneNumber, setPhoneNumber] = useState(cardData?.phoneNumber??"");
@@ -26,7 +26,7 @@ const SignatureTab = ({cardData})=>{
         <>
         <SignatureDialog 
             open={open}
-            data={{ name, jobTitle, company, phoneNumber, location, disclaimer, cardId: cardData._id, showQrCode: true }} 
+            data={{ fullName, jobTitle, company, phoneNumber, location, disclaimer, cardId: cardData._id, showQrCode: true }} 
             onCancel={handleClose}  
         />
         <Box sx={{ minHeight: "calc(100vh - 280px)" }}>
@@ -46,8 +46,8 @@ const SignatureTab = ({cardData})=>{
                                 type="text"
                                 name="full Name"
                                 placeholder="Enter full name"
-                                value={name}
-                                onChange={(event)=>setName(event.target.value)}
+                                value={fullName}
+                                onChange={(event)=>setFullName(event.target.value)}
                                 fullWidth
                             />
                         </Stack>
@@ -148,7 +148,7 @@ const SignatureTab = ({cardData})=>{
                         <Grid container>
                             <Grid item xs={8}>
                                 <Box>
-                                    <Typography variant="h5">{name}</Typography>
+                                    <Typography variant="h5">{fullName}</Typography>
                                     <Stack>
                                     <Typography variant="caption">{jobTitle}</Typography>
                                     <Typography variant="caption">{company}</Typography>

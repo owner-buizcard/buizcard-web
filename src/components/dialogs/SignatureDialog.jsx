@@ -5,7 +5,7 @@ import * as clipboard from "clipboard-polyfill";
 import { generateEmailSignature } from "../../network/service/signatureService";
 import { useState } from "react";
 
-const SignatureDialog=({data, handleClose, open})=>{
+const SignatureDialog=({data, onCancel, open})=>{
 
     const [loading, setLoading] = useState(false);
 
@@ -20,7 +20,7 @@ const SignatureDialog=({data, handleClose, open})=>{
           });
         await clipboard.write([item]);
         setLoading(false);
-        handleClose();
+        onCancel();
     }
 
 
@@ -33,7 +33,7 @@ const SignatureDialog=({data, handleClose, open})=>{
                             <Typography variant="h4" sx={{mb: 0.6}}>How to add a signature to your emails</Typography>
                             <Typography variant="body1">Follow to the steps to add your signature</Typography>
                         </Box>
-                        <IconButton onClick={handleClose}>
+                        <IconButton onClick={onCancel}>
                             <CloseOutlined/>
                         </IconButton>
                     </Stack>
@@ -49,12 +49,16 @@ const SignatureDialog=({data, handleClose, open})=>{
                             <Typography>{`Copy your email signature —>`}</Typography>
                         </ListItemText>
                         <ListItemIcon>
-                            <Button variant="contained" onClick={generateSignature}>
-                                { loading 
-                                    ? <CircularProgress/>
-                                    : "Generate Signature"
-                                } 
-                            </Button>
+                        <Button variant="contained" onClick={generateSignature} sx={{ width: "160px", height: "40px" }}>
+                            {loading ? (
+                                <CircularProgress
+                                    size="1.6rem"
+                                    sx={{color: "white"}}
+                                />
+                            ) : (
+                                "Generate Signature"
+                            )}
+                        </Button>
                         </ListItemIcon>
                     </ListItem>
                     <Divider/>
