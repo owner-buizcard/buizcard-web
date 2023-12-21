@@ -20,6 +20,7 @@ const SignatureDialog=({data, handleClose, open})=>{
           });
         await clipboard.write([item]);
         setLoading(false);
+        handleClose();
     }
 
 
