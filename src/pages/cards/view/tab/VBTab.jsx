@@ -4,9 +4,11 @@ import { QRCode } from "react-qrcode-logo";
 import { Fragment, useEffect, useState } from "react";
 import { createVirtualBackground, getVirtualBackgrounds } from "../../../../network/service/backgroundService";
 import { downloadImageUrl } from "../../../../utils/utils";
+import { useTheme } from "@emotion/react";
 
 const VBTab =({cardData})=>{
-
+    
+    const theme = useTheme();
     const [selected, setSelected] = useState(null);
 
     const [loading, setLoading] = useState(true);
@@ -16,10 +18,9 @@ const VBTab =({cardData})=>{
     useEffect(()=>{
         const init=async()=>{
             if(loading){
-
                 const vbs = await getVirtualBackgrounds();
                 setBackgrounds(vbs);
-
+                setSelected(vbs[0].items[0]);
             }
             setLoading(false);
         }
@@ -38,14 +39,16 @@ const VBTab =({cardData})=>{
             <Grid item xs={8} >
                 <Box>
                 <Typography variant='h5' sx={{mb: "24px"}}>Virtual Background</Typography>
-                {loading ? (
-                    Array.from({ length: 8 }).map((_, index) => (
-                        <Skeleton key={index} variant="rectangular" width="100%" height={450} />
-                    ))
-                    ) : (
+                {
                     
                     <Grid container spacing={2}>
-                        {
+                        { loading ? (
+                        Array.from({ length: 9 }).map((_, index) => (
+                            <Grid item xs={4} key={index}>
+                                <Skeleton variant="rectangular" width="100%" height={140} />
+                            </Grid>
+                        ))
+                        ) : (
                             backgrounds?.map((data, index)=>(
                                 <Fragment key={index}>
                                 <Grid item xs={12}>
@@ -58,6 +61,7 @@ const VBTab =({cardData})=>{
                                             alt={data.category}
                                             loading="lazy"
                                             style={{
+                                            border: selected._id==image._id ?`3px solid ${theme.palette.primary.main}` : 'none',
                                             borderRadius: "6px",
                                             top: '0',
                                             left: '0',
@@ -72,9 +76,9 @@ const VBTab =({cardData})=>{
                                 ))}
                                 </Fragment>
                             ))
-                        }
+                        )}
                     </Grid>
-                )}
+                }
                 </Box>
             </Grid>
             <Grid item xs={4}>
@@ -87,60 +91,65 @@ const VBTab =({cardData})=>{
 
                     <Typography variant="body1" sx={{color: "grey"}}>Virtual background preview</Typography>
 
-                    <Box
-                        sx={{
-                            width: "100%",
-                            position: "relative",
-                            borderRadius: "3px",
-                            marginBottom: "32px",
-                            marginTop: "16px",
-                        }}
-                    >
-                         <img
-                            src={selected?.normal}
-                            alt="Background"
-                            style={{
-                                borderRadius: "5px",
-                                width: '100%',
-                                height: 'auto',
-                                objectFit: 'cover',
+                    {
+                        loading 
+                        ? <Skeleton variant="rectangular" width="100%" height={140} sx={{m: 2}}/>
+                        : <>
+                        <Box
+                            sx={{
+                                width: "100%",
+                                position: "relative",
+                                borderRadius: "3px",
+                                marginBottom: "32px",
+                                marginTop: "16px",
                             }}
-                        />
-                        <Stack direction={"row"} justifyContent={"space-between"} sx={{position: "absolute", top: 0, width: "100%", p: 1}}>
-                            <Box 
-                                sx={{
-                                    backgroundColor: "rgba(0, 0, 0, 0.3)",
-                                    height: "fit-content",
-                                    borderRadius: "4px",
-                                    p: 1
+                        >
+                            <img
+                                src={selected?.normal}
+                                alt="Background"
+                                style={{
+                                    borderRadius: "5px",
+                                    width: '100%',
+                                    height: 'auto',
+                                    objectFit: 'cover',
                                 }}
-                            >
-                                <Typography sx={{color: 'white', fontWeight: 'bold'}} variant="body1">{cardData?.name?.firstName} {cardData?.name?.middleName} {cardData?.name?.lastName}</Typography>
-                            </Box>
-                            <QRCode
-                                quietZone={2}
-                                size={58}
-                                logoWidth={58 * 0.25}
-                                logoHeight={58 * 0.25}
-                                qrStyle= {'dots'}
                             />
-                        </Stack>
-                    </Box>
-
-                    <Button 
-                        variant="outlined" 
-                        onClick={downloadVB} 
-                        sx={{ width: "200px", height: "40px" }}
-                        startIcon={!btnLoading && <DownloadOutlined/>}>
-                            {btnLoading ? (
-                                <CircularProgress
-                                    size="1.6rem"
+                            <Stack direction={"row"} justifyContent={"space-between"} sx={{position: "absolute", top: 0, width: "100%", p: 1}}>
+                                <Box 
+                                    sx={{
+                                        backgroundColor: "rgba(0, 0, 0, 0.3)",
+                                        height: "fit-content",
+                                        borderRadius: "4px",
+                                        p: 1
+                                    }}
+                                >
+                                    <Typography sx={{color: 'white', fontWeight: 'bold'}} variant="body1">{cardData?.name?.firstName} {cardData?.name?.middleName} {cardData?.name?.lastName}</Typography>
+                                </Box>
+                                <QRCode
+                                    quietZone={2}
+                                    size={58}
+                                    logoWidth={58 * 0.25}
+                                    logoHeight={58 * 0.25}
+                                    qrStyle= {'dots'}
                                 />
-                            ) : (
-                                "Download Background"
-                            )}
-                    </Button>
+                            </Stack>
+                        </Box>
 
+                        <Button 
+                            variant="outlined" 
+                            onClick={downloadVB} 
+                            sx={{ width: "200px", height: "40px" }}
+                            startIcon={!btnLoading && <DownloadOutlined/>}>
+                                {btnLoading ? (
+                                    <CircularProgress
+                                        size="1.6rem"
+                                    />
+                                ) : (
+                                    "Download Background"
+                                )}
+                        </Button>
+                        </>
+                    }
                 </Box>
             </Grid>
         </Grid>
