@@ -1,21 +1,16 @@
 import { DownloadOutlined } from "@ant-design/icons";
-import { Box, Button, Grid, ImageList, ImageListItem, Skeleton, Stack, Typography } from "@mui/material";
-import { useSelector } from "react-redux";
+import { Box, Button, CircularProgress, Grid, Skeleton, Stack, Typography } from "@mui/material";
 import { QRCode } from "react-qrcode-logo";
-import { Fragment, useEffect, useRef, useState } from "react";
-import html2canvas from "html2canvas";
-import { getVirtualBackgrounds } from "../../../../network/service/backgroundService";
-import { da } from "date-fns/locale";
+import { Fragment, useEffect, useState } from "react";
+import { createVirtualBackground, getVirtualBackgrounds } from "../../../../network/service/backgroundService";
+import { downloadImageUrl } from "../../../../utils/utils";
 
 const VBTab =({cardData})=>{
 
-    const configs = useSelector((state)=>state.app.config);
-    
-    const [selected, setSelected] = useState(configs?.backgrounds[0].link);
-
-    const componentRef = useRef();
+    const [selected, setSelected] = useState(null);
 
     const [loading, setLoading] = useState(true);
+    const [btnLoading, setBtnLoading] = useState(false);
     const [backgrounds, setBackgrounds] = useState([]);
 
     useEffect(()=>{
@@ -31,22 +26,12 @@ const VBTab =({cardData})=>{
         init();
     }, [loading])
 
-    const downloadVB = () => {
-        if (componentRef.current) {
-          html2canvas(componentRef.current, {
-            allowTaint : true,
-            useCORS : true,
-            scale : 10,
-            dpi : 1200
-          }).then((canvas) => {
-            const imgData = canvas.toDataURL('image/png');
-            const link = document.createElement('a');
-            link.href = imgData;
-            link.download = `${cardData.cardName}-vb-bizcard.png`;
-            link.click();
-          });
-        }
-      };
+    const downloadVB = async() => {
+        setBtnLoading(true);
+        const imageUrl = await createVirtualBackground(cardData._id, selected?._id);
+        await downloadImageUrl(imageUrl);
+        setBtnLoading(false);
+    }
 
     return (
         <Grid container spacing={3} >
@@ -103,7 +88,6 @@ const VBTab =({cardData})=>{
                     <Typography variant="body1" sx={{color: "grey"}}>Virtual background preview</Typography>
 
                     <Box
-                        ref={componentRef}
                         sx={{
                             width: "100%",
                             position: "relative",
@@ -143,13 +127,20 @@ const VBTab =({cardData})=>{
                         </Stack>
                     </Box>
 
-                    <Button
-                        onClick={downloadVB}
-                        variant="outlined"
-                        startIcon={<DownloadOutlined/>}
-                    >
-                        Download Background
+                    <Button 
+                        variant="outlined" 
+                        onClick={downloadVB} 
+                        sx={{ width: "200px", height: "40px" }}
+                        startIcon={!btnLoading && <DownloadOutlined/>}>
+                            {btnLoading ? (
+                                <CircularProgress
+                                    size="1.6rem"
+                                />
+                            ) : (
+                                "Download Background"
+                            )}
                     </Button>
+
                 </Box>
             </Grid>
         </Grid>

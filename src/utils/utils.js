@@ -173,6 +173,18 @@ export function formatDateMin(dateString){
     return formattedDate;
 }
 
+export async function downloadImageUrl(imageUrl){
+    const res = await fetch(imageUrl);
+    const blob = await res.blob()
+    const url =  window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'bizcard-virtual-background.jpg');
+    document.body.appendChild(link);
+    link.click();
+    link.parentNode.removeChild(link);
+}
+
 export function getImage(id, type){
     return `${CARD_IMAGE_PATH}${id}%2F${type}.jpg?alt=media`;
 }
