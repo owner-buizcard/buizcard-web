@@ -6,15 +6,22 @@ import { useSelector } from "react-redux";
 import { HiCheckBadge } from "react-icons/hi2";
 import { useState } from "react";
 import AnimateButton from "../@extended/AnimateButton";
+import { connectRequest } from "../../network/service/connectService";
 
-const CardsDialog =({open, handleCancel, cardId})=>{
+const CardsDialog =({open, handleCancel, cardData})=>{
 
     const theme = useTheme();
-
-    const cardLink = formCardLink(cardId);
     const cards = useSelector((state)=>state.app.cards);
 
     const [selected, setSelected] = useState(null);
+    const [loading, setLoading] = useState(false);
+
+    const sendConnectRequest =async ()=>{
+        setLoading(true);
+        await connectRequest(selected._id, cardData._id, cardData.createdBy);
+        setLoading(false);
+        handleCancel();
+    }
 
     return (
         <Dialog 
@@ -67,7 +74,10 @@ const CardsDialog =({open, handleCancel, cardId})=>{
 
                 <Stack direction={"row"} justifyContent={"end"} spacing={3}>
                     <Button variant="text" onClick={()=>handleCancel()}>Skip</Button>
-                    <Button variant="contained" sx={{px: 3}} disabled={selected==null}>Share</Button>
+                    <Button variant="contained" 
+                        sx={{px: 3}} 
+                        onClick={sendConnectRequest}
+                        disabled={selected==null || loading}>Share</Button>
                 </Stack>
 
 

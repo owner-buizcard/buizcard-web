@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Avatar, Box, Button, Divider, Fab, Grid, ListItem, ListItemIcon, ListItemText, Skeleton, Stack, Typography } from "@mui/material";
+import { Avatar, Box, Button, CircularProgress, Divider, Fab, Grid, ListItem, ListItemIcon, ListItemText, Skeleton, Stack, Typography } from "@mui/material";
 import { HiBuildingOffice2 } from "react-icons/hi2";
 import { DownloadOutlined, EnvironmentOutlined, GlobalOutlined, MailOutlined, PhoneOutlined, ShareAltOutlined, UserOutlined } from "@ant-design/icons";
 import Cookies from "js-cookie";
@@ -14,29 +14,13 @@ import { getCardPreviewDetails } from "../../network/service/cardService";
 import { checkCookies, downloadFile, generateVcard } from "../../utils/utils";
 import { addCardLog } from "../../network/service/analyticsService";
 import AvatarBanner from "../../components/Card/AvatarBanner";
+import { connectPeople } from "../../network/service/connectService";
+import ConnectFormDialog from "../../components/dialogs/ConnectFormDialog";
 
 let count = 0;
 
 const ICON_SIZE = "20px";
 const MAX_CARD_WIDTH = "440px";
-
-// const AvatarBanner = ({ image, picture }) => (
-//   <div style={{ position: 'relative' }}>
-//     <Banner image={image} />
-//     <Avatar
-//       src={picture}
-//       sx={{
-//         border: '4px solid white',
-//         width: AVATAR_SIZE,
-//         height: AVATAR_SIZE,
-//         position: 'absolute',
-//         bottom: 0,
-//         left: '50%',
-//         transform: 'translate(-50%, 50%)'
-//       }}
-//     />
-//   </div>
-// );
 
 const Bizcard = () => {
   const { cardId } = useParams();
@@ -45,9 +29,11 @@ const Bizcard = () => {
   const config = useSelector((state)=>state.app.config);
 
   const [loading, setLoading] = useState(true);
+  const [connectBtnloading, setConnectBtnLoading] = useState(false);
   const [cardData, setCardData] = useState(null);
   const [open, setOpen] = useState(false);
   const [openCards, setOpenCards] = useState(false);
+  const [openForm, setOpenForm] = useState(false);
 
   const isLoggedIn = checkCookies();
   const cards = useSelector((state) => state.app.cards);
@@ -84,6 +70,7 @@ const Bizcard = () => {
     const vcfData = generateVcard(cardData);
     downloadFile(vcfData, `${cardData?.name?.firstName}-${cardData?.name?.lastName}-Bizcard`);
     await addCardLog(cardId, by, 'save');
+    setOpenForm(true);
   };
 
   const goTocreate = () => {
@@ -95,26 +82,40 @@ const Bizcard = () => {
     await addCardLog(cardId, by, 'webclick');
   };
 
+  const connectCard =async ()=>{
+    setConnectBtnLoading(true);
+    await connectPeople(cardId);
+    setConnectBtnLoading(false);
+    setOpenCards(true)
+  }
+
   return (
     <Box sx={{height: "100vh", position: "relative", display: "flex", justifyContent: "center"}}>
       <CardsDialog open={openCards} cardData={cardData} handleCancel={() => setOpenCards(false)} />
-      <ShareDialog open={open} cardId={cardData?._id} handleCancel={() => setOpen(false)} />
+      {/* <ShareDialog open={open} cardId={cardData?._id} handleCancel={() => setOpen(false)} /> */}
+      <ConnectFormDialog open={openForm} cardData={cardData} handleCancel={() => setOpenForm(false)} />
 
       {loading && <Skeleton variant="rectangular" sx={{maxWidth: MAX_CARD_WIDTH, width: "100%", height: "100vh"}} />}
 
       {!isOwnCard && !loading && (
-        <Stack direction={"row"} sx={{position: "fixed", bottom: 16, display: "flex", zIndex: 1000, maxWidth: MAX_CARD_WIDTH, width: "100%", px: 2}} spacing={3}>
-          <Fab variant="extended" color="primary" sx={{width: "100%", background: "#000"}} onClick={() => setOpen(true)}>
+        <Stack direction={"row"} sx={{position: "fixed", justifyContent: "center", bottom: 16, display: "flex", zIndex: 1000, maxWidth: MAX_CARD_WIDTH, width: "100%", px: 2}} spacing={3}>
+          {/* <Fab variant="extended" color="primary" sx={{width: "100%", background: "#000"}} onClick={() => setOpen(true)}>
             <ShareAltOutlined style={{marginRight: ICON_SIZE, fontSize: ICON_SIZE}} />
             <Typography variant="body1">Share</Typography>
-          </Fab>
+          </Fab> */}
           {isLoggedIn ? (
-            <Fab variant="extended" color="primary" sx={{width: "100%", background: "#000"}} onClick={() => setOpenCards(true)}>
-              <UserOutlined style={{marginRight: ICON_SIZE, fontSize: ICON_SIZE}} />
-              <Typography variant="body1">Connect</Typography>
+            <Fab variant="extended" color="primary" sx={{width: "50%", background: "#000"}} onClick={connectCard}>
+              {
+                connectBtnloading
+                  ? <CircularProgress sx={{color: 'white'}} size={'1.5rem'}/>
+                  : <>
+                      <UserOutlined style={{marginRight: ICON_SIZE, fontSize: ICON_SIZE}} />
+                      <Typography variant="body1">Connect</Typography>
+                    </>
+              }
             </Fab>
           ) : (
-            <Fab variant="extended" color="primary" sx={{width: "100%", background: "#000"}} onClick={saveCard}>
+            <Fab variant="extended" color="primary" sx={{width: "50%", background: "#000"}} onClick={saveCard}>
               <DownloadOutlined style={{marginRight: ICON_SIZE, fontSize: ICON_SIZE}} />
               <Typography variant="body1">Save</Typography>
             </Fab>
