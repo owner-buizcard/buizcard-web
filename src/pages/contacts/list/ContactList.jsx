@@ -1,6 +1,6 @@
 import { ContactsOutlined, ExportOutlined, PlusOutlined, ReloadOutlined, SearchOutlined } from "@ant-design/icons";
 import { useTheme } from "@emotion/react";
-import { Avatar, Box, Button, FormControl, Grid, IconButton, InputAdornment, OutlinedInput, Stack, Typography } from "@mui/material";
+import { Avatar, Box, Button, Chip, FormControl, Grid, IconButton, InputAdornment, OutlinedInput, Stack, Typography } from "@mui/material";
 import { alpha, styled } from '@mui/material/styles';
 import { DataGrid, gridClasses } from "@mui/x-data-grid";
 import { useState } from "react";
@@ -13,11 +13,14 @@ import { getMyContacts, removeContact } from "../../../network/service/connectSe
 import { useDispatch } from "react-redux";
 import { updateContacts } from "../../../store/reducers/app";
 import SkeletonTable from "../../../components/skeleton/SkeletonTable";
+import AddTagDialog from "../../../components/dialogs/AddTagDialog";
 
 const ContactList=()=>{
 
     const data = useSelector((state)=>state.app.contacts);
     const [loading, setLoading] = useState(false);
+    const [openTag, setOpenTag] = useState(false);
+    const [selected, setSelected] = useState(null);
     const theme = useTheme();
     const dispatch = useDispatch();
 
@@ -88,6 +91,12 @@ const ContactList=()=>{
       downloadFile(vcfData, `${cardData?.name?.firstName}-${cardData?.name?.lastName}-Bizcard`);
     };
 
+    const addTag = async (contactId) => {
+      const contact = data.find((contact)=>contact._id===contactId);
+      setSelected(contact);
+      setOpenTag(true);
+    };
+
     const columns = [
         { 
           field: 'picture', 
@@ -127,6 +136,18 @@ const ContactList=()=>{
           field: 'tags', 
           headerName: 'Tag', 
           flex: 1,
+          renderCell: (params) => {
+            return <Stack spacing={{ xs: 1 }} direction="row" useFlexGap flexWrap="wrap">
+                {
+                    params.value?.map((tag)=><Chip
+                            key={tag}
+                            label={tag}
+                            sx={{ height: 24, '& .MuiChip-label': { fontSize: '0.7rem', py: 1 } }}
+                        />
+                    )
+                }
+            </Stack>
+          }
         },
         { 
           field: 'type', 
@@ -165,6 +186,7 @@ const ContactList=()=>{
                 <ContactOptions 
                   onDelete={()=>deleteContact(params.value)}
                   onSave={()=>saveContact(params.value)}
+                  onAdd={()=>addTag(params.value)}
                 />
               </Stack>
             );
@@ -196,9 +218,20 @@ const ContactList=()=>{
       setLoading(false);
     }
 
+    const updateTags =async(updated)=>{
+      setOpenTag(false);
+      const updatedContacts = data.map((contact) => {
+          if (contact._id === updated._id) {
+            return updated;
+          }
+          return contact;
+        });
+      dispatch(updateContacts(updatedContacts));
+    }
+
     return (
         <Grid container rowSpacing={2.5} columnSpacing={2.75}>
-
+            <AddTagDialog open={openTag} contact={selected} handleCancel={()=>setOpenTag(false)} onAdded={(updated)=>updateTags(updated)}/>
             <Grid item xs={8} sx={{ mb: 0 }}>
                 <Typography variant="h4">My Contacts</Typography>
             </Grid>
@@ -228,7 +261,7 @@ const ContactList=()=>{
                                 />
                               </FormControl>
                             </Box>
-        
+
                             <Box>
                               <Button variant="outlined" size="medium" sx={{px: 0, width: "140px"}} 
                                 onClick={()=>setOpenCreate(true)}

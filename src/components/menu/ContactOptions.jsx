@@ -1,8 +1,8 @@
 import React, { useState, Fragment } from "react";
 import { IconButton, ListItem, ListItemIcon, ListItemText, Menu } from "@mui/material";
-import { DeleteOutlined, DownloadOutlined, EditOutlined, MailOutlined, MoreOutlined } from "@ant-design/icons";
+import { DeleteOutlined, DownloadOutlined, EditOutlined, MailOutlined, MoreOutlined, PlusOutlined } from "@ant-design/icons";
 
-const ContactOptions = ({ onDelete, onSave, onEdit }) => {
+const ContactOptions = ({ onDelete, onSave, onAdd }) => {
     const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClick = (event) => {
@@ -16,7 +16,7 @@ const ContactOptions = ({ onDelete, onSave, onEdit }) => {
     const handleListItemClick = (index) => {
         console.log(index);
         if (index === 0) {
-            onEdit();
+            onAdd();
         } else if (index === 1) {
             handleCapture();
         } else if (index === 2) {
@@ -62,7 +62,7 @@ const ContactOptions = ({ onDelete, onSave, onEdit }) => {
 };
 
 const menuItems = [
-    { icon: <EditOutlined />, text: "Edit Connection" },
+    { icon: <PlusOutlined />, text: "Add Tags" },
     { icon: <MailOutlined />, text: "Send Email" },
     { icon: <DownloadOutlined />, text: "Save as Contact" },
     { icon: <DeleteOutlined style={{ color: "red" }} />, text: "Remove", style: { color: "red" } },
