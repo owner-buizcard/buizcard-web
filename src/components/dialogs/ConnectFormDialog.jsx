@@ -58,7 +58,6 @@ const ConnectFormDialog =({open, handleCancel, cardData})=>{
                             handleCancel();
                 
                           } catch (err) {
-                            console.log(err);
                             setStatus({ success: false });
                             setErrors({ submit: err.message });
                             setSubmitting(false);

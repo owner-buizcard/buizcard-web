@@ -68,9 +68,6 @@ const AnalyticsTab =({cardData})=>{
                     }
                 });
 
-                console.log(data?.weekLogViews);
-
-
                 const weekDatesArray = data?.weekLogViews?.map(item => item.date)??[];
                 const weekCountsArray = data?.weekLogViews?.map(item => item.count)??[];
                 const logCountsArray = data?.weekLogSave?.map(item => item.count)??[];

@@ -9,15 +9,20 @@ import { useSelector } from "react-redux";
 import MainCard from "../../../components/MainCard";
 import ContactOptions from "../../../components/menu/ContactOptions";
 import { formatDate } from "../../../utils/utils";
+import { getMyContacts } from "../../../network/service/connectService";
+import { useDispatch } from "react-redux";
+import { updateContacts } from "../../../store/reducers/app";
+import SkeletonTable from "../../../components/skeleton/SkeletonTable";
 
 const ContactList=()=>{
 
     const data = useSelector((state)=>state.app.contacts);
     const [loading, setLoading] = useState(false);
     const theme = useTheme();
+    const dispatch = useDispatch();
 
-    const contacts = data.map((contact) => {
-      let updatedContact = { ...contact }; // Create a copy of the contact object
+    const contacts = data?.map((contact) => {
+      let updatedContact = { ...contact };
     
       if (contact.type === "Message") {
         updatedContact.name = `${contact.details?.name}`;
@@ -89,7 +94,6 @@ const ContactList=()=>{
           headerName: 'Contact', 
           flex: 1,
           renderCell: (params) => {
-            console.log(params.value)
             return (
               <Typography variant="title">{params.value?.fullName}</Typography>
             );
@@ -154,7 +158,6 @@ const ContactList=()=>{
       ];
 
     const rows = contacts.map((contact)=>{
-      console.log(contact)
         return {
             id: contact._id, 
             _id: contact._id, 
@@ -170,6 +173,14 @@ const ContactList=()=>{
         }
     })
 
+    const refresh =async()=>{
+      setLoading(true);
+      const contacts = await getMyContacts();
+      console.log(contacts)
+      dispatch(updateContacts(contacts))
+      setLoading(false);
+    }
+
     return (
         <Grid container rowSpacing={2.5} columnSpacing={2.75}>
 
@@ -178,80 +189,85 @@ const ContactList=()=>{
             </Grid>
             <Grid item xs={12} display={"flex"}>
                 <MainCard sx={{width: "100%"}}>
-                    {/* <DataTable contacts={[]}/> */}
-                    {/* <SkeletonTable/> */}
-
-                    <Stack direction={"row"} spacing={2} sx={{mb: 3}}>
+                    {
+                      loading
+                        ? <SkeletonTable/>
+                        : (
+                          <>
+                            <Stack direction={"row"} spacing={2} sx={{mb: 3}}>
                       
-                    <Box sx={{ width: '100%'}}>
-                      <FormControl sx={{ width: { xs: '100%', md: 300 } }}>
-                        <OutlinedInput
-                          id="header-search"
-                          startAdornment={
-                            <InputAdornment position="start" sx={{ mr: -0.5 }}>
-                              <SearchOutlined />
-                            </InputAdornment>
-                          }
-                          placeholder="Search by name, email or phone number"
-                          aria-describedby="header-search-text"
-                          inputProps={{
-                            'aria-label': 'weight'
-                          }}
-                        />
-                      </FormControl>
-                    </Box>
-
-                    <Box>
-                      <Button variant="outlined" size="medium" sx={{px: 0, width: "140px"}} 
-                        onClick={()=>setOpenCreate(true)}
-                        startIcon={
-                          <PlusOutlined style={{fontSize: "16px"}}/>
-                        }>
-                        Add Leads
-                      </Button>
-                    </Box>
-
-                    <IconButton  disabled={true}> 
-                    <Box sx={{border: `1px solid ${theme.palette.grey[300]}`,borderRadius: '4px', p: 1}}>
-                        <ExportOutlined/>
-                    </Box>
-                    </IconButton>
-
-                    <IconButton>
-                    <Box sx={{border: `1px solid ${theme.palette.grey[300]}`,borderRadius: '4px', p: 1}}>
-                        <ReloadOutlined/>
-                    </Box>
-                    </IconButton>
-
-                    </Stack>
-
-                    <StripedDataGrid
-                      rows={rows}
-                      columns={columns}
-                      getRowClassName={(params) =>
-                        params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
-                      }
-                      sx={{
-                        '& .MuiDataGrid-columnHeader': {
-                          fontSize: "15px",
-                          fontWeight: "900",
-                        },
-                        '& .MuiDataGrid-cell': {
-                          fontSize: "14px",
-                        },
-                        border: 1,
-                        borderColor: `${theme.palette.grey[200]}`
-                      }}
-                      initialState={{
-                          pagination: {
-                              paginationModel: { page: 0, pageSize: 5 },
-                          },
-                      }}
-                      pageSizeOptions={[5, 10]}
-                      checkboxSelection
-                      disableRowSelectionOnClick
-                      onRowClick={(e)=>{console.log(e)}}
-                    />
+                            <Box sx={{ width: '100%'}}>
+                              <FormControl sx={{ width: { xs: '100%', md: 300 } }}>
+                                <OutlinedInput
+                                  id="header-search"
+                                  startAdornment={
+                                    <InputAdornment position="start" sx={{ mr: -0.5 }}>
+                                      <SearchOutlined />
+                                    </InputAdornment>
+                                  }
+                                  placeholder="Search by name, email or phone number"
+                                  aria-describedby="header-search-text"
+                                  inputProps={{
+                                    'aria-label': 'weight'
+                                  }}
+                                />
+                              </FormControl>
+                            </Box>
+        
+                            <Box>
+                              <Button variant="outlined" size="medium" sx={{px: 0, width: "140px"}} 
+                                onClick={()=>setOpenCreate(true)}
+                                startIcon={
+                                  <PlusOutlined style={{fontSize: "16px"}}/>
+                                }>
+                                Add Leads
+                              </Button>
+                            </Box>
+        
+                            <IconButton  disabled={true}> 
+                            <Box sx={{border: `1px solid ${theme.palette.grey[300]}`,borderRadius: '4px', p: 1}}>
+                                <ExportOutlined/>
+                            </Box>
+                            </IconButton>
+        
+                            <IconButton onClick={refresh}>
+                            <Box sx={{border: `1px solid ${theme.palette.grey[300]}`,borderRadius: '4px', p: 1}}>
+                                <ReloadOutlined/>
+                            </Box>
+                            </IconButton>
+        
+                            </Stack>
+        
+                            <StripedDataGrid
+                              rows={rows}
+                              columns={columns}
+                              getRowClassName={(params) =>
+                                params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
+                              }
+                              sx={{
+                                '& .MuiDataGrid-columnHeader': {
+                                  fontSize: "15px",
+                                  fontWeight: "900",
+                                },
+                                '& .MuiDataGrid-cell': {
+                                  fontSize: "14px",
+                                },
+                                border: 1,
+                                borderColor: `${theme.palette.grey[200]}`
+                              }}
+                              initialState={{
+                                  pagination: {
+                                      paginationModel: { page: 0, pageSize: 5 },
+                                  },
+                              }}
+                              pageSizeOptions={[5, 10]}
+                              checkboxSelection
+                              disableRowSelectionOnClick
+                              onRowClick={()=>{}}
+                            />
+                          </>
+                        )
+                    }
                 </MainCard>
             </Grid> 
 

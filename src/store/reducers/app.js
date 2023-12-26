@@ -24,6 +24,9 @@ const app = createSlice({
         state.cards = action.payload;
         window.cards = action.payload;
     },
+    updateContacts: (state, action)=>{
+      state.contacts = action.payload;
+    },
     showLoader: (state)=>{
       state.isLoading = true;
     },
@@ -33,6 +36,6 @@ const app = createSlice({
   }  
 })
 
-export const {initialize, updateCards, showLoader, hideLoader} = app.actions;
+export const {initialize, updateCards, updateContacts, showLoader, hideLoader} = app.actions;
 
 export default app.reducer;
