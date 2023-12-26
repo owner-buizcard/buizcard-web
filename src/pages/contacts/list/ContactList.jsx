@@ -1,61 +1,85 @@
-import { Avatar, Grid, IconButton, Stack, Typography } from "@mui/material";
-import DataTable from "../../../components/DataTable";
-import MainCard from "../../../components/MainCard";
-import { DataGrid } from "@mui/x-data-grid";
-import { formatDate } from "../../../utils/utils";
-import { CARD_IMAGE_PATH } from "../../../utils/global";
+import { ContactsOutlined, ExportOutlined, PlusOutlined, ReloadOutlined, SearchOutlined } from "@ant-design/icons";
+import { useTheme } from "@emotion/react";
+import { Avatar, Box, Button, FormControl, Grid, IconButton, InputAdornment, OutlinedInput, Stack, Typography } from "@mui/material";
+import { alpha, styled } from '@mui/material/styles';
+import { DataGrid, gridClasses } from "@mui/x-data-grid";
+import { useState } from "react";
 import { HiUser } from 'react-icons/hi2';
-import { FaEdit, FaEllipsisV, FaSave, FaTrash } from 'react-icons/fa';
+import { useSelector } from "react-redux";
+import MainCard from "../../../components/MainCard";
+import ContactOptions from "../../../components/menu/ContactOptions";
+import { formatDate } from "../../../utils/utils";
 
 const ContactList=()=>{
 
-    const contacts = [
-        {
-            _id: "1",
-            name: "Dhana Sekaran",
-            picture: "",
-            email: "1dhana625@gmail.com",
-            phoneNumber: "+918056384773",
-            type: "contact",
-            connectedAt: "",
-            connectedWith: "",
-            tags: []
+    const data = useSelector((state)=>state.app.contacts);
+    const [loading, setLoading] = useState(false);
+    const theme = useTheme();
+
+    const contacts = data.map((contact) => {
+      let updatedContact = { ...contact }; // Create a copy of the contact object
+    
+      if (contact.type === "Message") {
+        updatedContact.name = `${contact.details?.name}`;
+        updatedContact.phoneNumber = `${contact.details?.phoneNumber}`;
+        updatedContact.email = `${contact.details?.email}`;
+        updatedContact.message = `${contact.details?.message}`;
+      } else {
+        updatedContact.picture = `${contact.card?.picture}`;
+        updatedContact.name = `${contact.card?.name?.firstName??''} ${contact.card?.name?.middleName??''} ${contact.card?.name?.lastName??''}`;
+        updatedContact.phoneNumber = `${contact.card?.phoneNumber??''}`;
+        updatedContact.email = `${contact.card?.email}`;
+        updatedContact.cardName = `${contact.card.cardName}`;
+      }
+      return updatedContact; 
+    });
+
+
+    const ODD_OPACITY = 0.2;
+
+    const StripedDataGrid = styled(DataGrid)(({ theme }) => ({
+      [`& .${gridClasses.row}.even`]: {
+        backgroundColor: theme.palette.grey[200],
+        '&:hover, &.Mui-hovered': {
+          backgroundColor: alpha(theme.palette.primary.main, ODD_OPACITY),
+          '@media (hover: none)': {
+            backgroundColor: 'transparent',
+          },
         },
-        {
-            _id: "2",
-            name: "Jhon Jacob",
-            picture: "",
-            email: "jhonjacob@gmail.com",
-            phoneNumber: "+918057874773",
-            type: "contact",
-            connectedAt: "",
-            connectedWith: "",
-            tags: []
+        '&.Mui-selected': {
+          backgroundColor: alpha(
+            theme.palette.primary.main,
+            ODD_OPACITY + theme.palette.action.selectedOpacity,
+          ),
+          '&:hover, &.Mui-hovered': {
+            backgroundColor: alpha(
+              theme.palette.primary.main,
+              ODD_OPACITY +
+                theme.palette.action.selectedOpacity +
+                theme.palette.action.hoverOpacity,
+            ),
+            // Reset on touch devices, it doesn't add specificity
+            '@media (hover: none)': {
+              backgroundColor: alpha(
+                theme.palette.primary.main,
+                ODD_OPACITY + theme.palette.action.selectedOpacity,
+              ),
+            },
+          },
         },
-        {
-            _id: "3",
-            name: "Michel Jackson",
-            picture: "",
-            email: "micheljackson@gmail.com",
-            phoneNumber: "+919997874773",
-            type: "contact",
-            connectedAt: "",
-            connectedWith: "",
-            tags: []
-        }
-    ]
+      },
+    }));
+
 
     const columns = [
-
         { 
-          field: '_id', 
+          field: 'picture', 
           headerName: 'Profile',  
           width: 80,
           renderCell: (params) => {
-            console.log(params);
             return (
               <>
-                <Avatar src={`${CARD_IMAGE_PATH}${params.value}%2Fprofile.jpg?alt=media`}><HiUser /> </Avatar>
+                <Avatar src={params.value}><HiUser /> </Avatar>
               </>
             );
           } 
@@ -65,19 +89,23 @@ const ContactList=()=>{
           headerName: 'Contact', 
           flex: 1,
           renderCell: (params) => {
-            console.log(params);
+            console.log(params.value)
             return (
-              <Stack>
-                <Typography variant="title">{params.value?.fullName}</Typography>
-                <Typography variant="labelLight">{params.value?.email}</Typography>
-              </Stack>
+              <Typography variant="title">{params.value?.fullName}</Typography>
             );
           } 
         },
         { 
           field: 'phoneNumber', 
-          headerName: 'PhoneNumber', 
+          headerName: 'Phone Number', 
           flex: 1,
+          renderCell: (params) => {
+            return (
+              <Stack>
+                <Typography>{params.value}</Typography>
+              </Stack>
+            );
+          } 
         },
         { 
           field: 'tags', 
@@ -87,26 +115,38 @@ const ContactList=()=>{
         { 
           field: 'type', 
           headerName: 'Type', 
-          flex: 1,
+          width: 120,
+          renderCell: (params) => {
+            return (
+              <ContactsOutlined style={{fontSize: 22}}/>
+            );
+          } 
         },
         { 
           field: 'connectedAt', 
           headerName: 'Date', 
-          width: 120
+          width: 130
         },
         { 
-          field: 'export', 
+          field: '_id',
           headerName: 'Export', 
-          width: 120
-        },
-        { 
-          headerName: '', 
           width: 60,
           renderCell: (params) => {
-            console.log(params);
             return (
-              <Stack>
-                <IconButton onClick={()=>{}} ><FaEllipsisV fontSize={16}/></IconButton>
+              <Box sx={{borderRadius: '3px', background: theme.palette.grey[100], px: 2, py: 0.5}}>
+                <ExportOutlined style={{fontSize: 16}}/>
+              </Box>
+            );
+          } 
+        },
+        { 
+          field: 'id',
+          headerName: '', 
+          width: 30,
+          renderCell: (params) => {
+            return (
+              <Stack direction={"row"} spacing={1}>
+                <ContactOptions/>
               </Stack>
             );
           } 
@@ -114,13 +154,15 @@ const ContactList=()=>{
       ];
 
     const rows = contacts.map((contact)=>{
+      console.log(contact)
         return {
             id: contact._id, 
             _id: contact._id, 
             contact: {
-              fullName: contact.fullName,
+              fullName: contact.name,
               email: contact.email
             },
+            picture: contact.picture,
             tags: contact.tags,
             type: contact.type,
             phoneNumber: contact.phoneNumber,
@@ -137,19 +179,78 @@ const ContactList=()=>{
             <Grid item xs={12} display={"flex"}>
                 <MainCard sx={{width: "100%"}}>
                     {/* <DataTable contacts={[]}/> */}
+                    {/* <SkeletonTable/> */}
 
-                    <DataGrid               
-                        rows={rows}
-                        columns={columns}
-                        initialState={{
-                            pagination: {
-                                paginationModel: { page: 0, pageSize: 5 },
-                            },
-                            }}
-                        pageSizeOptions={[5, 10]}
-                        checkboxSelection
-                        disableRowSelectionOnClick
-                        onRowClick={(e)=>{}}
+                    <Stack direction={"row"} spacing={2} sx={{mb: 3}}>
+                      
+                    <Box sx={{ width: '100%'}}>
+                      <FormControl sx={{ width: { xs: '100%', md: 300 } }}>
+                        <OutlinedInput
+                          id="header-search"
+                          startAdornment={
+                            <InputAdornment position="start" sx={{ mr: -0.5 }}>
+                              <SearchOutlined />
+                            </InputAdornment>
+                          }
+                          placeholder="Search by name, email or phone number"
+                          aria-describedby="header-search-text"
+                          inputProps={{
+                            'aria-label': 'weight'
+                          }}
+                        />
+                      </FormControl>
+                    </Box>
+
+                    <Box>
+                      <Button variant="outlined" size="medium" sx={{px: 0, width: "140px"}} 
+                        onClick={()=>setOpenCreate(true)}
+                        startIcon={
+                          <PlusOutlined style={{fontSize: "16px"}}/>
+                        }>
+                        Add Leads
+                      </Button>
+                    </Box>
+
+                    <IconButton  disabled={true}> 
+                    <Box sx={{border: `1px solid ${theme.palette.grey[300]}`,borderRadius: '4px', p: 1}}>
+                        <ExportOutlined/>
+                    </Box>
+                    </IconButton>
+
+                    <IconButton>
+                    <Box sx={{border: `1px solid ${theme.palette.grey[300]}`,borderRadius: '4px', p: 1}}>
+                        <ReloadOutlined/>
+                    </Box>
+                    </IconButton>
+
+                    </Stack>
+
+                    <StripedDataGrid
+                      rows={rows}
+                      columns={columns}
+                      getRowClassName={(params) =>
+                        params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
+                      }
+                      sx={{
+                        '& .MuiDataGrid-columnHeader': {
+                          fontSize: "15px",
+                          fontWeight: "900",
+                        },
+                        '& .MuiDataGrid-cell': {
+                          fontSize: "14px",
+                        },
+                        border: 1,
+                        borderColor: `${theme.palette.grey[200]}`
+                      }}
+                      initialState={{
+                          pagination: {
+                              paginationModel: { page: 0, pageSize: 5 },
+                          },
+                      }}
+                      pageSizeOptions={[5, 10]}
+                      checkboxSelection
+                      disableRowSelectionOnClick
+                      onRowClick={(e)=>{console.log(e)}}
                     />
                 </MainCard>
             </Grid> 

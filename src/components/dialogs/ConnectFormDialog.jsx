@@ -45,9 +45,14 @@ const ConnectFormDialog =({open, handleCancel, cardData})=>{
                     })}
                     onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                         try {
-                            console.log(values);
-                            const data = await connectWithForm({name: values.name, email: values.email, phone: values.phone, message: values.message, userId: cardData.createdBy});
-                            console.log(data);
+                            await connectWithForm({
+                                name: values.name, 
+                                email: values.email, 
+                                phone: values.phone, 
+                                message: values.message, 
+                                userId: cardData.createdBy,
+                                connectedBy: cardData._id
+                            });
                             setStatus({ success: true });
                             setSubmitting(false);
                             handleCancel();
