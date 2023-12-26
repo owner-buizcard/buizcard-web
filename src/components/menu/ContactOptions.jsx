@@ -2,7 +2,7 @@ import React, { useState, Fragment } from "react";
 import { IconButton, ListItem, ListItemIcon, ListItemText, Menu } from "@mui/material";
 import { DeleteOutlined, DownloadOutlined, EditOutlined, MailOutlined, MoreOutlined } from "@ant-design/icons";
 
-const ContactOptions = ({ onDelete, onEdit }) => {
+const ContactOptions = ({ onDelete, onSave, onEdit }) => {
     const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClick = (event) => {
@@ -14,11 +14,14 @@ const ContactOptions = ({ onDelete, onEdit }) => {
     };
 
     const handleListItemClick = (index) => {
+        console.log(index);
         if (index === 0) {
             onEdit();
         } else if (index === 1) {
             handleCapture();
-        } else {
+        } else if (index === 2) {
+            onSave();
+        } else if (index === 3) {
             onDelete();
         }
         handleClose();
@@ -48,7 +51,7 @@ const ContactOptions = ({ onDelete, onEdit }) => {
                 }}
             >
                 {menuItems.map((item, index) => (
-                    <ListItem key={index} onClick={() => handleListItemClick(index)} sx={{ width: "180px", px: 2, py: 1.3 }}>
+                    <ListItem key={index} onClick={() => handleListItemClick(index)} sx={{cursor: "pointer", width: "180px", px: 2, py: 1.3 }}>
                         <ListItemIcon>{item.icon}</ListItemIcon>
                         <ListItemText primary={item.text} />
                     </ListItem>

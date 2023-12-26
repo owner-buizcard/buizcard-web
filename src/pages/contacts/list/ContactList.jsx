@@ -8,8 +8,8 @@ import { HiUser } from 'react-icons/hi2';
 import { useSelector } from "react-redux";
 import MainCard from "../../../components/MainCard";
 import ContactOptions from "../../../components/menu/ContactOptions";
-import { formatDate } from "../../../utils/utils";
-import { getMyContacts } from "../../../network/service/connectService";
+import { downloadFile, formatDate, generateVcard } from "../../../utils/utils";
+import { getMyContacts, removeContact } from "../../../network/service/connectService";
 import { useDispatch } from "react-redux";
 import { updateContacts } from "../../../store/reducers/app";
 import SkeletonTable from "../../../components/skeleton/SkeletonTable";
@@ -34,7 +34,7 @@ const ContactList=()=>{
         updatedContact.name = `${contact.card?.name?.firstName??''} ${contact.card?.name?.middleName??''} ${contact.card?.name?.lastName??''}`;
         updatedContact.phoneNumber = `${contact.card?.phoneNumber??''}`;
         updatedContact.email = `${contact.card?.email}`;
-        updatedContact.cardName = `${contact.card.cardName}`;
+        updatedContact.cardName = `${contact.card?.cardName}`;
       }
       return updatedContact; 
     });
@@ -75,6 +75,18 @@ const ContactList=()=>{
       },
     }));
 
+    const deleteContact =async(contactId)=>{
+      const updated = data.filter((contact)=>contact._id!=contactId);
+      dispatch(updateContacts(updated))
+      await removeContact(contactId);
+    }
+
+    const saveContact = async (contactId) => {
+      const contact = data.find((contact)=>contact._id===contactId);
+      const cardData = contact.card;
+      const vcfData = generateVcard(cardData);
+      downloadFile(vcfData, `${cardData?.name?.firstName}-${cardData?.name?.lastName}-Bizcard`);
+    };
 
     const columns = [
         { 
@@ -150,7 +162,10 @@ const ContactList=()=>{
           renderCell: (params) => {
             return (
               <Stack direction={"row"} spacing={1}>
-                <ContactOptions/>
+                <ContactOptions 
+                  onDelete={()=>deleteContact(params.value)}
+                  onSave={()=>saveContact(params.value)}
+                />
               </Stack>
             );
           } 

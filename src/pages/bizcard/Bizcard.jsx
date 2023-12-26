@@ -68,7 +68,7 @@ const Bizcard = () => {
 
   const saveCard = async () => {
     const vcfData = generateVcard(cardData);
-    downloadFile(vcfData, `${cardData?.name?.firstName}-${cardData?.name?.lastName}-Bizcard`);
+    downloadFile (vcfData, `${cardData?.name?.firstName}-${cardData?.name?.lastName}-Bizcard`);
     await addCardLog(cardId, by, 'save');
     setOpenForm(true);
   };

@@ -16,6 +16,6 @@ export async function getMyContacts(){
     return await axiosClient.get('/user-contacts');
 }
 
-export async function deleteContacts(contactId){
+export async function removeContact(contactId){
     return await axiosClient.delete(`/contact?contactId=${contactId}`);
 }
