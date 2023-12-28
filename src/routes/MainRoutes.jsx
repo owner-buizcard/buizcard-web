@@ -6,6 +6,7 @@ import MainLayout from '../layout/main/MainLayout';
 import CreateCard from '../pages/cards/create/CreateCard';
 import CardDetails from '../pages/cards/view/CardDetails';
 import ContactList from '../pages/contacts/list/ContactList';
+import IntegrationList from '../pages/integrations/list/IntegrationList';
 
 // render - dashboard
 const Dashboard = Loadable(lazy(() => import('../pages/dashboard/Dashboard')));
@@ -29,6 +30,10 @@ const MainRoutes = {
     {
       path: '/dashboard/card-details',
       element: <CardDetails />
+    },
+    {
+      path: '/dashboard/integrations',
+      element: <IntegrationList />
     }
   ]
 };
