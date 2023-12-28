@@ -48,7 +48,7 @@ const dashboard = {
       url: '/dashboard/integrations',
       icon: icons.ApiOutlined,
       breadcrumbs: false
-    }
+    },
   ]
 };
 
