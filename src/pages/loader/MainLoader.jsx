@@ -25,6 +25,9 @@ const MainLoader =()=>{
         const initApp=async()=>{
             const isLoggedIn = checkCookies();
             const data = isLoggedIn ? await fetchMainData() : await fetchConfigData();
+
+            console.log(data)
+
             dispatch(initialize(data));
 
             const redirect = Cookies.get('redirect');

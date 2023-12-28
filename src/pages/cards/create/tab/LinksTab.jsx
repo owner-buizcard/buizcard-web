@@ -15,12 +15,12 @@ const LinksTab = () => {
   const dispatch = useDispatch();
 
   const cardData = useSelector((state)=>state.cardBuilder.cardData)
-  const config = useSelector((state)=>state.app.config)
+  const fieldTypes = useSelector((state)=>state.app.fieldTypes)
 
   const theme = useTheme();
   const [fields, setFields] = useState(cardData?.fields??[]);
 
-  const linkItems = groupList(config?.fieldTypes, "category")
+  const linkItems = groupList(fieldTypes, "category")
 
   const handleDragEnd = (result) => {
     if (!result.destination) {

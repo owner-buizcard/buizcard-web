@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
     user: null,
-    config: null,
+    fieldTypes: null,
+    configs: null,
     isLoading: false,
     contacts: [],
     cards: [],
@@ -18,7 +19,8 @@ const app = createSlice({
         state.user = action.payload?.user;
         state.contacts = action.payload?.contacts;
         state.cards = action.payload?.cards;
-        state.config = action.payload?.config;
+        state.fieldTypes = action.payload?.config?.fieldTypes;
+        state.configs = action.payload?.config?.configs;
     },
     updateCards: (state, action)=>{
         state.cards = action.payload;

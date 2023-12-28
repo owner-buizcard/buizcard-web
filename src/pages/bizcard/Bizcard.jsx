@@ -26,7 +26,7 @@ const Bizcard = () => {
   const { cardId } = useParams();
   const navigate = useNavigate();
 
-  const config = useSelector((state)=>state.app.config);
+  const fieldTypes = useSelector((state)=>state.app.fieldTypes);
 
   const [loading, setLoading] = useState(true);
   const [connectBtnloading, setConnectBtnLoading] = useState(false);
@@ -52,7 +52,7 @@ const Bizcard = () => {
 
       Cookies.set("visited", true);
 
-      if(config!=null && count===0){
+      if(fieldTypes!=null && count===0){
         const [data] = await Promise.all([
           getCardPreviewDetails(cardId),
           addCardLog(cardId, by, logType)

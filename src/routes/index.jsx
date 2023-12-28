@@ -11,7 +11,7 @@ import Cookies from 'js-cookie';
 const CheckAuthAndStorage = ({ children }) => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.app.user);
-  const config = useSelector((state) => state.app.config);
+  const config = useSelector((state) => state.app.configs);
   const currentLocation = useLocation();
 
   useEffect(() => {
