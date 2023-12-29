@@ -4,7 +4,7 @@ import { fetchConfigData, fetchMainData } from "../../../network/service/appServ
 import { useEffect } from "react";
 import { dispatch } from "../../../store/store";
 import { initialize } from "../../../store/reducers/app";
-import { CircularProgress, Stack } from "@mui/material";
+import { CircularProgress, Stack, Typography } from "@mui/material";
 import styled from "@emotion/styled";
 
 const LoaderWrapper = styled('div')(({ _ }) => ({
