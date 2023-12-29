@@ -35,6 +35,13 @@ export function checkCookies(){
     }
 }
 
+export function clearCookies(){
+    Cookies.remove('accessToken');
+    Cookies.remove('refreshToken');
+    Cookies.remove('redirect');
+}
+
+
 export async function uploadImage(folderName, fileName, objectData) {
     const blob = handleBase64Image(objectData);
     const storageRef = ref(storage, `${folderName}/${fileName}`);

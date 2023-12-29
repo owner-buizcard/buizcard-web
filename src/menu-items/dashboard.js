@@ -1,5 +1,5 @@
 // assets
-import { ApiOutlined, ContactsOutlined, CreditCardOutlined, DashboardOutlined, LineChartOutlined } from '@ant-design/icons';
+import { ApiOutlined, ContactsOutlined, CreditCardOutlined, DashboardOutlined, LineChartOutlined, UserOutlined } from '@ant-design/icons';
 
 // icons
 const icons = {
@@ -7,7 +7,8 @@ const icons = {
   CreditCardOutlined,
   ContactsOutlined,
   LineChartOutlined,
-  ApiOutlined
+  ApiOutlined,
+  UserOutlined
 };
 
 // ==============================|| MENU ITEMS - DASHBOARD ||============================== //

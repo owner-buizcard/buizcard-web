@@ -8,6 +8,7 @@ import CardDetails from '../pages/cards/view/CardDetails';
 import ContactList from '../pages/contacts/list/ContactList';
 import IntegrationList from '../pages/integrations/list/IntegrationList';
 import Analytics from '../pages/analytics/Analytics';
+import Profile from '../pages/profile/Profile';
 
 // render - dashboard
 const Dashboard = Loadable(lazy(() => import('../pages/dashboard/Dashboard')));
@@ -39,6 +40,10 @@ const MainRoutes = {
     {
       path: '/dashboard/analytics',
       element: <Analytics />
+    },
+    {
+      path: '/dashboard/profile',
+      element: <Profile />
     }
   ]
 };

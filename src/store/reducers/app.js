@@ -29,6 +29,9 @@ const app = createSlice({
     updateContacts: (state, action)=>{
       state.contacts = action.payload;
     },
+    updateAppUser: (state, action)=>{
+      state.user = action.payload;
+    },
     showLoader: (state)=>{
       state.isLoading = true;
     },
@@ -38,6 +41,6 @@ const app = createSlice({
   }  
 })
 
-export const {initialize, updateCards, updateContacts, showLoader, hideLoader} = app.actions;
+export const {initialize, updateCards, updateContacts, updateAppUser, showLoader, hideLoader} = app.actions;
 
 export default app.reducer;
