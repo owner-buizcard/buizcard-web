@@ -6,6 +6,7 @@ import MinimalLayout from "../layout/minimal/MinimalLayout";
 import Bizcard from '../pages/bizcard/Bizcard';
 import SpreadsheetCallback from '../pages/integrations/callback/SpreadsheetCallback';
 import ZohoCallback from '../pages/integrations/callback/ZohoCallback';
+import HubspotCallback from '../pages/integrations/callback/HubspotCallback';
 
 const Loader = Loadable(lazy(() => import('../pages/loader/MainLoader')));
 
@@ -28,6 +29,10 @@ const CommonRoutes = {
       {
         path: 'i/zoho/callback',
         element: <ZohoCallback />
+      },
+      {
+        path: 'i/hubspot/callback',
+        element: <HubspotCallback />
       }
     ]
   };
