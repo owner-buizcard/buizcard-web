@@ -32,7 +32,7 @@ const IntegrationList = ()=>{
                     </Grid>
                     {groupedData[group].map((value) => {
                         return <Grid item xs={6} sm={4} md={3} key={value.id}>
-                            <IntegrationItem item={value} isConnected={user.integrations.includes(value.id)}/>
+                            <IntegrationItem userId={user._id} item={value} isConnected={user.integrations.includes(value.id)}/>
                         </Grid>
                     })}
                     </Grid>
