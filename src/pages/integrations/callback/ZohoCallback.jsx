@@ -23,9 +23,7 @@ const ZohoCallback =()=>{
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const code = queryParams.get('code');
-    const server = queryParams.get('connect_server');
-
-    console.log(queryParams);
+    const server = queryParams.get('accounts-server');
 
     const navigate = useNavigate();
 
