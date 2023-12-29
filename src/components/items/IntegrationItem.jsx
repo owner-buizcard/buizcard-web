@@ -2,9 +2,18 @@ import { Box, Button, Stack, Typography } from "@mui/material";
 import MainCard from "../MainCard";
 import { useTheme } from "@emotion/react";
 
-const IntegrationItem =({item})=>{
+const IntegrationItem =({item, isConnected})=>{
 
     const theme = useTheme();
+
+    const handleClick=()=>{
+        const link = item.auth_link;
+        const type = item.auth_type;
+
+        if(type=="_blank"){
+            window.open(link, "_blank")
+        }
+    }
 
     return (
         <MainCard>
@@ -18,11 +27,13 @@ const IntegrationItem =({item})=>{
                 <Box height={50}>
                     <Typography variant="body1" color={"gray"}>{item.description}</Typography>
                 </Box>
-                <Button variant="contained">
-                    Connect
+                <Button variant="contained" disabled={isConnected} onClick={handleClick}>
+                    {
+                        isConnected ? 'Connected' : 'Connect'
+                    }
                 </Button>
             </Stack>
-        </MainCard>
+        </MainCard> 
     )
 }
 

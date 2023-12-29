@@ -4,6 +4,7 @@ import { lazy } from 'react';
 import Loadable from '../components/Loadable';
 import MinimalLayout from "../layout/minimal/MinimalLayout";
 import Bizcard from '../pages/bizcard/Bizcard';
+import SpreadsheetCallback from '../pages/integrations/callback/SpreadsheetCallback';
 
 const Loader = Loadable(lazy(() => import('../pages/loader/MainLoader')));
 
@@ -18,6 +19,10 @@ const CommonRoutes = {
       {
         path: 'app/p/card/:cardId',
         element: <Bizcard />
+      },
+      {
+        path: 'i/spreadsheet/callback',
+        element: <SpreadsheetCallback />
       }
     ]
   };

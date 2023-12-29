@@ -5,6 +5,10 @@ import IntegrationItem from "../../../components/items/IntegrationItem";
 const IntegrationList = ()=>{
 
     const configs = useSelector((state)=>state.app.configs);
+    const user = useSelector((state)=>state.app.user);
+
+    console.log(user)
+
     const integrations = configs.find((con)=>con.key==="Integrations").value;
     const groupedData = integrations.reduce((acc, obj) => {
         const { group, ...rest } = obj;
@@ -28,7 +32,7 @@ const IntegrationList = ()=>{
                     </Grid>
                     {groupedData[group].map((value) => {
                         return <Grid item xs={6} sm={4} md={3} key={value.id}>
-                            <IntegrationItem item={value}/>
+                            <IntegrationItem item={value} isConnected={user.integrations.includes(value.id)}/>
                         </Grid>
                     })}
                     </Grid>
