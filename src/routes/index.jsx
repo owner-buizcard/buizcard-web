@@ -20,17 +20,17 @@ const CheckAuthAndStorage = ({ children }) => {
 
       const redirect = Cookies.get('redirect');
 
-      const isUnAuthRoute = ['/', '/login', '/register', '/auth/callback', '/i/spreadsheet/callback','/password/forgot', '/password/reset', '/check-mail'].includes(redirect ?? currentLocation.pathname);
+      const isUnAuthRoute = ['/', '/login', '/register', '/auth/callback', '/password/forgot', '/password/reset', '/check-mail'].includes(redirect ?? currentLocation.pathname);
 
       const routePattern = /^\/app\/p\/card\/\w+$/; 
       const matchesRedirect = redirect && routePattern.test(redirect);
       const matchesCurrentLocation = routePattern.test(currentLocation.pathname);
       const isConfigRoute = matchesRedirect || matchesCurrentLocation;
-      
+
       const hasLocalStorage = user !== null;
       const hasConfig = config !== null;
 
-      if(currentLocation.pathname=='/loading'){
+      if(currentLocation.pathname=='/loading' || currentLocation.pathname.includes('/i/')){
         return;
       }
 
