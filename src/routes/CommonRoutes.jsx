@@ -5,6 +5,7 @@ import Loadable from '../components/Loadable';
 import MinimalLayout from "../layout/minimal/MinimalLayout";
 import Bizcard from '../pages/bizcard/Bizcard';
 import SpreadsheetCallback from '../pages/integrations/callback/SpreadsheetCallback';
+import ZohoCallback from '../pages/integrations/callback/ZohoCallback';
 
 const Loader = Loadable(lazy(() => import('../pages/loader/MainLoader')));
 
@@ -23,6 +24,10 @@ const CommonRoutes = {
       {
         path: 'i/spreadsheet/callback',
         element: <SpreadsheetCallback />
+      },
+      {
+        path: 'i/zoho/callback',
+        element: <ZohoCallback />
       }
     ]
   };
