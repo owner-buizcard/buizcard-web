@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { dispatch } from "../../../store/store";
 import { initialize } from "../../../store/reducers/app";
 import { CircularProgress, Stack } from "@mui/material";
+import styled from "@emotion/styled";
 
 const LoaderWrapper = styled('div')(({ _ }) => ({
     display: "flex",
