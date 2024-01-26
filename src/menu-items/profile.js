@@ -7,7 +7,7 @@ const icons = {
   SettingOutlined
 };
 
-// ==============================|| MENU ITEMS - SAMPLE PAGE & DOCUMENTATION ||============================== //
+// ==============================|| MENU - SAMPLE PAGE & DOCUMENTATION ||============================== //
 
 const profile = {
   id: 'profile',

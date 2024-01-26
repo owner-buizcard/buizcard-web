@@ -1,0 +1,10 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.spiderlingz.bizcard",
+      "sha256_cert_fingerprints": ["C8:D0:53:6B:AB:A9:BF:27:D5:48:EA:91:A8:39:22:33:3E:A7:EB:ED:FB:A5:32:D9:CD:5E:D3:B7:DB:CF:F5:46"]
+    }
+  }
+]
