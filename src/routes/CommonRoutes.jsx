@@ -23,15 +23,15 @@ const CommonRoutes = {
         element: <Bizcard />
       },
       {
-        path: 'i/spreadsheet/callback',
+        path: 'i/callback/spreadsheet',
         element: <SpreadsheetCallback />
       },
       {
-        path: 'i/zoho/callback',
+        path: 'i/callback/zoho',
         element: <ZohoCallback />
       },
       {
-        path: 'i/hubspot/callback',
+        path: 'i/callback/hubspot',
         element: <HubspotCallback />
       }
     ]
