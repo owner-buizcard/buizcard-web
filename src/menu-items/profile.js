@@ -26,9 +26,7 @@ const profile = {
       title: 'Account Settings',
       type: 'item',
       url: '/dashboard/settings',
-      icon: icons.SettingOutlined,
-      external: true,
-      target: true
+      icon: icons.SettingOutlined
     }
   ]
 };
