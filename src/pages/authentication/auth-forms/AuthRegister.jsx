@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 // material-ui
 import {
@@ -29,7 +29,7 @@ import { strengthColor, strengthIndicator } from '../../../utils/password-streng
 
 // assets
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
-import { signUpWithEmail } from '../../../network/service/authService';
+import { initApp, signUpWithEmail } from '../../../network/service/authService';
 
 const AuthRegister = () => {
   const [level, setLevel] = useState();
@@ -37,6 +37,8 @@ const AuthRegister = () => {
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
+
+  const navigate = useNavigate();
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
@@ -83,8 +85,12 @@ const AuthRegister = () => {
               return;
             }
 
+            await initApp();
+
             setStatus({ success: true });
             setSubmitting(false);
+            
+            navigate('/loading');
           } catch (err) {
             console.error(err);
             setStatus({ success: false });
