@@ -24,6 +24,10 @@ export async function createBizcard(data){
   return await axiosClient.post(`/card`, data);
 }
 
+export async function cloneBizcard(data){
+  return await axiosClient.post(`/card/clone`, data);
+}
+
 export async function uploadCardImage({cardId, key, file, fileName}){
 
   const formDataToSend = new FormData();

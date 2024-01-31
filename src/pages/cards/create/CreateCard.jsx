@@ -34,6 +34,8 @@ const CreateCard = ()=>{
     const queryParams = new URLSearchParams(location.search);
     const cardEditId = queryParams.get('cardId');
 
+    console.log(cards);
+
     if(cardEditId && cardData?._id!=cardEditId){
         const editCard = cards.find((item)=>item._id===cardEditId);
         dispatch(initializeCardData(editCard));

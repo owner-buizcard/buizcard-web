@@ -10,13 +10,16 @@ import TabPanel from "./tab/TabPanel";
 import QrExportView from "../../../components/Card/QrExportView";
 import html2canvas from "html2canvas";
 import { useDispatch } from "react-redux";
-import { updateCards } from "../../../store/reducers/app";
+import { hideLoader, showLoader, updateCards } from "../../../store/reducers/app";
+import { cloneBizcard, deleteCard } from "../../../network/service/cardService";
+import ConfirmDialog from "../../../components/dialogs/ConfirmDialog";
 
 const CardDetails =()=>{
 
     const dispatch = useDispatch();
 
     const [value, setValue] = useState(0);
+    const [open, setOpen] = useState(false);
 
     const handleChange = (_, newValue) => {
       setValue(newValue);
@@ -49,6 +52,15 @@ const CardDetails =()=>{
         navigate(-1);
     }
 
+    const createCloneClick =async(data)=>{
+        dispatch(showLoader());
+        const cardData = await cloneBizcard({cardId: cardId});
+        dispatch(hideLoader());
+        const updated = [...cards, cardData];
+        dispatch(updateCards(updated))
+        navigate(`/dashboard/card?cardId=${cardData._id}`);
+    }
+
     const handleSettingsChange =(data)=>{
         const updated = {...cardData, ...data};
         const updatedCards = cards.map(item => {
@@ -60,9 +72,33 @@ const CardDetails =()=>{
         dispatch(updateCards(updatedCards));
         setCardData(updated);
     }
+
+    const handleDelete=()=>{
+        setOpen(true);
+    }
+
+    const deleteClick =async()=>{
+        setOpen(false);
+        await deleteCard(cardId);
+        const updated = cards.filter(item=>item._id!==cardId);
+        dispatch(updateCards(updated))
+        navigate(`/dashboard`);
+    }
+    
+    const handleCancel=()=>{
+        setOpen(false);
+    }
     
     return (
         <Box>
+            <ConfirmDialog
+                open={open} 
+                onOk={deleteClick} 
+                onCancel={handleCancel} 
+                btnTxt={"Delete"}
+                title={"Are you sure you want to delete?"}   
+                content={`By deleting "${cardData?.cardName}" card, the people who have this card also cant view this card.`}
+            />
             <QrExportView ref={componentRef} cardData={cardData} />
             <Grid container rowSpacing={1.5} columnSpacing={2.75}>
                 <Grid item xs={12} justifyContent={"space-between"} display={"flex"} alignItems={"center"}> 
@@ -85,6 +121,7 @@ const CardDetails =()=>{
                                 color="secondary"
                                 title="Download Free Version"
                                 sx={{ color: 'text.primary', }}
+                                onClick={createCloneClick}
                             >
                                 <CopyOutlined />
                             </IconButton>
@@ -106,16 +143,7 @@ const CardDetails =()=>{
                                 color="secondary"
                                 title="Download Free Version"
                                 sx={{ color: 'text.primary', }}
-                            >
-                                <FilePdfOutlined />
-                            </IconButton>
-                        </Box>
-                        <Box sx={{ flexShrink: 0, ml: 1 }}>
-                            <IconButton
-                                disableRipple
-                                color="secondary"
-                                title="Download Free Version"
-                                sx={{ color: 'text.primary', }}
+                                onClick={handleDelete}
                             >
                                 <DeleteOutlined style={{color: "red"}} />
                             </IconButton>

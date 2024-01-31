@@ -1,5 +1,6 @@
 import { CardMedia } from '@mui/material'
 import React from 'react'
+import { BANNER_PLACEHOLDER } from '../../utils/global';
 
 const Banner =({image, height, sharpEdge})=>{
 
@@ -7,7 +8,7 @@ const Banner =({image, height, sharpEdge})=>{
 
   const handleImageError = (e) => {
       e.target.onerror = null;
-      e.target.src = "https://firebasestorage.googleapis.com/v0/b/bizcard-web.appspot.com/o/pexels-melvin-buezo-18946900.jpg?alt=media&token=c9369725-dfb3-4417-a855-efc3bd4ff97a"
+      e.target.src = BANNER_PLACEHOLDER
   }
 
   return (
