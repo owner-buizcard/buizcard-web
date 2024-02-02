@@ -26,7 +26,8 @@ const ContactList = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const contacts = data?.map((contact) => {
+    const [searchQuery, setSearchQuery] = useState('');
+    const contactsData = data?.map((contact) => {
         const updatedContact = { ...contact };
         const { details, card } = contact;
         const contactInfo = details ?? card;
@@ -38,6 +39,7 @@ const ContactList = () => {
         updatedContact.cardName = card?.cardName ?? '';
         return updatedContact;
     });
+    const [contacts, setContacts] = useState(contactsData);
 
     const StripedDataGrid = styled(DataGrid)(({ theme }) => ({
         [`& .${gridClasses.row}.even`]: {
@@ -70,6 +72,18 @@ const ContactList = () => {
             },
         },
     }));
+
+    const handleSearch = (event)=>{
+        const query = event.target.value.toLowerCase();
+        setSearchQuery(query);
+        const filtered = contactsData.filter(contact =>
+            contact.name?.toLowerCase()?.includes(query) ||
+            contact.email?.toLowerCase()?.includes(query) ||
+            contact.phoneNumber?.includes(query) ||
+            contact.location?.toLowerCase()?.includes(query)
+        );
+        setContacts(filtered);
+    }
 
     const deleteContact = async (contactId) => {
         const updated = data.filter((contact) => contact._id !== contactId);
@@ -206,6 +220,7 @@ const ContactList = () => {
                                                     <SearchOutlined />
                                                 </InputAdornment>
                                             }
+                                            onChange={handleSearch}
                                             placeholder="Search by name, email or phone number"
                                             aria-describedby="header-search-text"
                                             inputProps={{
