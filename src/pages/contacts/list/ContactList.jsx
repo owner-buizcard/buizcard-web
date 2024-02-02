@@ -14,6 +14,7 @@ import { useDispatch } from "react-redux";
 import { updateContacts } from "../../../store/reducers/app";
 import SkeletonTable from "../../../components/skeleton/SkeletonTable";
 import AddTagDialog from "../../../components/dialogs/AddTagDialog";
+import { useNavigate } from "react-router-dom";
 
 const ContactList=()=>{
 
@@ -23,13 +24,15 @@ const ContactList=()=>{
     const [selected, setSelected] = useState(null);
     const theme = useTheme();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const contacts = data?.map((contact) => {
       let updatedContact = { ...contact };
     
-      if (contact.type === "Message") {
+      if (contact.card==null) {
+        updatedContact.picture = `${contact.details?.picture}`;
         updatedContact.name = `${contact.details?.name}`;
-        updatedContact.phoneNumber = `${contact.details?.phoneNumber}`;
+        updatedContact.phoneNumber = `${contact.details?.phone}`;
         updatedContact.email = `${contact.details?.email}`;
         updatedContact.message = `${contact.details?.message}`;
       } else {
@@ -41,6 +44,12 @@ const ContactList=()=>{
       }
       return updatedContact; 
     });
+    
+    console.log(contacts);
+
+    const openCreateContact =()=>{
+      navigate('/dashboard/contacts/create')
+    }
 
 
     const ODD_OPACITY = 0.2;
@@ -264,7 +273,7 @@ const ContactList=()=>{
 
                             <Box>
                               <Button variant="outlined" size="medium" sx={{px: 0, width: "140px"}} 
-                                onClick={()=>setOpenCreate(true)}
+                                onClick={()=>openCreateContact()}
                                 startIcon={
                                   <PlusOutlined style={{fontSize: "16px"}}/>
                                 }>
