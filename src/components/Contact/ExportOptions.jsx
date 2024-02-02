@@ -1,13 +1,11 @@
-import { DeleteOutlined, EditOutlined, ExportOutlined, MoreOutlined } from "@ant-design/icons";
-import { Box, Button, ClickAwayListener, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Menu, MenuItem, Paper, Popper, Typography } from "@mui/material";
-import Transitions from "../@extended/Transitions";
-import { useEffect, useRef, useState } from "react";
-import { useTheme } from "@emotion/react";
-import MainCard from "../MainCard";
-import html2canvas from "html2canvas";
+import { ExportOutlined } from "@ant-design/icons";
+import { Box, IconButton, ListItem, ListItemIcon, ListItemText, Menu, MenuItem } from "@mui/material";
+import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
+import { showSnackbar } from "../../utils/snackbar-utils";
+import { exportContacts } from "../../network/service/contactService";
 
-const ExportOptions =({onExport})=>{
+const ExportOptions =({contactIds})=>{
 
     const config = useSelector((state)=>state.app.configs);
     const user = useSelector((state)=>state.app.user);
@@ -32,8 +30,11 @@ const ExportOptions =({onExport})=>{
         setAnchorEl(null);
     };
     
-    const handleOptionClick = (option) => {
-        console.log(`Option clicked: ${option}`);
+    const handleOptionClick = async(option) => {
+        showSnackbar(`Exporting contacts to ${option['name']}`, { variant: 'success' }); 
+        if(option['id']=='zoho_crm'){
+            await exportContacts(contactIds,'zoho');
+        }
         handleClose();
     };
 
@@ -60,14 +61,14 @@ const ExportOptions =({onExport})=>{
                 onClose={handleClose}
             >
                 {
-                    integrations.map((integ)=>{
-                        return <MenuItem onClick={() => handleListItemClick(e, 0)}>
+                    integrations.map((item)=>{
+                        return <MenuItem onClick={() => handleOptionClick(item)}>
                             <ListItem>
                                 <ListItemIcon>
-                                    <Box component={'img'} src={integ['image']} width={36}/>
+                                    <Box component={'img'} src={item['image']} width={36}/>
                                 </ListItemIcon>
                                 <Box width={20}/>
-                                <ListItemText primary={`Export to ${integ['name']}`} />
+                                <ListItemText primary={`Export to ${item['name']}`} />
                             </ListItem>
                         </MenuItem>
                     })

@@ -5,7 +5,7 @@ import { Avatar, Box, Button, Chip, FormControl, Grid, IconButton, InputAdornmen
 import { HiUser } from 'react-icons/hi2';
 import { alpha, styled } from '@mui/material/styles';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
-import { ContactsOutlined, ExportOutlined, PlusOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons';
+import { CaretDownFilled, CaretDownOutlined, ContactsOutlined, EditOutlined, ExportOutlined, PlusOutlined, ReloadOutlined, SearchOutlined, UserOutlined } from '@ant-design/icons';
 import MainCard from '../../../components/MainCard';
 import ContactOptions from '../../../components/menu/ContactOptions';
 import SkeletonTable from '../../../components/skeleton/SkeletonTable';
@@ -126,11 +126,15 @@ const ContactList = () => {
     </Stack>
   );
 
-  const renderTypeCell = () => <ContactsOutlined style={{ fontSize: 22 }} />;
+  const renderTypeCell = (params) => (
+    params.value=="PaperCard"
+      ? <EditOutlined style={{ fontSize: 22 }} />
+      : <ContactsOutlined style={{ fontSize: 22 }} />
+  );
 
-  const renderExportCell = () => (
+  const renderExportCell = (params) => (
     <ExportOptions
-      onExport={()=>{}}
+      contactIds={[params.value]}
     />
   );
 

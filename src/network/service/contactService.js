@@ -7,3 +7,9 @@ export async function saveContactDetails(data){
 export async function updateContactDetails(contactId, data){
     return await axiosClient.put(`/contact?contactId=${contactId}`, data);
 }
+
+export async function exportContacts(ids, type){
+    return await axiosClient.post(`/${type}/export`, {contactIds: ids});
+}
+
+
