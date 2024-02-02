@@ -5,7 +5,7 @@ import { Avatar, Box, Button, Chip, FormControl, Grid, IconButton, InputAdornmen
 import { HiUser } from 'react-icons/hi2';
 import { alpha, styled } from '@mui/material/styles';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
-import { CaretDownFilled, CaretDownOutlined, ContactsOutlined, EditOutlined, ExportOutlined, PlusOutlined, ReloadOutlined, SearchOutlined, UserOutlined } from '@ant-design/icons';
+import { ContactsOutlined, EditOutlined, ExportOutlined, PlusOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons';
 import MainCard from '../../../components/MainCard';
 import ContactOptions from '../../../components/menu/ContactOptions';
 import SkeletonTable from '../../../components/skeleton/SkeletonTable';
@@ -23,6 +23,7 @@ const ContactList = () => {
   const [loading, setLoading] = useState(false);
   const [openTag, setOpenTag] = useState(false);
   const [selected, setSelected] = useState(null);
+  const [selectedContacts, setSelectedContacts] = React.useState([]);
   const theme = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -80,6 +81,10 @@ const ContactList = () => {
         contact.location?.toLowerCase()?.includes(query)
     );
     setContacts(filtered);
+  };
+
+  const handleSelectionModelChange = (newSelection) => {
+    console.log(newSelection);
   };
 
   const deleteContact = async (contactId) => {
@@ -198,9 +203,6 @@ const ContactList = () => {
       <Grid item xs={8} sx={{ mb: 0 }}>
         <Typography variant="h4">My Contacts</Typography>
       </Grid>
-      <ExportOptions
-      onExport={()=>{}}
-    />
       <Grid item xs={12} display={'flex'}>
         <MainCard sx={{ width: '100%' }}>
           {loading ? (
@@ -237,11 +239,11 @@ const ContactList = () => {
                     Add Leads
                   </Button>
                 </Box>
-                <IconButton disabled={true}>
-                  <Box sx={{ border: `1px solid ${theme.palette.grey[300]}`, borderRadius: '4px', p: 1 }}>
-                    <ExportOutlined />
-                  </Box>
-                </IconButton>
+                <ExportOptions 
+                  contactIds={selectedContacts} 
+                  style={{ border: `1px solid ${theme.palette.grey[300]}`, borderRadius: '4px', p: 1 }}
+                  disabled={selectedContacts && selectedContacts.length<=0}
+                />
                 <IconButton onClick={refresh}>
                   <Box sx={{ border: `1px solid ${theme.palette.grey[300]}`, borderRadius: '4px', p: 1 }}>
                     <ReloadOutlined />
@@ -262,7 +264,10 @@ const ContactList = () => {
                 pageSizeOptions={[5, 10]}
                 checkboxSelection
                 disableRowSelectionOnClick
-                onRowClick={() => {}}
+                onRowSelectionModelChange={(selected) => {
+                  setSelectedContacts(selected);
+                }}
+                rowSelectionModel={selectedContacts}
               />
             </>
           )}

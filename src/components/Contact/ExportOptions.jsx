@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { showSnackbar } from "../../utils/snackbar-utils";
 import { exportContacts } from "../../network/service/contactService";
 
-const ExportOptions =({contactIds})=>{
+const ExportOptions =({contactIds, disabled, style})=>{
 
     const config = useSelector((state)=>state.app.configs);
     const user = useSelector((state)=>state.app.user);
@@ -15,7 +15,7 @@ const ExportOptions =({contactIds})=>{
 
     integrations = [ 
         {name: "Excel", id: "excel", image: "https://firebasestorage.googleapis.com/v0/b/bizcard-spiderlingz.appspot.com/o/app_icons%2Fexcel.png?alt=media&token=a54a4f0e-7431-4294-bb62-9274a528ef7e"}, 
-        {name: "CSV", id: "excel", image: "https://firebasestorage.googleapis.com/v0/b/bizcard-spiderlingz.appspot.com/o/app_icons%2Fcsv.png?alt=media&token=9d342e95-aa6b-488a-b699-7fd19d248720"}, 
+        {name: "CSV", id: "csv", image: "https://firebasestorage.googleapis.com/v0/b/bizcard-spiderlingz.appspot.com/o/app_icons%2Fcsv.png?alt=media&token=9d342e95-aa6b-488a-b699-7fd19d248720"}, 
         ...integrations 
     ]
 
@@ -32,18 +32,19 @@ const ExportOptions =({contactIds})=>{
     
     const handleOptionClick = async(option) => {
         showSnackbar(`Exporting contacts to ${option['name']}`, { variant: 'success' }); 
+        handleClose();
         if(option['id']=='zoho_crm'){
             await exportContacts(contactIds,'zoho');
         }
-        handleClose();
     };
 
     return (
         <Box sx={{ flexShrink: 0 }}>
             <IconButton
+                disabled={disabled}
                 component="span"
                 disableRipple
-                sx={{
+                sx={style ?? {
                     bgcolor: open ? 'grey.300' : 'white'
                 }}
                 ref={anchorRef}
@@ -62,7 +63,7 @@ const ExportOptions =({contactIds})=>{
             >
                 {
                     integrations.map((item)=>{
-                        return <MenuItem onClick={() => handleOptionClick(item)}>
+                        return <MenuItem key={item['id']} onClick={() => handleOptionClick(item)}>
                             <ListItem>
                                 <ListItemIcon>
                                     <Box component={'img'} src={item['image']} width={36}/>
