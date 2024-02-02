@@ -12,4 +12,8 @@ export async function exportContacts(ids, type){
     return await axiosClient.post(`/${type}/export`, {contactIds: ids});
 }
 
+export async function sendMailToContacts(data){
+    return await axiosClient.post('contact/mail', data);
+}
+
 

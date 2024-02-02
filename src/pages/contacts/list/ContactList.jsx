@@ -15,6 +15,7 @@ import { downloadFile, formatDate, generateVcard } from '../../../utils/utils';
 import { getMyContacts, removeContact } from '../../../network/service/connectService';
 import { updateContacts } from '../../../store/reducers/app';
 import ExportOptions from '../../../components/Contact/ExportOptions';
+import SendMailDialog from '../../../components/dialogs/SendMailDialog';
 
 const ODD_OPACITY = 0.2;
 
@@ -22,6 +23,8 @@ const ContactList = () => {
   const data = useSelector((state) => state.app.contacts);
   const [loading, setLoading] = useState(false);
   const [openTag, setOpenTag] = useState(false);
+  const [openMail, setOpenMail] = useState(false);
+  const [selectedMail, setSelectedMail] = useState(null);
   const [selected, setSelected] = useState(null);
   const [selectedContacts, setSelectedContacts] = React.useState([]);
   const theme = useTheme();
@@ -101,7 +104,8 @@ const ContactList = () => {
   };
 
   const sendMail = async (contact) => {
-    console.log(contact.email);
+    setSelectedMail([contact.email]);
+    setOpenMail(true);
   };
 
   const saveContact = async (contactId) => {
@@ -122,7 +126,12 @@ const ContactList = () => {
     </Avatar>
   );
 
-  const renderContactCell = (params) => <Typography variant="title">{params.value?.fullName}</Typography>;
+  const renderContactCell = (params) => (
+    <Stack>
+      <Typography variant="title">{params.value?.fullName}</Typography>
+      {/* <Typography variant="caption" sx={{color: 'grey'}}>{params.value?.email}</Typography> */}
+    </Stack>
+  );
 
   const renderPhoneNumberCell = (params) => (
     <Stack>
@@ -208,6 +217,8 @@ const ContactList = () => {
   };
 
   return (
+    <>
+    <SendMailDialog open={openMail} onClose={()=>setOpenMail(false)} selectedMails={selectedMail}/>
     <Grid container rowSpacing={2.5} columnSpacing={2.75}>
       <AddTagDialog open={openTag} contact={selected} handleCancel={() => setOpenTag(false)} onAdded={(updated) => updateTags(updated)} />
       <Grid item xs={8} sx={{ mb: 0 }}>
@@ -284,6 +295,7 @@ const ContactList = () => {
         </MainCard>
       </Grid>
     </Grid>
+    </>
   );
 };
 
