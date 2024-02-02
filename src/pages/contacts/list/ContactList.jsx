@@ -235,6 +235,7 @@ const ContactList=()=>{
           }
           return contact;
         });
+      console.log(updatedContacts);
       dispatch(updateContacts(updatedContacts));
     }
 
