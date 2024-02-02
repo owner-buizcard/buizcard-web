@@ -35,6 +35,7 @@ const CreateContact =()=>{
   const [image, setImage] = useState(details?.picture);
 
   const handleImageChange=(image)=>{
+    console.log(image);
     setImage(image);
   }   
 
