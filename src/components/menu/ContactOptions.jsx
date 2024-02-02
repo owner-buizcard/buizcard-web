@@ -1,8 +1,8 @@
 import React, { useState, Fragment } from "react";
 import { IconButton, ListItem, ListItemIcon, ListItemText, Menu } from "@mui/material";
-import { DeleteOutlined, DownloadOutlined, EditOutlined, MailOutlined, MoreOutlined, PlusOutlined } from "@ant-design/icons";
+import { DeleteOutlined, DownloadOutlined, EditOutlined, EyeOutlined, MailOutlined, MoreOutlined, PlusOutlined } from "@ant-design/icons";
 
-const ContactOptions = ({ onDelete, onSave, onAdd, onEdit, isEdit }) => {
+const ContactOptions = ({ onDelete, onSave, onAdd, onEdit, isEdit, isEmail, onSend, onPreview }) => {
     const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClick = (event) => {
@@ -11,8 +11,9 @@ const ContactOptions = ({ onDelete, onSave, onAdd, onEdit, isEdit }) => {
 
     const menuItems = ()=> [
         { icon: <PlusOutlined />, text: "Add Tags", id: 0 },
-        { icon: <MailOutlined />, text: "Send Email", id: 1 },
+        ...(isEmail ? [{ icon: <MailOutlined />, text: "Send Email", id: 1 }] : []),
         ...(isEdit ? [{ icon: <EditOutlined />, text: "Edit Contact", id: 2 }] : []),
+        ...(!isEdit ? [{ icon: <EyeOutlined />, text: "Preview Contact", id: 5 }] : []),
         { icon: <DownloadOutlined />, text: "Save as Contact", id: 3 },
         { icon: <DeleteOutlined style={{ color: "red" }} />, text: "Remove", id: 4, style: { color: "red" } },
     ];
@@ -22,18 +23,19 @@ const ContactOptions = ({ onDelete, onSave, onAdd, onEdit, isEdit }) => {
     };
 
     const handleListItemClick = (index) => {
-        console.log(index);
         if (index === 0) {
             onAdd();
         } else if (index === 1) {
-            handleCapture();
+            onSend();
         } else if (index === 2) {
             onEdit();
         } else if (index === 3) {
             onSave();
         } else if (index === 4) {
             onDelete();
-        }
+        } else if (index === 5) {
+            onPreview();
+        } 
         handleClose();
     };
 

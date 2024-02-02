@@ -83,10 +83,6 @@ const ContactList = () => {
     setContacts(filtered);
   };
 
-  const handleSelectionModelChange = (newSelection) => {
-    console.log(newSelection);
-  };
-
   const deleteContact = async (contactId) => {
     const updated = data.filter((contact) => contact._id !== contactId);
     dispatch(updateContacts(updated));
@@ -95,6 +91,17 @@ const ContactList = () => {
 
   const editContact = async (contactId) => {
     navigate(`/dashboard/contacts/create?contactId=${contactId}`);
+  };
+
+  const previewContact = async (contact) => {
+    const link = contact.card.cardLink;
+    if(link){
+      window.open(link, "_blank")
+    }
+  };
+
+  const sendMail = async (contact) => {
+    console.log(contact.email);
   };
 
   const saveContact = async (contactId) => {
@@ -149,6 +156,9 @@ const ContactList = () => {
       <Stack direction={'row'} spacing={1}>
         <ContactOptions
           isEdit={contact.details !== null}
+          isEmail={contact.email}
+          onSend={()=>{sendMail(contact)}}
+          onPreview={()=>previewContact(contact)}
           onEdit={() => editContact(params.value)}
           onDelete={() => deleteContact(params.value)}
           onSave={() => saveContact(params.value)}
