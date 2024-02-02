@@ -1,6 +1,6 @@
 import { Box, Button, FormHelperText, Grid, IconButton, InputLabel, OutlinedInput, Stack, Typography } from "@mui/material";
 import { FaArrowLeft } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import MainCard from "../../../components/MainCard";
 import { Formik } from "formik";
 import * as Yup from 'yup';
@@ -9,7 +9,7 @@ import { uploadCardImage } from "../../../network/service/cardService";
 import ImagePicker from "../../../components/ImagePicker";
 import { UserOutlined } from "@ant-design/icons";
 import { values } from "lodash";
-import { saveContactDetails } from "../../../network/service/contactService";
+import { saveContactDetails, updateContactDetails } from "../../../network/service/contactService";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { hideLoader, showLoader, updateContacts } from "../../../store/reducers/app";
@@ -20,11 +20,19 @@ const CreateContact =()=>{
   const contacts = useSelector((state)=>state.app.contacts)??[];
   const dispatch = useDispatch();
 
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const contactId = queryParams.get('contactId');
+  var details = null;
+  if(contactId){
+    details = contacts.find((item)=>item._id===contactId)?.details
+  }
+
   const handleBack =()=>{
     navigate(-1);
   }
 
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState(details?.picture);
 
   const handleImageChange=(image)=>{
     setImage(image);
@@ -38,14 +46,14 @@ const CreateContact =()=>{
     <>
       <Formik
         initialValues={{
-          fname: '',
-          lname: '',
-          email: '',
-          phone: '',
-          title: '',
-          location: '',
-          company: '',
-          website: ''
+          fname: (details?.name ? details.name.split(' ')[0] : '') || '',
+          lname: (details?.name ? details.name.split(' ')[1] : '') || '',
+          email: details?.email??'',
+          phone: details?.phone??'',
+          title: details?.title??'',
+          location: details?.location??'',
+          company: details?.company??'',
+          website: details?.website??''
         }}
         validationSchema={Yup.object().shape({
           fname: Yup.string().max(255).required("First name is required"),
@@ -62,26 +70,39 @@ const CreateContact =()=>{
         onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm})=>{
           try {
             dispatch(showLoader());
-            const contactData  = await saveContactDetails(
-              {
-                name: `${values.fname} ${values.lname}`,
-                email: values.email,
-                phone: values.phone,
-                title: values.title,
-                picture: image,
-                company: values.company,
-                website: values.website,
-                location: values.location
-              }
-            )
+
+            const data = {
+              name: `${values.fname} ${values.lname}`,
+              email: values.email,
+              phone: values.phone,
+              title: values.title,
+              picture: image,
+              company: values.company,
+              website: values.website,
+              location: values.location
+            };
+
+            if(details==null){
+              const contactData = await saveContactDetails(data)
+              const updated = [...contacts, contactData];
+              dispatch(updateContacts(updated))
+            }else{
+              const contactData = await updateContactDetails(contactId, {details: data})
+              const updated = contacts.map(item => {
+                  if (item._id === contactData._id) {
+                    return { ...item, ...contactData }; 
+                  }
+                  return item;
+              });
+              dispatch(updateContacts(updated))
+            }
+
             dispatch(hideLoader());
-            const updated = [...contacts, contactData];
-            dispatch(updateContacts(updated))
-            
             setStatus({ success: true });
             setSubmitting(false);
-
-            resetForm();
+            if(details==null){
+              resetForm();
+            }
           } catch (err) {
             setStatus({ success: false });
             setErrors({ submit: err.message });
@@ -104,7 +125,7 @@ const CreateContact =()=>{
                           <FaArrowLeft/>
                       </IconButton>
                       <Box width={8}/>
-                      <Typography variant="h4">Create Contact</Typography>
+                      <Typography variant="h4"> { details ? 'Edit Contact' : 'Create Contact'}</Typography>
                   </Stack>
                   <div>
                       <Button type="submit" variant="contained" sx={{px: 4}}>
@@ -113,9 +134,7 @@ const CreateContact =()=>{
                   </div>
               </Grid>
               <Grid item xs={12}>
-                <MainCard
-                  
-                >
+                <MainCard>
                   <Grid container spacing={3} sx={{py: 4}}>
                     <Grid item xs={3}>
                       <Stack spacing={2} alignItems={"center"} justifyContent={"center"} display={"flex"}>

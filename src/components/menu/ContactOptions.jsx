@@ -2,12 +2,20 @@ import React, { useState, Fragment } from "react";
 import { IconButton, ListItem, ListItemIcon, ListItemText, Menu } from "@mui/material";
 import { DeleteOutlined, DownloadOutlined, EditOutlined, MailOutlined, MoreOutlined, PlusOutlined } from "@ant-design/icons";
 
-const ContactOptions = ({ onDelete, onSave, onAdd }) => {
+const ContactOptions = ({ onDelete, onSave, onAdd, onEdit, isEdit }) => {
     const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
+
+    const menuItems = ()=> [
+        { icon: <PlusOutlined />, text: "Add Tags", id: 0 },
+        { icon: <MailOutlined />, text: "Send Email", id: 1 },
+        ...(isEdit ? [{ icon: <EditOutlined />, text: "Edit Contact", id: 2 }] : []),
+        { icon: <DownloadOutlined />, text: "Save as Contact", id: 3 },
+        { icon: <DeleteOutlined style={{ color: "red" }} />, text: "Remove", id: 4, style: { color: "red" } },
+    ];
 
     const handleClose = () => {
         setAnchorEl(null);
@@ -20,8 +28,10 @@ const ContactOptions = ({ onDelete, onSave, onAdd }) => {
         } else if (index === 1) {
             handleCapture();
         } else if (index === 2) {
-            onSave();
+            onEdit();
         } else if (index === 3) {
+            onSave();
+        } else if (index === 4) {
             onDelete();
         }
         handleClose();
@@ -50,8 +60,8 @@ const ContactOptions = ({ onDelete, onSave, onAdd }) => {
                     horizontal: 'right',
                 }}
             >
-                {menuItems.map((item, index) => (
-                    <ListItem key={index} onClick={() => handleListItemClick(index)} sx={{cursor: "pointer", width: "180px", px: 2, py: 1.3 }}>
+                {menuItems().map((item, index) => (
+                    <ListItem key={index} onClick={() => handleListItemClick(item.id)} sx={{cursor: "pointer", width: "180px", px: 2, py: 1.3 }}>
                         <ListItemIcon>{item.icon}</ListItemIcon>
                         <ListItemText primary={item.text} />
                     </ListItem>
@@ -60,12 +70,5 @@ const ContactOptions = ({ onDelete, onSave, onAdd }) => {
         </Fragment>
     );
 };
-
-const menuItems = [
-    { icon: <PlusOutlined />, text: "Add Tags" },
-    { icon: <MailOutlined />, text: "Send Email" },
-    { icon: <DownloadOutlined />, text: "Save as Contact" },
-    { icon: <DeleteOutlined style={{ color: "red" }} />, text: "Remove", style: { color: "red" } },
-];
 
 export default ContactOptions;

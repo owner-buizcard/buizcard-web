@@ -93,6 +93,10 @@ const ContactList=()=>{
       await removeContact(contactId);
     }
 
+    const editContact =async(contactId)=>{
+      navigate(`/dashboard/contacts/create?contactId=${contactId}`)
+    }
+
     const saveContact = async (contactId) => {
       const contact = data.find((contact)=>contact._id===contactId);
       const cardData = contact.card;
@@ -190,9 +194,12 @@ const ContactList=()=>{
           headerName: '', 
           width: 30,
           renderCell: (params) => {
+            const contact = contacts.find((item)=>item._id===params.value);
             return (
               <Stack direction={"row"} spacing={1}>
                 <ContactOptions 
+                  isEdit={contact.details!=null}
+                  onEdit={()=>editContact(params.value)}
                   onDelete={()=>deleteContact(params.value)}
                   onSave={()=>saveContact(params.value)}
                   onAdd={()=>addTag(params.value)}
