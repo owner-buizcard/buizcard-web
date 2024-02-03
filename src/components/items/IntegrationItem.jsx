@@ -2,7 +2,7 @@ import { Box, Button, Stack, Typography } from "@mui/material";
 import MainCard from "../MainCard";
 import { useTheme } from "@emotion/react";
 
-const IntegrationItem =({userId, item, isConnected})=>{
+const IntegrationItem =({userId, item, isConnected, onClick})=>{
 
     const theme = useTheme();
 
@@ -16,6 +16,10 @@ const IntegrationItem =({userId, item, isConnected})=>{
 
         if(type=="_blank"){
             window.open(link, "_blank")
+        }
+
+        if(type=="api"){
+            onClick();
         }
     }
 

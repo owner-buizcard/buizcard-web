@@ -7,3 +7,7 @@ export async function connectZohoCRM(code, server){
 export async function connectHubspot(code){
     return await axiosClient.post('/hubspot/connect', { code });
 }
+
+export async function connectWhatsapp(data){
+    return await axiosClient.put('/me', data);
+}

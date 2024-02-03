@@ -13,7 +13,7 @@ export function groupList(data, keyName) {
     const groupMap = new Map();
 
     data.forEach(item => {
-        const keyValue = item[keyName]; // Use the provided keyName to access the property
+        const keyValue = item[keyName];
         if (!groupMap.has(keyValue)) {
             groupMap.set(keyValue, [item]);
         } else {
