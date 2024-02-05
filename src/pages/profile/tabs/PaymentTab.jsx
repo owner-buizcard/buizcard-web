@@ -1,13 +1,10 @@
-import { Button, Divider, FormHelperText, Grid, InputLabel, OutlinedInput, Stack, Typography } from "@mui/material"
+import { Typography } from "@mui/material"
 import MainCard from "../../../components/MainCard"
-import { Formik } from "formik";
-import * as Yup from 'yup';
 import { useSelector } from "react-redux";
-import { updateProfile } from "../../../network/service/userService";
 import { useDispatch } from "react-redux";
-import { updateAppUser } from "../../../store/reducers/app";
+import PaymentButton from "../../../components/PaymentButton";
 
-const PersonalInfoTab =()=>{
+const PaymentTab =()=>{
 
     const user = useSelector((state)=>state.app.user);
     const dispatch = useDispatch();
@@ -15,14 +12,15 @@ const PersonalInfoTab =()=>{
     return (
         <MainCard
             title={
-                <Typography variant="subtitle1">Personal Information</Typography>
+                <Typography variant="subtitle1">Your subscription</Typography>
             }
             headerBorder
         >
+            <PaymentButton planId={"plan_NX5qBC30iIf7sF"} type={"M"}/>
             
 
         </MainCard>
     )
 }
 
-export default PersonalInfoTab;
+export default PaymentTab;

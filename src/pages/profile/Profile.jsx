@@ -2,6 +2,7 @@ import { Grid } from "@mui/material";
 import MainCard from "../../components/MainCard";
 import ProfileNav from "./ProfileNav";
 import PersonalInfoTab from "./tabs/PersonalInfoTab";
+import PaymentTab from "./tabs/PaymentTab";
 import { useState } from "react";
 
 const Profile = ()=>{
@@ -18,7 +19,9 @@ const Profile = ()=>{
                 <ProfileNav index={selected} onChange={handleTabChange}/>
             </Grid>
             <Grid item xs={12} md={9}>
-                <PersonalInfoTab/>
+                { selected == 0 
+                    ? <PersonalInfoTab/>
+                    : <PaymentTab/> }
             </Grid>
         </Grid>
     )

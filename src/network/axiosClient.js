@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 import { showSnackbar } from '../utils/snackbar-utils';
 
 const axiosClient = axios.create({
-    baseURL: `https://x9a0br47t1.execute-api.us-east-1.amazonaws.com/dev`,
+    baseURL: `https://m93o2s6r6l.execute-api.us-east-1.amazonaws.com/dev`,
     headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'

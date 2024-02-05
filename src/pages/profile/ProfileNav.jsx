@@ -5,7 +5,7 @@ import { CreditCardOutlined, UserOutlined } from "@ant-design/icons";
 
 const navigationItems = [
   { index: 0, icon: <UserOutlined />, label: "Personal Information" },
-  { index: 1, icon: <CreditCardOutlined />, label: "Payment" },
+  { index: 1, icon: <CreditCardOutlined />, label: "Subscriptions" },
 ];
 
 const ProfileNavItem = ({ item, index, onChange, textColor, iconSelectedColor }) => (
