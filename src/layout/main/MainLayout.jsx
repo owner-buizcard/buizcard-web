@@ -15,6 +15,7 @@ import Breadcrumbs from '../../components/@extended/Breadcrumbs';
 import { openDrawer } from '../../store/reducers/menu';
 import MainDrawer from './drawer/MainDrawer';
 import WindowLoader from '../../components/WindowLoader';
+import FeatureRequestDialog from '../../components/dialogs/FeatureRequestDialog';
 
 
 const MainLayout = () => {
@@ -53,6 +54,7 @@ const MainLayout = () => {
       { isLoading && <WindowLoader/>}
       <Header open={open} handleDrawerToggle={handleDrawerToggle} />
       <MainDrawer open={open} handleDrawerToggle={handleDrawerToggle} />
+      <FeatureRequestDialog />
       <Box component="main" sx={{ width: '100%', flexGrow: 1, p: { xs: 2, sm: 3 } }}>
         <Toolbar />
         <Breadcrumbs navigation={navigation} title />

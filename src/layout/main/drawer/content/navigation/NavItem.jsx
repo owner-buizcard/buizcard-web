@@ -10,6 +10,7 @@ import { Avatar, Chip, ListItemButton, ListItemIcon, ListItemText, Typography } 
 
 // project import
 import { activeItem } from '../../../../../store/reducers/menu';
+import { openFeatureRequest } from '../../../../../store/reducers/app';
 
 // ==============================|| NAVIGATION - LIST ITEM ||============================== //
 
@@ -31,7 +32,11 @@ const NavItem = ({ item, level }) => {
   }
 
   const itemHandler = (id) => {
-    dispatch(activeItem({ openItem: [id] }));
+    if(id=="feature-request"){
+      dispatch(openFeatureRequest());
+    }else{
+      dispatch(activeItem({ openItem: [id] }));
+    }
   };
 
   const Icon = item.icon;

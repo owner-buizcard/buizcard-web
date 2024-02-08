@@ -5,6 +5,7 @@ const initialState = {
     fieldTypes: null,
     configs: null,
     isLoading: false,
+    open: false,
     contacts: [],
     cards: [],
     backgrounds: []
@@ -37,10 +38,16 @@ const app = createSlice({
     },
     hideLoader: (state)=>{
       state.isLoading = false;
+    },
+    openFeatureRequest: (state)=>{
+      state.open = true;
+    },
+    closeFeatureRequest: (state)=>{
+      state.open = false;
     }
   }  
 })
 
-export const {initialize, updateCards, updateContacts, updateAppUser, showLoader, hideLoader} = app.actions;
+export const {initialize, updateCards, updateContacts, updateAppUser, showLoader, hideLoader, openFeatureRequest, closeFeatureRequest} = app.actions;
 
 export default app.reducer;

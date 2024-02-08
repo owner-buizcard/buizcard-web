@@ -19,7 +19,6 @@ const support = {
       id: 'feature-request',
       title: 'Feature Request',
       type: 'item',
-      url: '/sample-page',
       icon: icons.InfoCircleOutlined
     },
     {
