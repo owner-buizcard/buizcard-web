@@ -17,12 +17,14 @@ import {
   Typography
 } from '@mui/material';
 
-import { LogoutOutlined, UserOutlined, WalletOutlined } from '@ant-design/icons';
+import { CustomerServiceOutlined, LogoutOutlined, MessageOutlined, UserOutlined, WalletOutlined } from '@ant-design/icons';
 import Transitions from '../../../../../components/@extended/Transitions';
 import MainCard from '../../../../../components/MainCard';
 import { useSelector } from 'react-redux';
 import { clearCookies } from '../../../../../utils/utils';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { openMail } from '../../../../../store/reducers/app';
 
 function TabPanel({ children, value, index, ...other }) {
   return (
@@ -41,6 +43,7 @@ TabPanel.propTypes = {
 function Profile() {
   const theme = useTheme();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.app.user);
 
   const anchorRef = useRef(null);
@@ -129,11 +132,23 @@ function Profile() {
                       </ListItemIcon>
                       <ListItemText primary="View Profile" />
                     </ListItemButton>
-                    <ListItemButton onClick={(event) => handleListItemClick(event, 4)}>
+                    <ListItemButton onClick={()=>{
+                      setOpen(false);
+                      dispatch(openMail({title: "Contact Support", type: "support"}))
+                    }}>
                       <ListItemIcon>
-                        <WalletOutlined />
+                        <CustomerServiceOutlined />
                       </ListItemIcon>
-                      <ListItemText primary="Billing" />
+                      <ListItemText primary="Contact Support" />
+                    </ListItemButton>
+                    <ListItemButton onClick={()=>{
+                      setOpen(false);
+                      dispatch(openMail({title: "Send Feedback", type: "feedback"}))
+                    }}>
+                      <ListItemIcon>
+                        <MessageOutlined />
+                      </ListItemIcon>
+                      <ListItemText primary="Send Feedback" />
                     </ListItemButton>
                     <ListItemButton onClick={handleLogout}>
                       <ListItemIcon>

@@ -8,41 +8,11 @@ import { SettingOutlined, TranslationOutlined } from '@ant-design/icons';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import FullScreen from './screen-mode/FullScreen';
+import { useNavigate } from 'react-router-dom';
 
 const HeaderContent = ()=>{
     const matchesXs = useMediaQuery((theme) => theme.breakpoints.down('md'));
-
-    const [isFullScreen, setFullScreen] = useState(false);
-
-    const handleFullScreenToggle = () => {
-        if (!isFullScreen) {
-          // Enter full screen
-          const element = document.documentElement;
-          if (element.requestFullscreen) {
-            element.requestFullscreen();
-          } else if (element.mozRequestFullScreen) {
-            element.mozRequestFullScreen();
-          } else if (element.webkitRequestFullscreen) {
-            element.webkitRequestFullscreen();
-          } else if (element.msRequestFullscreen) {
-            element.msRequestFullscreen();
-          }
-        } else {
-          // Exit full screen
-          if (document.exitFullscreen) {
-            document.exitFullscreen();
-          } else if (document.mozCancelFullScreen) {
-            document.mozCancelFullScreen();
-          } else if (document.webkitExitFullscreen) {
-            document.webkitExitFullscreen();
-          } else if (document.msExitFullscreen) {
-            document.msExitFullscreen();
-          }
-        }
-    
-        // Update state
-        setFullScreen(!isFullScreen);
-      };
+    const navigate = useNavigate();
 
     return (
         <>
@@ -58,7 +28,6 @@ const HeaderContent = ()=>{
                 <IconButton
                     disableRipple
                     color="secondary"
-                    title="Download Free Version"
                     sx={{ color: 'text.primary', }}
                 >
                     <TranslationOutlined />
@@ -69,7 +38,9 @@ const HeaderContent = ()=>{
                     <IconButton
                         disableRipple
                         color="secondary"
-                        title="Download Free Version"
+                        onClick={
+                          ()=>navigate('/dashboard/settings')
+                        }
                         sx={{ color: 'text.primary' }}
                     >
                         <motion.div

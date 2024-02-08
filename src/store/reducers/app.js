@@ -6,6 +6,9 @@ const initialState = {
     configs: null,
     isLoading: false,
     open: false,
+    openMail: false,
+    mailType: null,
+    mailTitle: null,
     contacts: [],
     cards: [],
     backgrounds: []
@@ -44,10 +47,18 @@ const app = createSlice({
     },
     closeFeatureRequest: (state)=>{
       state.open = false;
+    },
+    openMail: (state, action)=>{
+      state.mailType = action.payload.type;
+      state.mailTitle = action.payload.title;
+      state.openMail = true;
+    },
+    closeMail: (state)=>{
+      state.openMail = false;
     }
   }  
 })
 
-export const {initialize, updateCards, updateContacts, updateAppUser, showLoader, hideLoader, openFeatureRequest, closeFeatureRequest} = app.actions;
+export const {initialize, updateCards, openMail, closeMail, updateContacts, updateAppUser, showLoader, hideLoader, openFeatureRequest, closeFeatureRequest} = app.actions;
 
 export default app.reducer;

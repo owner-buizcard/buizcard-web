@@ -20,15 +20,6 @@ const support = {
       title: 'Feature Request',
       type: 'item',
       icon: icons.InfoCircleOutlined
-    },
-    {
-      id: 'help',
-      title: 'Help',
-      type: 'item',
-      url: 'https://codedthemes.gitbook.io/mantis/',
-      icon: icons.QuestionOutlined,
-      external: true,
-      target: true
     }
   ]
 };

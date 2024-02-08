@@ -16,6 +16,7 @@ import { openDrawer } from '../../store/reducers/menu';
 import MainDrawer from './drawer/MainDrawer';
 import WindowLoader from '../../components/WindowLoader';
 import FeatureRequestDialog from '../../components/dialogs/FeatureRequestDialog';
+import SendMessageDialog from '../../components/dialogs/SendMessageDialog';
 
 
 const MainLayout = () => {
@@ -55,6 +56,7 @@ const MainLayout = () => {
       <Header open={open} handleDrawerToggle={handleDrawerToggle} />
       <MainDrawer open={open} handleDrawerToggle={handleDrawerToggle} />
       <FeatureRequestDialog />
+      <SendMessageDialog />
       <Box component="main" sx={{ width: '100%', flexGrow: 1, p: { xs: 2, sm: 3 } }}>
         <Toolbar />
         <Breadcrumbs navigation={navigation} title />
