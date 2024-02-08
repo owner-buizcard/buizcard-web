@@ -2,6 +2,12 @@ import { Avatar, ListItemButton, ListItemIcon, ListItemText, Stack, Typography }
 import MainCard from "../../components/MainCard";
 import { useSelector } from "react-redux";
 import { CreditCardOutlined, UserOutlined } from "@ant-design/icons";
+import { uploadCardImage } from "../../network/service/cardService";
+import { useDispatch } from "react-redux";
+import ImagePicker from "../../components/ImagePicker";
+import AvatarPicker from "../../components/AvatarPicker";
+import { useState } from "react";
+import { updateAppUser } from "../../store/reducers/app";
 
 const navigationItems = [
   { index: 0, icon: <UserOutlined />, label: "Personal Information" },
@@ -43,14 +49,39 @@ const ProfileNavItem = ({ item, index, onChange, textColor, iconSelectedColor })
 );
 
 const ProfileNav = ({ index, onChange }) => {
+
   const user = useSelector((state) => state.app.user);
+
+  console.log(user);
+
   const textColor = 'text.primary';
   const iconSelectedColor = 'primary.main';
+
+  const dispatch = useDispatch();
+
+  const handleImageChange=(image)=>{
+    console.log(image)
+    const updatedUser = { ...user, picture: image };
+    console.log(updatedUser)
+    dispatch(updateAppUser(updatedUser));
+  }   
+
+  const uploadPicture = async(blob)=>{
+      return await uploadCardImage({cardId: 'user', key: 'picture', file: blob, fileName: 'picture.jpeg' });
+  }
 
   return (
     <MainCard>
       <Stack alignItems="center" spacing={2}>
-        <Avatar sx={{ width: 100, height: 100 }} />
+
+        <ImagePicker
+            tag={'picture'}
+            icon={<UserOutlined style={{fontSize: "36px"}}/>}
+            value={user?.picture}
+            onChange={handleImageChange}
+            onUpload={uploadPicture}
+        />
+
         <Stack spacing={0.2}>
           <Typography variant="h5" sx={{ textAlign: "center" }}>
             {user.firstName} {user.lastName}

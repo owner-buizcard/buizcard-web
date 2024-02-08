@@ -45,8 +45,9 @@ const PersonalInfoTab =()=>{
                                             address: { addressLine1: values.addressLine1, state: values.state, country: values.country },
                                             phoneNumber: values.phoneNumber, additionalEmail: values.additionalEmail, additionalPhoneNumber: values.additionalPhoneNumber}
                                             
-                        const user = await updateProfile(data);
-                        dispatch(updateAppUser(user));
+                    
+                        const updated = await updateProfile({...data, ...{picture: user.picture}});
+                        dispatch(updateAppUser(updated));
             
                         setStatus({ success: true });
                         setSubmitting(false);
