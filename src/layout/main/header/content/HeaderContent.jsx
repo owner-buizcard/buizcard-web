@@ -24,7 +24,7 @@ const HeaderContent = ()=>{
 
             <FullScreen/>
 
-            <Box sx={{ flexShrink: 0, ml: 1 }}>
+            {/* <Box sx={{ flexShrink: 0, ml: 1 }}>
                 <IconButton
                     disableRipple
                     color="secondary"
@@ -32,7 +32,7 @@ const HeaderContent = ()=>{
                 >
                     <TranslationOutlined />
                 </IconButton>
-            </Box>
+            </Box> */}
 
             <Box sx={{ flexShrink: 0, ml: 1 }}>
                     <IconButton
@@ -52,7 +52,7 @@ const HeaderContent = ()=>{
                     </IconButton>
             </Box>
 
-            <Notification />
+            {/* <Notification /> */}
             {!matchesXs && <Profile />}
             {matchesXs && <MobileSection />}
         </>
