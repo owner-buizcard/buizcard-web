@@ -1,4 +1,4 @@
-import { Box, Button, Grid, IconButton, Stack } from "@mui/material";
+import { Box, Button, Grid, IconButton, Stack, useMediaQuery } from "@mui/material";
 import MainCard from "../../../components/MainCard";
 import CardPreview from "../../../components/Card/CardPreview";
 import { useEffect, useState } from "react";
@@ -19,6 +19,8 @@ const CreateCard = ()=>{
 
     const [value, setValue] = useState(0);
 
+    const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
+
     const handleChange = (_, newValue) => {
       setValue(newValue);
     };
@@ -33,8 +35,6 @@ const CreateCard = ()=>{
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const cardEditId = queryParams.get('cardId');
-
-    console.log(cards);
 
     if(cardEditId && cardData?._id!=cardEditId){
         const editCard = cards.find((item)=>item._id===cardEditId);
@@ -103,24 +103,29 @@ const CreateCard = ()=>{
                         </Button>
                     </div>
                 </Grid>
-                <Grid item xs={8}>
+                <Grid item xs={12} sm={8}>
                     <MainCard >
                         <TabBar value={value} handleChange={handleChange}/>
                         <TabPanel value={value}/>
                     </MainCard>
                 </Grid>
-                <Grid item xs={4}>
-                    <Stack alignItems={"center"} >
-                        { value!=3 
-                            ? <CardPreview 
-                                cardData={updated}
-                            /> 
-                            : <QrCodePreview
-                                cardData={updated}
-                            /> 
-                        }
-                    </Stack>
-                </Grid>
+                { isSmallScreen 
+                    ? null
+                    : (
+                        <Grid item xs={12} sm={4}>
+                            <Stack alignItems={"center"} >
+                                { value!=3 
+                                    ? <CardPreview 
+                                        cardData={updated}
+                                    /> 
+                                    : <QrCodePreview
+                                        cardData={updated}
+                                    /> 
+                                }
+                            </Stack>
+                        </Grid>
+                    )
+                }
             </Grid>
         </Box>
     )
