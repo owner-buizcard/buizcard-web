@@ -2,9 +2,10 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { showSnackbar } from '../utils/snackbar-utils';
+import { BASE_URL } from '../utils/global';
 
 const axiosClient = axios.create({
-    baseURL: `https://m93o2s6r6l.execute-api.us-east-1.amazonaws.com/dev`,
+    baseURL: BASE_URL,
     headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -47,7 +48,7 @@ axiosClient.interceptors.response.use(
     error=>{
         const originalRequest = error.config;
         if (
-            error.response.status === 401 && originalRequest.url === 'https://x9a0br47t1.execute-api.us-east-1.amazonaws.com/dev/accessToken'
+            error.response.status === 401 && originalRequest.url === `${BASE_URL}/accessToken`
         ) {
             window.location.href = 'https://bizcard-web.web.app/signin';
             return Promise.reject(error)
