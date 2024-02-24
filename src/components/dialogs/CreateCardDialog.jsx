@@ -6,14 +6,17 @@ import * as Yup from 'yup';
 const CreateCardDialog =({open, onCancel, onOk})=>{
 
     return ( 
-        <Dialog open={open}>
+        <Dialog 
+            open={open}
+            fullWidth
+            maxWidth="xs"
+        >
             <MainCard
                 title={
                     <Typography variant="h5">{`Create Card`}</Typography>
                 }
                 borderRadius={1}
                 headerBorder
-                sx={{minWidth: "600px" }}
             >
                 <Formik
                     initialValues={{
@@ -40,7 +43,7 @@ const CreateCardDialog =({open, onCancel, onOk})=>{
                 {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values, setFieldValue }) => (
                     
                     <form noValidate onSubmit={handleSubmit}>
-                    <Stack spacing={3} px={4}>
+                    <Stack spacing={3} px={{xs: 0, sm: 4}}>
 
                         <Stack spacing={2}>
                             <Stack spacing={1}>
