@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography } from "@mui/material"
+import { Box, Button, Grid, Stack, Typography } from "@mui/material"
 import CardItem from "../../components/Card/CardItem";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -75,17 +75,17 @@ const Dashboard = () => {
       />
       <Grid container rowSpacing={2.5} columnSpacing={2.75}>
 
-        <Grid item xs={8} sx={{ mb: 0 }}>
-          <Typography variant="h4">My Cards</Typography>
-        </Grid>
-        <Grid item xs={4} justifyContent={"end"} display={"flex"}>
-          <Button variant="contained" size="medium" sx={{px: 4}} 
-            onClick={()=>setOpenCreate(true)}
-            startIcon={
-              <PlusOutlined style={{fontSize: "16px"}}/>
-            }>
-            Add Card
-          </Button>
+        <Grid item xs={12} sx={{ mb: 0 }}>
+          <Stack direction={"row"} justifyContent={"space-between"} alignItems={"center"}>
+            <Typography variant="h4">My Cards</Typography>
+            <Button variant="contained" size="medium" sx={{px: 4}} 
+              onClick={()=>setOpenCreate(true)}
+              startIcon={
+                <PlusOutlined style={{fontSize: "16px"}}/>
+              }>
+              Add Card
+            </Button>
+          </Stack>
         </Grid>
         {
           cards.map((item)=>{
