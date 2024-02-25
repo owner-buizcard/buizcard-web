@@ -5,6 +5,7 @@ import AppBarStyled from "../../layout/main/header/AppBarStyled";
 import { ArrowRightOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 
+
 const useStyles = makeStyles((theme) => ({
   biggerButton: {
     padding: '12px 64px', 
