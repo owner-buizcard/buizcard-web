@@ -27,17 +27,19 @@ const Home =()=>{
                 </Box>
                 <Box sx={{width: "100%"}}/>
                 {
-                  !isSmallScreen && <Stack direction={"row"} spacing={4}>
-                    <Button sx={{color: "#000", fontFamily: "roboto", fontSize: "18px"}}>Home</Button>
-                    <Button sx={{color: "#000", fontFamily: "roboto", fontSize: "18px"}}>Pricing</Button>
-                    <Button sx={{color: "#000", fontFamily: "roboto", fontSize: "18px"}}>Blogs</Button>
-                    <Button sx={{color: "#000", fontFamily: "roboto", fontSize: "18px"}}>Contact</Button>
-                  </Stack>
+                  !isSmallScreen && <>
+                    <Stack direction={"row"} spacing={4}>
+                      <Button sx={{color: "#000", fontFamily: "roboto", fontSize: "18px"}}>Home</Button>
+                      <Button sx={{color: "#000", fontFamily: "roboto", fontSize: "18px"}}>Pricing</Button>
+                      <Button sx={{color: "#000", fontFamily: "roboto", fontSize: "18px"}}>Blogs</Button>
+                      <Button sx={{color: "#000", fontFamily: "roboto", fontSize: "18px"}}>Contact</Button>
+                    </Stack>
+                    <Box sx={{m: 4}}/>
+                    <Box>
+                      <Button onClick={()=>navigate('/login')} sx={{width: "140px", fontSize: { xs: "14px", sm: "16px" }, fontWeight: { xs: 500, sm: 600 }}} variant="contained">Create Card</Button>
+                    </Box>
+                  </>
                 }
-                <Box sx={{m: 4}}/>
-                <Box>
-                  <Button onClick={()=>navigate('/login')} sx={{width: "140px", fontSize: { xs: "14px", sm: "16px" }, fontWeight: { xs: 500, sm: 600 }}} variant="contained">Create Card</Button>
-                </Box>
               </Toolbar>
             <Stack justifyContent={"center"} alignItems={"center"} sx={{textAlign: "center"}} spacing={3}>
               <Box
@@ -53,12 +55,12 @@ const Home =()=>{
               >
               <Stack spacing={-1}>
                 
-                <Typography sx={{fontWeight: 900, fontSize: { xs: "34px", sm: "54px" }, maxWidth: "1000px", fontFamily: "roboto"}}>Elevate Networking With BizCard</Typography>
+                <Typography sx={{fontWeight: 900, fontSize: { xs: "24px", sm: "54px" }, maxWidth: "1000px", fontFamily: "roboto"}}>Elevate Networking With BizCard</Typography>
                 
-                <Typography sx={{fontWeight: 900, fontSize: { xs: "34px", sm: "54px" }, maxWidth: "1000px", fontFamily: "roboto"}}>Your Digital Bridge to Success.</Typography>
+                <Typography sx={{fontWeight: 900, fontSize: { xs: "24px", sm: "54px" }, maxWidth: "1000px", fontFamily: "roboto"}}>Your Digital Bridge to Success.</Typography>
               </Stack>
               </Box>
-              <Typography variant={isSmallScreen ? "h5": "h4"} sx={{fontWeight: 500, maxWidth: "600px"}}>Easily create digital business cards for yourself or your team. Use them to make connections that grow your business.</Typography>
+              <Typography sx={{fontWeight: 500, fontSize: { xs: "22px", sm: "24px" }, maxWidth: "600px"}}>Easily create digital business cards for yourself or your team. Use them to make connections that grow your business.</Typography>
               <Box/>
               <Button variant="contained" sx={{
                 padding: '12px 64px', 
