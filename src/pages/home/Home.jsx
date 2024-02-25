@@ -53,14 +53,14 @@ const Home =()=>{
                   fontFamily: "roboto",
                 }}
               >
-              <Stack spacing={-1}>
+              <Stack spacing={-1} sx={{px: 4}}>
                 
-                <Typography sx={{fontWeight: 900, fontSize: { xs: "24px", sm: "54px" }, maxWidth: "1000px", fontFamily: "roboto"}}>Elevate Networking With BizCard</Typography>
+                <Typography sx={{fontWeight: 900, fontSize: { xs: "34px", sm: "54px" }, maxWidth: "1000px", fontFamily: "roboto"}}>Elevate Networking With BizCard</Typography>
                 
-                <Typography sx={{fontWeight: 900, fontSize: { xs: "24px", sm: "54px" }, maxWidth: "1000px", fontFamily: "roboto"}}>Your Digital Bridge to Success.</Typography>
+                <Typography sx={{fontWeight: 900, fontSize: { xs: "34px", sm: "54px" }, maxWidth: "1000px", fontFamily: "roboto"}}>Your Digital Bridge to Success.</Typography>
               </Stack>
               </Box>
-              <Typography sx={{fontWeight: 500, fontSize: { xs: "22px", sm: "24px" }, maxWidth: "600px"}}>Easily create digital business cards for yourself or your team. Use them to make connections that grow your business.</Typography>
+              <Typography sx={{fontWeight: 500, fontSize: { xs: "20px", sm: "24px" }, maxWidth: "600px"}}>Easily create digital business cards for yourself or your team. Use them to make connections that grow your business.</Typography>
               <Box/>
               <Button variant="contained" sx={{
                 padding: '12px 64px', 
