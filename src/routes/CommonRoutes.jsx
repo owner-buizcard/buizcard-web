@@ -7,6 +7,7 @@ import Bizcard from '../pages/bizcard/Bizcard';
 import SpreadsheetCallback from '../pages/integrations/callback/SpreadsheetCallback';
 import ZohoCallback from '../pages/integrations/callback/ZohoCallback';
 import HubspotCallback from '../pages/integrations/callback/HubspotCallback';
+import Home from '../pages/home/Home';
 
 const Loader = Loadable(lazy(() => import('../pages/loader/MainLoader')));
 
@@ -14,6 +15,10 @@ const CommonRoutes = {
     path: '/',
     element: <MinimalLayout />,
     children: [
+      {
+        path: '',
+        element: <Home/>
+      },
       {
         path: 'loading',
         element: <Loader />

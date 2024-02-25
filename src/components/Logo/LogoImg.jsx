@@ -1,12 +1,15 @@
 // material-ui
 import { useTheme } from '@mui/material/styles';
 
-const LogoImg = () => {
+const LogoImg = ({size}) => {
   const theme = useTheme();
+
+  const width = size=="large" ? "148": "128";
+  const height = size=="large" ? "75": "55";
 
   return (
     <>
-      <svg xmlns="http://www.w3.org/2000/svg" width="128" height="55" viewBox="0 0 630 35" fill="none">
+      <svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} viewBox="0 0 630 35" fill="none">
 
       <radialGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
         <stop offset="0%" style={{ stopColor: '#ff9966', stopOpacity: 1 }} />
