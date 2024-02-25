@@ -1,27 +1,13 @@
 import { AppBar, Box, Button, Grid, Stack, Toolbar, Typography, useMediaQuery, useTheme } from "@mui/material";
-import { makeStyles } from "@mui/styles";
 import LogoImg from "../../components/Logo/LogoImg";
 import AppBarStyled from "../../layout/main/header/AppBarStyled";
 import { ArrowRightOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 
-
-const useStyles = makeStyles((theme) => ({
-  biggerButton: {
-    padding: '12px 64px', 
-    fontSize: '1.2rem', 
-    fontWeight: 500,
-    borderRadius: '32px', 
-    fontFamily: "roboto",
-    boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.3)'
-  },
-}));
-
 const Home =()=>{
 
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
 
-  const classes = useStyles();
   const navigate = useNavigate();
 
   return (
@@ -74,9 +60,16 @@ const Home =()=>{
               </Box>
               <Typography variant={isSmallScreen ? "h5": "h4"} sx={{fontWeight: 500, maxWidth: "600px"}}>Easily create digital business cards for yourself or your team. Use them to make connections that grow your business.</Typography>
               <Box/>
-              <Button variant="contained" className={classes.biggerButton} onClick={()=>navigate('/login')}>
-                  Get started
-                  <ArrowRightOutlined style={{marginLeft: "12px"}}/>
+              <Button variant="contained" sx={{
+                padding: '12px 64px', 
+                fontSize: '1.2rem', 
+                fontWeight: 500,
+                borderRadius: '32px', 
+                fontFamily: "roboto",
+                boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.3)'
+              }} onClick={()=>navigate('/login')}>
+                Get started
+                <ArrowRightOutlined style={{marginLeft: "12px"}}/>
               </Button>
             </Stack>
           </Box>

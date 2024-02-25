@@ -16,7 +16,6 @@
     "@emotion/styled": "^11.11.0",
     "@fontsource/public-sans": "^5.0.15",
     "@mui/material": "^5.14.19",
-    "@mui/styles": "^5.15.11",
     "@mui/x-data-grid": "^6.18.4",
     "@reduxjs/toolkit": "^1.9.7",
     "apexcharts": "^3.44.2",
