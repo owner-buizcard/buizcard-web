@@ -1,5 +1,5 @@
 import { BuildOutlined, LinkOutlined, QrcodeOutlined, UserOutlined } from "@ant-design/icons";
-import { Box, Tab, Tabs } from "@mui/material";
+import { Box, Tab, Tabs, useMediaQuery } from "@mui/material";
 
 
 function a11yProps(index) {
@@ -10,6 +10,10 @@ function a11yProps(index) {
   }
 
 const TabBar = ({value, handleChange})=>{
+
+
+    const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
+
 
     const tabItems = [
         {
@@ -33,7 +37,12 @@ const TabBar = ({value, handleChange})=>{
 
     return (
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <Tabs variant="fullWidth" value={value} onChange={handleChange} aria-label="profile tabs">
+            <Tabs 
+                variant={isSmallScreen ? "scrollable": "fullWidth"} 
+                scrollButtons="auto"
+                value={value} 
+                onChange={handleChange} 
+                aria-label="profile tabs">
                 {
                     tabItems.map((item)=>{
                         return ( 

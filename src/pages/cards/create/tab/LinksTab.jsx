@@ -86,7 +86,7 @@ const LinksTab = () => {
     <>
       <AddLinkDialog open={open} handleCancel={handleCancel} item={addLinkItem} onAddItem={handleChange}/>
       <Grid container sx={{ my: 2 }} spacing={2}>
-        <Grid item xs={6}>
+        <Grid item xs={12} sm={6}>
           <Box
             sx={{
               borderRadius: "3px",
@@ -120,7 +120,7 @@ const LinksTab = () => {
             </DragDropContext>
           </Box>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} sm={6}>
             <Box sx={{border: `1px solid ${theme.palette.grey[200]}`, p: 1, borderRadius: 1}}>
                 <Stack>
                     <FormControl sx={{ width: { xs: '100%' } }}>

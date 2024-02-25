@@ -1,4 +1,4 @@
-import { Grid, InputLabel, OutlinedInput, Stack, Typography } from "@mui/material";
+import { Grid, InputLabel, OutlinedInput, Stack, Typography, useMediaQuery } from "@mui/material";
 import MainCard from "../../../../components/MainCard";
 import { FaAd, FaImage } from 'react-icons/fa';
 import { useDispatch } from "react-redux";
@@ -12,6 +12,9 @@ const BusinessTab =()=>{
 
     const dispatch = useDispatch();
     const cardData = useSelector((state) => state.cardBuilder.cardData);
+
+    const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
+
 
     const handleChange=(field, event)=>{
         dispatch(updateCardData({path: field, value: event.target.value}));
@@ -42,7 +45,7 @@ const BusinessTab =()=>{
             >
                 <Grid container spacing={3}>
                     <Grid item xs={12} >
-                        <Stack direction={"row"} spacing={4} alignItems={"center"} justifyContent={"center"} display={"flex"}>
+                        <Stack direction={isSmallScreen ? "column": "row"} spacing={4} alignItems={"center"} justifyContent={"center"} display={"flex"}>
 
 
                             <Stack spacing={2} alignItems={"center"} justifyContent={"center"} display={"flex"}>
