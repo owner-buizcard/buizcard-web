@@ -41,7 +41,7 @@ const Home =()=>{
                   </>
                 }
               </Toolbar>
-            <Stack justifyContent={"center"} alignItems={"center"} sx={{textAlign: "center", p: 3}} spacing={3} >
+            <Stack justifyContent={"center"} alignItems={"center"} sx={{textAlign: "center", px: 3}} spacing={3} >
               <Box
                 sx={{
                   background: 'linear-gradient(45deg, #36D1DC 30%, #5B86E5 90%)', // Set your gradient colors here
