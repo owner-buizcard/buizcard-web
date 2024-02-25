@@ -32,7 +32,80 @@ const SignatureTab = ({cardData})=>{
         <Box sx={{ minHeight: "calc(100vh - 280px)" }}>
 
         <Grid container spacing={3} >
-            <Grid item xs={7}>  
+                <Grid item xs={12} sm={5}>
+                <Box 
+                    sx={{
+                        p: 2
+                    }}
+                    display={"flex"}
+                    flexDirection={"column"}
+                    alignItems={"center"} 
+                >
+                    <Typography variant="body1" sx={{color: "grey"}}>Signature preview</Typography>
+                    <Box
+                        sx={{
+                            width: "100%",
+                            border: `1px solid ${theme.palette.grey[200]}`,
+                            p: 2.5,
+                            marginTop: "16px",
+                            marginBottom: "32px"
+                        }}
+                    >
+                        <Grid container>
+                            <Grid item xs={8}>
+                                <Box>
+                                    <Typography variant="h5">{fullName}</Typography>
+                                    <Stack>
+                                    <Typography variant="caption">{jobTitle}</Typography>
+                                    <Typography variant="caption">{company}</Typography>
+                                    <Typography variant="caption">{phoneNumber}</Typography>
+                                    <Typography variant="caption">{location}</Typography>
+                                    </Stack>
+
+                                    <div style={{height: "30px"}}/>
+
+                                    <Typography sx={{fontStyle: "italic"}} variant="caption">{disclaimer}</Typography>
+                                </Box>
+
+                            </Grid>
+                            <Grid item xs={4} >
+
+                                <Box
+                                    sx={{
+                                        width: "100%",
+                                        alignItems: "end",
+                                        justifyContent: "end"
+                                    }}
+                                >
+                                    <Stack 
+                                        alignItems={"center"}
+                                        spacing={2}
+                                    >
+                                        <QRCode
+                                            quietZone={2}
+                                            size={100}
+                                            value={`${window.origin}/app/p/card/${cardData._id}`}
+                                            logoWidth={100 * 0.25}
+                                            logoHeight={100 * 0.25}
+                                            qrStyle= {'dots'}
+                                        />
+                                        <Typography variant="caption" sx={{color: "grey"}}>Connect With Me</Typography>
+                                    </Stack>
+                                </Box>
+                            </Grid>
+                        </Grid>
+
+                    </Box>
+                    <Button
+                        onClick={()=>setOpen(true)}
+                        variant="outlined"
+                        startIcon={<PlusOutlined/>}
+                    >
+                        Add To Email
+                    </Button>
+                </Box>
+            </Grid>
+            <Grid item xs={12} sm={7}>  
 
             <Box>
                 <Typography variant='h5' sx={{mb: "24px"}}>Email Signature</Typography>
@@ -125,79 +198,6 @@ const SignatureTab = ({cardData})=>{
                 </Grid>
             </Box>
 
-            </Grid>
-            <Grid item xs={5} >
-                <Box 
-                    sx={{
-                        p: 2
-                    }}
-                    display={"flex"}
-                    flexDirection={"column"}
-                    alignItems={"center"} 
-                >
-                    <Typography variant="body1" sx={{color: "grey"}}>Signature preview</Typography>
-                    <Box
-                        sx={{
-                            width: "100%",
-                            border: `1px solid ${theme.palette.grey[200]}`,
-                            p: 2.5,
-                            marginTop: "16px",
-                            marginBottom: "32px"
-                        }}
-                    >
-                        <Grid container>
-                            <Grid item xs={8}>
-                                <Box>
-                                    <Typography variant="h5">{fullName}</Typography>
-                                    <Stack>
-                                    <Typography variant="caption">{jobTitle}</Typography>
-                                    <Typography variant="caption">{company}</Typography>
-                                    <Typography variant="caption">{phoneNumber}</Typography>
-                                    <Typography variant="caption">{location}</Typography>
-                                    </Stack>
-
-                                    <div style={{height: "30px"}}/>
-
-                                    <Typography sx={{fontStyle: "italic"}} variant="caption">{disclaimer}</Typography>
-                                </Box>
-
-                            </Grid>
-                            <Grid item xs={4} >
-
-                                <Box
-                                    sx={{
-                                        width: "100%",
-                                        alignItems: "end",
-                                        justifyContent: "end"
-                                    }}
-                                >
-                                    <Stack 
-                                        alignItems={"center"}
-                                        spacing={2}
-                                    >
-                                        <QRCode
-                                            quietZone={2}
-                                            size={100}
-                                            value={`${window.origin}/app/p/card/${cardData._id}`}
-                                            logoWidth={100 * 0.25}
-                                            logoHeight={100 * 0.25}
-                                            qrStyle= {'dots'}
-                                        />
-                                        <Typography variant="caption" sx={{color: "grey"}}>Connect With Me</Typography>
-                                    </Stack>
-                                </Box>
-                            </Grid>
-                        </Grid>
-
-                    </Box>
-                    <Button
-                        onClick={()=>setOpen(true)}
-                        variant="outlined"
-                        startIcon={<PlusOutlined/>}
-                    >
-                        Add To Email
-                    </Button>
-                </Box>
             </Grid>
         </Grid>
         </Box>

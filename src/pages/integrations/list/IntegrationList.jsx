@@ -50,7 +50,7 @@ const IntegrationList = ()=>{
                         <Typography variant="body1" color={"grey"} sx={{mt: 2}}>{group}</Typography>
                     </Grid>
                     {groupedData[group].map((value) => {
-                        return <Grid item xs={6} sm={4} md={3} key={value.id}>
+                        return <Grid item xs={12} sm={4} md={3} key={value.id}>
                             <IntegrationItem 
                                 userId={user._id} 
                                 item={value} 

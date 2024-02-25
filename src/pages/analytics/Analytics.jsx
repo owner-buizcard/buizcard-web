@@ -74,11 +74,11 @@ const Analytics=()=>{
             <Grid item xs={12}>
                 <Typography variant="h4">Analytics</Typography>
             </Grid>
-            <Grid item xs={8} spacing={3}>
+            <Grid item xs={12} sm={8} spacing={3}>
                 <Grid container spacing={3}>
                     { 
                         insights.map((insight)=>(
-                            <Grid item xs={6}>
+                            <Grid item xs={12} sm={6}>
                                 <MainCard>
                                     {
                                         !loading ? <Stack>
@@ -96,7 +96,7 @@ const Analytics=()=>{
                     }
                 </Grid>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={12} sm={4}>
 
                 <MainCard>
                 <Typography variant="body1" color={"grey"} sx={{mb: 1}}>Top performing cards</Typography>

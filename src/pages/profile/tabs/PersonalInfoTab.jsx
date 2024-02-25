@@ -103,7 +103,7 @@ const PersonalInfoTab =()=>{
                                 )}
                                 </Stack>
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item xs={12} sm={6}>
                                 <Stack spacing={1}>
                                     <InputLabel htmlFor="email">Primary Email Address</InputLabel>
                                     <OutlinedInput
@@ -119,7 +119,7 @@ const PersonalInfoTab =()=>{
                                     />
                                 </Stack>
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item xs={12} sm={6}>
                                 <Stack spacing={1}>
                                     <InputLabel htmlFor="phone-number">Phone Number</InputLabel>
                                     <OutlinedInput
@@ -140,7 +140,7 @@ const PersonalInfoTab =()=>{
                                     )}
                                 </Stack>
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item xs={12} sm={6}>
                                 <Stack spacing={1}>
                                     <InputLabel htmlFor="additional-email">Secondary Email Address</InputLabel>
                                     <OutlinedInput
@@ -161,7 +161,7 @@ const PersonalInfoTab =()=>{
                                     )}
                                 </Stack>
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item xs={12} sm={6}>
                                 <Stack spacing={1}>
                                     <InputLabel htmlFor="additional-phone-number">Secondary Phone Number</InputLabel>
                                     <OutlinedInput
@@ -187,7 +187,7 @@ const PersonalInfoTab =()=>{
                                 <Typography variant="h5" sx={{mb: 1}}>Business</Typography>
                                 <Divider/>
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item xs={12} sm={6}>
                                 <Stack spacing={1}>
                                 <InputLabel htmlFor="company-name">Company Name</InputLabel>
                                 <OutlinedInput
@@ -208,7 +208,7 @@ const PersonalInfoTab =()=>{
                                 )}
                                 </Stack>
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item xs={12} sm={6}>
                                 <Stack spacing={1}>
                                     <InputLabel htmlFor="company-website">Company Website</InputLabel>
                                     <OutlinedInput
@@ -229,7 +229,7 @@ const PersonalInfoTab =()=>{
                                     )}
                                 </Stack>
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item xs={12} sm={6}>
                                 <Stack spacing={1}>
                                 <InputLabel htmlFor="designation">Designation</InputLabel>
                                 <OutlinedInput

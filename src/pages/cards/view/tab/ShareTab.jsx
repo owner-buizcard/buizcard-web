@@ -22,10 +22,7 @@ const ShareTab =({cardData, captureQr})=>{
             close={()=>setShowToast(false)}
             message={"Card link copied successfully!"}
         />
-        <Grid item xs={4}>
-            <CardPreview cardData={cardData} isLive={false} removePadding={true}/>
-        </Grid>
-        <Grid item xs={8} >
+        <Grid item xs={12} sm={8}>
             <Stack direction={"row"} sx={{py: 1, px: 4}} spacing={6} justifyContent={"center"}>
                 <Stack spacing={5} alignItems={"center"}>
                     <Stack alignItems={"center"} spacing={0.8}>
@@ -68,6 +65,9 @@ const ShareTab =({cardData, captureQr})=>{
                     </Stack>
                 </Stack>
             </Stack>
+        </Grid>
+        <Grid item xs={12} sm={4}>
+            <CardPreview cardData={cardData} isLive={false} removePadding={true}/>
         </Grid>
     </Grid>
     )

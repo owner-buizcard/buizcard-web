@@ -15,14 +15,14 @@ const FeatureRequestDialog =()=>{
     const user = useSelector((state)=>state.app.user);
 
     return ( 
-        <Dialog open={open}>
+        <Dialog open={open} fullWidth
+        maxWidth="sm">
             <MainCard
                 title={
                     <Typography variant="h5">{`Feature Request`}</Typography>
                 }
                 borderRadius={1}
                 headerBorder
-                sx={{minWidth: "600px" }}
             >
                 <Formik
                     initialValues={{
@@ -47,7 +47,7 @@ const FeatureRequestDialog =()=>{
                 {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
                     
                     <form noValidate onSubmit={handleSubmit}>
-                    <Stack spacing={3} px={4}>
+                    <Stack spacing={3} px={{xs: 0, sm: 4}}>
 
                         <Stack spacing={1} sx={{py: 2}}>
                             <OutlinedInput
