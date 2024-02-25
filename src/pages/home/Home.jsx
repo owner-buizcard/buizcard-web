@@ -41,7 +41,7 @@ const Home =()=>{
                   </>
                 }
               </Toolbar>
-            <Stack justifyContent={"center"} alignItems={"center"} sx={{textAlign: "center"}} spacing={3}>
+            <Stack justifyContent={"center"} alignItems={"center"} sx={{textAlign: "center", p: 3}} spacing={3} >
               <Box
                 sx={{
                   background: 'linear-gradient(45deg, #36D1DC 30%, #5B86E5 90%)', // Set your gradient colors here
@@ -53,11 +53,11 @@ const Home =()=>{
                   fontFamily: "roboto",
                 }}
               >
-              <Stack spacing={-1} sx={{px: 4}}>
+              <Stack spacing={ isSmallScreen ? 1: -1} >
                 
-                <Typography sx={{fontWeight: 900, fontSize: { xs: "26px", sm: "54px" }, maxWidth: "1000px", fontFamily: "roboto"}}>Elevate Networking With BizCard</Typography>
+                <Typography sx={{fontWeight: 900, fontSize: { xs: "28px", sm: "54px" }, maxWidth: "1000px", fontFamily: "roboto"}}>Elevate Networking With BizCard</Typography>
                 
-                <Typography sx={{fontWeight: 900, fontSize: { xs: "26px", sm: "54px" }, maxWidth: "1000px", fontFamily: "roboto"}}>Your Digital Bridge to Success.</Typography>
+                <Typography sx={{fontWeight: 900, fontSize: { xs: "28px", sm: "54px" }, maxWidth: "1000px", fontFamily: "roboto"}}>Your Digital Bridge to Success.</Typography>
               </Stack>
               </Box>
               <Typography sx={{fontWeight: { xs: 400, sm: 500 }, fontSize: { xs: "20px", sm: "24px" }, maxWidth: "600px"}}>Easily create digital business cards for yourself or your team. Use them to make connections that grow your business.</Typography>
