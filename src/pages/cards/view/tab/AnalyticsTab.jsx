@@ -15,7 +15,7 @@ const AnalyticsTab =({cardData})=>{
     const [series, setSeries] = useState(null);
     const [seriesDate, setSeriesDate] = useState([]);
 
-`    const [insights, setInsights] = useState([
+    const [insights, setInsights] = useState([
         {
             id: "viewCount",
             name: "Total Card Views",
@@ -41,7 +41,7 @@ const AnalyticsTab =({cardData})=>{
             icon: <PiLink fontSize={"24px"} color="#5f20ff"/>
         }
     ]);
-`
+
     const [loading, setLoading] = useState(true);
 
     useEffect(()=>{
