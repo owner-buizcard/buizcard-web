@@ -11,7 +11,8 @@ const initialState = {
     mailTitle: null,
     contacts: [],
     cards: [],
-    backgrounds: []
+    backgrounds: [],
+    plans: []
 }
 
 
@@ -25,6 +26,7 @@ const app = createSlice({
         state.cards = action.payload?.cards;
         state.fieldTypes = action.payload?.config?.fieldTypes;
         state.configs = action.payload?.config?.configs;
+        state.plans = action.payload?.config?.plans.sort((a, b) => a.order - b.order);;
     },
     updateCards: (state, action)=>{
         state.cards = action.payload;

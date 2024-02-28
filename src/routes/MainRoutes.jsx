@@ -11,6 +11,7 @@ import Analytics from '../pages/analytics/Analytics';
 import Profile from '../pages/profile/Profile';
 import AccountSettings from '../pages/settings/AccountSettings';
 import CreateContact from '../pages/contacts/create/CreateContact';
+import Pricing from '../pages/subscription/Pricing';
 
 // render - dashboard
 const Dashboard = Loadable(lazy(() => import('../pages/dashboard/Dashboard')));
@@ -38,6 +39,10 @@ const MainRoutes = {
     {
       path: '/dashboard/card-details',
       element: <CardDetails />
+    },
+    {
+      path: '/profile/pricing',
+      element: <Pricing />
     },
     {
       path: '/dashboard/integrations',

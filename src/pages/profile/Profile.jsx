@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import MainCard from "../../components/MainCard";
 import ProfileNav from "./ProfileNav";
 import PersonalInfoTab from "./tabs/PersonalInfoTab";
@@ -15,6 +15,9 @@ const Profile = ()=>{
 
     return (
         <Grid container spacing={2}>
+            <Grid item xs={12} sx={{ mb: 0.5 }}>
+                <Typography variant="h3">My Profile</Typography>
+            </Grid>
             <Grid item xs={12} md={3}>
                 <ProfileNav index={selected} onChange={handleTabChange}/>
             </Grid>

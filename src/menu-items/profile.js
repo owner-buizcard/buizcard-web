@@ -11,7 +11,7 @@ const icons = {
 
 const profile = {
   id: 'profile',
-  title: 'Profile',
+  title: 'Profile', 
   type: 'group',
   children: [
     {
@@ -19,7 +19,8 @@ const profile = {
       title: 'My Profile',
       type: 'item',
       url: '/dashboard/profile',
-      icon: icons.UserOutlined
+      icon: icons.UserOutlined,
+      breadcrumbs: false,
     },
     {
       id: 'settings',
