@@ -1,26 +1,11 @@
-import { Box, Button, Chip, Divider, Grid, Icon, List, ListItem, ListItemText, Stack, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
+import { Box, Button, Chip, Divider, Grid, List, ListItem, ListItemText, Stack, Typography } from "@mui/material";
 import MainCard from "../../components/MainCard";
 import { useSelector } from "react-redux";
 import { CheckOutlined } from "@ant-design/icons";
 import { useTheme } from "@emotion/react";
-import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 import AnimateButton from "../../components/@extended/AnimateButton";
-
-const StyledToggleButton = styled(ToggleButton)(({ theme }) => ({
-  '&.MuiToggleButton-root': {
-    backgroundColor: 'transparent',
-    border: 'none',
-    position: 'relative',
-    overflow: 'hidden',
-    '&:hover::before': {
-      background: 'none', // Remove background overlay on hover
-    },
-  },
-  '&.Mui-selected': {
-    backgroundColor: 'transparent',
-  },
-}));
+import PaymentButton from "../../components/PaymentButton";
 
 const Pricing =()=>{
   const theme = useTheme();
@@ -105,7 +90,7 @@ const Pricing =()=>{
                         <Typography>{`per ${monthly ? 'month' : 'year'}`}</Typography>
                       </Stack>
                       <AnimateButton>
-                        <Button variant="contained" sx={{px: 3, fontSize: "14px", fontWeight: "700"}}>Subscribe Now</Button>
+                        <PaymentButton plan={plan} type={monthly ? "m": "y"}/>
                       </AnimateButton>
                       <Box sx={{p: 2, width: "100%"}}>
                         <Divider

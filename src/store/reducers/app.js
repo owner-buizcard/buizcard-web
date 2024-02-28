@@ -12,7 +12,8 @@ const initialState = {
     contacts: [],
     cards: [],
     backgrounds: [],
-    plans: []
+    plans: [],
+    subs: {}
 }
 
 
@@ -26,7 +27,8 @@ const app = createSlice({
         state.cards = action.payload?.cards;
         state.fieldTypes = action.payload?.config?.fieldTypes;
         state.configs = action.payload?.config?.configs;
-        state.plans = action.payload?.config?.plans.sort((a, b) => a.order - b.order);;
+        state.plans = action.payload?.config?.plans.sort((a, b) => a.order - b.order);
+        state.subs = action.payload?.subscriptionMap;
     },
     updateCards: (state, action)=>{
         state.cards = action.payload;
