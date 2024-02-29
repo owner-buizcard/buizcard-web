@@ -1,15 +1,25 @@
-import { Avatar, Box, Divider, Grid, ListItem, ListItemIcon, ListItemText, Skeleton, Stack, Typography } from "@mui/material";
+import { Avatar, Box, Divider, Grid, IconButton, ListItem, ListItemIcon, ListItemText, Skeleton, Stack, Typography } from "@mui/material";
 import { getUserAnalytics } from "../../network/service/analyticsService";
 import { useEffect, useState } from "react";
 import MainCard from "../../components/MainCard";
 import CountUp from 'react-countup';
 import { PiDownload, PiEye, PiLink, PiPerson } from "react-icons/pi";
 import { MdOutlineShowChart } from "react-icons/md";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { updateAnalytics } from "../../store/reducers/app";
+import { ReloadOutlined } from "@ant-design/icons";
+import { useTheme } from "@emotion/react";
 
 
 const Analytics=()=>{
 
+    const analytics = useSelector((state)=>state.app.analytics);
+    const dispatch = useDispatch();
+    const theme = useTheme();
+
     const [loading, setLoading] = useState(true);
+    const [refresh, setRefresh] = useState(false);
 
     const [sortedCards, setSortedCards] = useState([]);
 
@@ -44,7 +54,15 @@ const Analytics=()=>{
         const init=async()=>{
             if(loading){
 
-                const data = await getUserAnalytics();
+                let data;
+
+                if(analytics==null || refresh){
+                    data = await getUserAnalytics();
+                    dispatch(updateAnalytics(data));
+                }else{
+                    data = analytics;
+                }
+
                 const totals = data.totals;
 
                 const updatedInsights = insights.map(insight => {
@@ -67,12 +85,24 @@ const Analytics=()=>{
             setLoading(false);
         }
         init();
-    }, [loading])
+    }, [loading, refresh])
+
+    const reload = ()=>{
+        setLoading(true);
+        setRefresh(true);
+    }
 
     return (
         <Grid container spacing={3}>
             <Grid item xs={12}>
-                <Typography variant="h4">Analytics</Typography>
+                <Stack direction={"row"} justifyContent={"space-between"}>
+                    <Typography variant="h4">Analytics</Typography>
+                    <IconButton onClick={reload}>
+                    <Box sx={{ border: `1px solid ${theme.palette.grey[300]}`, background: "#fff", borderRadius: '4px', p: 1 }}>
+                        <ReloadOutlined />
+                    </Box>
+                    </IconButton>
+                </Stack>
             </Grid>
             <Grid item xs={12} sm={8} spacing={3}>
                 <Grid container spacing={3}>

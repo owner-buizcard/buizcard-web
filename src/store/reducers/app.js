@@ -13,7 +13,8 @@ const initialState = {
     cards: [],
     backgrounds: [],
     plans: [],
-    subs: {}
+    subs: {},
+    analytics: null
 }
 
 
@@ -46,6 +47,9 @@ const app = createSlice({
     hideLoader: (state)=>{
       state.isLoading = false;
     },
+    updateAnalytics: (state, action)=>{
+      state.analytics = action.payload;
+    },
     openFeatureRequest: (state)=>{
       state.open = true;
     },
@@ -63,6 +67,6 @@ const app = createSlice({
   }  
 })
 
-export const {initialize, updateCards, openMail, closeMail, updateContacts, updateAppUser, showLoader, hideLoader, openFeatureRequest, closeFeatureRequest} = app.actions;
+export const {initialize, updateCards, updateAnalytics, openMail, closeMail, updateContacts, updateAppUser, showLoader, hideLoader, openFeatureRequest, closeFeatureRequest} = app.actions;
 
 export default app.reducer;
