@@ -3,6 +3,7 @@ import LogoImg from "../../components/Logo/LogoImg";
 import AppBarStyled from "../../layout/main/header/AppBarStyled";
 import { ArrowRightOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import Logo from "../../components/Logo/Logo";
 
 const Home =()=>{
 
@@ -22,9 +23,7 @@ const Home =()=>{
             <Toolbar
               sx={{position: "absolute", top: 0, width: "100%"}}
             >
-                <Box sx={{width: "200px", height: "70px", display: "flex", alignItems: "center"}}>
-                  <LogoImg size={ !isSmallScreen && "large"}/>
-                </Box>
+                <Logo sx={{width: "360px"}}/>
                 <Box sx={{width: "100%"}}/>
                 {
                   !isSmallScreen && <>

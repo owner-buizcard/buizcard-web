@@ -8,7 +8,7 @@ import Logo from '../../components/Logo/Logo';
 const AuthWrapper =({children})=>(
     <Grid container>
         <Grid item xs={12} sx={{ ml: 3, mt: 1 }}>
-            <Logo />
+            <Logo sx={{width: "160px"}}/>
         </Grid>
         <Grid item xs={12}>
             <Grid
