@@ -2,9 +2,10 @@ import { Box, Button, Divider, ListItem, ListItemIcon, ListItemText, Switch, Typ
 import MainCard from "../../components/MainCard";
 import { DeleteOutlined, LockOutlined, MailOutlined } from "@ant-design/icons";
 import { MdOutlineWavingHand } from "react-icons/md";
+import { BsEyeglasses } from "react-icons/bs";
 import ConfirmDialog from "../../components/dialogs/ConfirmDialog";
 import { useState } from "react";
-import { deleteAccount, updateFollowUp } from "../../network/service/userService";
+import { deleteAccount, updateBranding, updateFollowUp } from "../../network/service/userService";
 import { useNavigate } from "react-router-dom";
 import { clearCookies } from "../../utils/utils";
 import { useDispatch } from "react-redux";
@@ -44,6 +45,12 @@ const AccountSettings = ()=>{
         await updateFollowUp(value);
     }
 
+    const handleBranding = async(value)=>{
+        const updated = {...user, branding: value};
+        dispatch(updateAppUser(updated));
+        await updateBranding(value);
+    }
+
     return (
         <MainCard>
             <ConfirmDialog
@@ -80,6 +87,29 @@ const AccountSettings = ()=>{
                         onChange={(e) => {
                             const { checked } = e.target;
                             handleFollowUp(checked);
+                        }}
+                    />
+                </ListItemIcon>
+            </ListItem>
+            <Divider sx={{my: 2}}/>
+            <ListItem>
+                <Box sx={{ width: "56px" }}>
+                    <ListItemIcon><BsEyeglasses style={{fontSize: 30}}/></ListItemIcon>
+                </Box>
+                <ListItemText>
+                    <Typography variant="body1" fontSize={16}>
+                    Remove Branding
+                    </Typography>
+                    <Typography variant="caption" color={"grey"}>
+                    Remove Bizcard brand logo from your cards.
+                    </Typography>
+                </ListItemText>
+                <ListItemIcon>
+                    <Switch
+                        checked={!user.branding}
+                        onChange={(e) => {
+                            const { checked } = e.target;
+                            handleBranding(!checked);
                         }}
                     />
                 </ListItemIcon>
