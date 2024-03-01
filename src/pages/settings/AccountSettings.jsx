@@ -1,13 +1,14 @@
-import { Box, Button, Divider, Grid, ListItem, ListItemIcon, ListItemText, Typography } from "@mui/material";
+import { Box, Button, Divider, ListItem, ListItemIcon, ListItemText, Switch, Typography } from "@mui/material";
 import MainCard from "../../components/MainCard";
-import { ArrowRightOutlined, DeleteOutlined, LockOutlined, MailOutlined } from "@ant-design/icons";
+import { DeleteOutlined, LockOutlined, MailOutlined } from "@ant-design/icons";
+import { MdOutlineWavingHand } from "react-icons/md";
 import ConfirmDialog from "../../components/dialogs/ConfirmDialog";
 import { useState } from "react";
-import { deleteAccount } from "../../network/service/userService";
+import { deleteAccount, updateFollowUp } from "../../network/service/userService";
 import { useNavigate } from "react-router-dom";
 import { clearCookies } from "../../utils/utils";
 import { useDispatch } from "react-redux";
-import { hideLoader, showLoader } from "../../store/reducers/app";
+import { hideLoader, showLoader, updateAppUser } from "../../store/reducers/app";
 import { forgotPassword } from "../../network/service/authService";
 import { useSelector } from "react-redux";
 import SuccessDialog from "../../components/dialogs/SuccessDialog";
@@ -37,6 +38,12 @@ const AccountSettings = ()=>{
         setOpenSuccess(true);
     }
 
+    const handleFollowUp = async(value)=>{
+        const updated = {...user, followUp: value};
+        dispatch(updateAppUser(updated));
+        await updateFollowUp(value);
+    }
+
     return (
         <MainCard>
             <ConfirmDialog
@@ -54,20 +61,27 @@ const AccountSettings = ()=>{
                 title={"Reset mail sent successfully!"}   
                 content={`Password reset link sent to the registered email address.`}
             />
+            
             <ListItem>
                 <Box sx={{ width: "56px" }}>
-                    <ListItemIcon><DeleteOutlined style={{fontSize: 24}}/></ListItemIcon>
+                    <ListItemIcon><MdOutlineWavingHand style={{fontSize: 24}}/></ListItemIcon>
                 </Box>
                 <ListItemText>
                     <Typography variant="body1" fontSize={16}>
-                    Delete Account
+                    Follow up
                     </Typography>
                     <Typography variant="caption" color={"grey"}>
-                    Note: All cards will be disabled.
+                    Send auto intro email to connected user.
                     </Typography>
                 </ListItemText>
                 <ListItemIcon>
-                    <Button variant="contained" onClick={()=>setOpen(true)} color="error">Delete</Button>
+                    <Switch
+                        checked={user.followUp}
+                        onChange={(e) => {
+                            const { checked } = e.target;
+                            handleFollowUp(checked);
+                        }}
+                    />
                 </ListItemIcon>
             </ListItem>
             <Divider sx={{my: 2}}/>
@@ -102,6 +116,23 @@ const AccountSettings = ()=>{
                 </ListItemText>
                 <ListItemIcon>
                     <Button variant="contained" sx={{width: "136px"}} onClick={()=>setOpen(true)} >Verify</Button>
+                </ListItemIcon>
+            </ListItem>
+            <Divider sx={{my: 2}}/>
+            <ListItem>
+                <Box sx={{ width: "56px" }}>
+                    <ListItemIcon><DeleteOutlined style={{fontSize: 24}}/></ListItemIcon>
+                </Box>
+                <ListItemText>
+                    <Typography variant="body1" fontSize={16}>
+                    Delete Account
+                    </Typography>
+                    <Typography variant="caption" color={"grey"}>
+                    Note: All cards will be disabled.
+                    </Typography>
+                </ListItemText>
+                <ListItemIcon>
+                    <Button variant="contained" onClick={()=>setOpen(true)} color="error">Delete</Button>
                 </ListItemIcon>
             </ListItem>
         </MainCard>
