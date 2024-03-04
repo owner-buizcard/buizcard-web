@@ -2,7 +2,7 @@ import { CardMedia } from '@mui/material'
 import React from 'react'
 import { BANNER_PLACEHOLDER } from '../../utils/global';
 
-const Banner =({image, height, sharpEdge})=>{
+const Banner =({image, height, sharpEdge, theme})=>{
 
   const isEmpty  = image==null || image?.length<=0;
 
@@ -16,7 +16,7 @@ const Banner =({image, height, sharpEdge})=>{
         component="img"
         height= { height ?? 'auto' }
         image={ isEmpty ? 'none' : image}
-        alt="Paella dish"
+        alt=""
         onError={handleImageError}
         sx={{background: "#f5f5f5", borderRadius: sharpEdge ? 0 : "6px"}}
     />

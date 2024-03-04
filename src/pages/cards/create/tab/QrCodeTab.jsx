@@ -1,6 +1,5 @@
 import { Box, Grid, InputLabel, MenuItem, OutlinedInput, Stack, TextField } from "@mui/material";
 import MainCard from "../../../../components/MainCard";
-import pickerColors from "../../../../theme/colors";
 import ImagePicker from "../../../../components/ImagePicker";
 import { useDispatch } from "react-redux";
 import { updateCardData } from "../../../../store/reducers/card-builder";
@@ -9,6 +8,7 @@ import { PictureOutlined } from "@ant-design/icons";
 import { qrEyeStyles, qrStyles } from "../../../../utils/global";
 import { useState } from "react";
 import { uploadCardImage } from "../../../../network/service/cardService";
+import { pickerColors } from "../../../../theme/colors";
 
 
 const QrCodeTab =()=>{
