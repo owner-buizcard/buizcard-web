@@ -8,6 +8,8 @@ import SpreadsheetCallback from '../pages/integrations/callback/SpreadsheetCallb
 import ZohoCallback from '../pages/integrations/callback/ZohoCallback';
 import HubspotCallback from '../pages/integrations/callback/HubspotCallback';
 import Home from '../pages/home/Home';
+import PrivacyPolicy from '../pages/legal/PrivacyPolicy';
+import TermsOfService from '../pages/legal/TermsOfService';
 
 const Loader = Loadable(lazy(() => import('../pages/loader/MainLoader')));
 
@@ -18,6 +20,14 @@ const CommonRoutes = {
       {
         path: '',
         element: <Home/>
+      },
+      {
+        path: 'legal/privacy',
+        element: <PrivacyPolicy />
+      },
+      {
+        path: 'legal/terms',
+        element: <TermsOfService />
       },
       {
         path: 'loading',
