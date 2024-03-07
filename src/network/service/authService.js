@@ -23,7 +23,7 @@ export async function loginWithGithub(data){
 }
 
 export async function loginWithLinkedin(data){
-    window.location.href = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=864hy6jn3uyw75&redirect_uri=${BASE_URL}/auth/callback/linkedin&state=foobar&scope=profile%20openid%20email`;
+    window.location.href = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=7782mi1w2h629z&redirect_uri=${BASE_URL}/auth/callback/linkedin&state=foobar&scope=profile%20openid%20email`;
 }
 
 export async function forgotPassword(data){
