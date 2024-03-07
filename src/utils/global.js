@@ -1,7 +1,7 @@
 
 import Banner from '../assets/images/banner.png';
 
-export const BASE_URL = "https://m93o2s6r6l.execute-api.us-east-1.amazonaws.com/dev";
+export const BASE_URL = "https://buizcard.co";
 
 export const BANNER_PLACEHOLDER = Banner;
 
