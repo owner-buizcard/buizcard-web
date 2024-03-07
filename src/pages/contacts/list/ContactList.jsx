@@ -111,7 +111,7 @@ const ContactList = () => {
   const saveContact = async (contactId) => {
     const contact = data.find((contact) => contact._id === contactId);
     const vcfData = generateVcard(contact.card);
-    downloadFile(vcfData, `${contact.card?.name?.firstName}-${contact.card?.name?.lastName}-Bizcard`);
+    downloadFile(vcfData, `${contact.card?.name?.firstName}-${contact.card?.name?.lastName}-Buizcard`);
   };
 
   const addTag = async (contactId) => {

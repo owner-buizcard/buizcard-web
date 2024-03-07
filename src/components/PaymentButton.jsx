@@ -28,7 +28,7 @@ const PaymentButton = ({plan, type}) => {
         key: 'rzp_live_v5uEoz77A8mTwT',
         amount: amount,
         currency: 'INR',
-        name: 'Bizcard',
+        name: 'Buizcard',
         description: 'Your digital business card',
         image: 'https://firebasestorage.googleapis.com/v0/b/bizcard-spiderlingz.appspot.com/o/logo%2Fcard.png?alt=media&token=ded33d94-1fb7-4538-9bd4-e307d8bd778a',
         order_id: order.id,

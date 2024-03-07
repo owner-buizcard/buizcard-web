@@ -41,7 +41,7 @@ const IntegrationList = ()=>{
             <Grid container >
                 <Grid item xs={12}>
                     <Typography variant="h4">Integrations</Typography>
-                    <Typography variant="body2">Connect platforms to assist with Bizcard lead management.</Typography>
+                    <Typography variant="body2">Connect platforms to assist with Buizcard lead management.</Typography>
                 </Grid>
 
                 {Object.keys(groupedData).map((group) => (
