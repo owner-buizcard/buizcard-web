@@ -13,14 +13,13 @@ const VerifyEmail =()=>{
 
     const theme = useTheme();
 
-    const { replace } = useNavigate();
+    const navigate = useNavigate();
 
-    useEffect(async()=>{
+    useEffect(()=>{
       const verify=async()=>{
           Cookies.set('accessToken', token);
-
           await verifyEmail();
-          replace('/login');
+          navigate('/login');
       }
       verify();
     })
