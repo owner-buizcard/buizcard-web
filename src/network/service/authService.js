@@ -33,3 +33,7 @@ export async function forgotPassword(data){
 export async function resetPassword(data){
     return await axiosClient.put('/auth/password/reset', data);
 }
+
+export async function sendVerificationEmail(){
+    return await axiosClient.put('/auth/verify-email');
+}

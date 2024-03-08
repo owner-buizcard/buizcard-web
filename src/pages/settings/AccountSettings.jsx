@@ -1,8 +1,8 @@
 import { Box, Button, CircularProgress, Divider, InputAdornment, ListItem, ListItemIcon, ListItemText, OutlinedInput, Stack, Switch, Typography } from "@mui/material";
 import MainCard from "../../components/MainCard";
 import { CheckOutlined, CloseOutlined, CopyOutlined, DeleteOutlined, LinkOutlined, LockOutlined, MailOutlined } from "@ant-design/icons";
-import { MdOutlineWavingHand } from "react-icons/md";
-import { BsEyeglasses } from "react-icons/bs";
+import { MdOutlineBadge, MdOutlineWavingHand } from "react-icons/md";
+import { BsBadge3D, BsEyeglasses } from "react-icons/bs";
 import ConfirmDialog from "../../components/dialogs/ConfirmDialog";
 import { useEffect, useState } from "react";
 import { deleteAccount, personalizedLinkCheck, updateBranding, updateFollowUp, updatePersonalizedLink } from "../../network/service/userService";
@@ -10,17 +10,20 @@ import { useNavigate } from "react-router-dom";
 import { clearCookies } from "../../utils/utils";
 import { useDispatch } from "react-redux";
 import { hideLoader, showLoader, updateAppUser } from "../../store/reducers/app";
-import { forgotPassword } from "../../network/service/authService";
+import { forgotPassword, sendVerificationEmail } from "../../network/service/authService";
 import { useSelector } from "react-redux";
 import SuccessDialog from "../../components/dialogs/SuccessDialog";
 import { debounce } from "lodash";
 import { useDebounce } from 'use-debounce';
 import { showSnackbar } from "../../utils/snackbar-utils";
+import { BiSolidBadgeCheck } from "react-icons/bi";
+
 
 const AccountSettings = ()=>{
 
     const [open, setOpen] = useState(false);
     const [openSuccess, setOpenSuccess] = useState(false);
+    const [verifySuccess, setVerifySuccess] = useState(false);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -30,6 +33,8 @@ const AccountSettings = ()=>{
     const [link, setLink] = useState(user.personalizedLink??'');
     const [linkToSearch] = useDebounce (link, 300);
     const [linkState, setLinkState] = useState(null);
+
+    const [btnLoading, setBtnLoading] = useState(false);
 
     const handleDelete=async()=>{
         dispatch(showLoader());
@@ -96,6 +101,13 @@ const AccountSettings = ()=>{
         await updateBranding(value);
     }
 
+    const handleVerifyEmail = async()=>{
+        setBtnLoading(true);
+        await sendVerificationEmail();
+        setBtnLoading(false);
+        setVerifySuccess(true);
+    }
+
     return (
         <MainCard>
             <ConfirmDialog
@@ -112,6 +124,13 @@ const AccountSettings = ()=>{
                 btnTxt={"Done"}
                 title={"Reset mail sent successfully!"}   
                 content={`Password reset link sent to the registered email address.`}
+            />
+            <SuccessDialog
+                open={verifySuccess}
+                onOk={()=>setVerifySuccess(false)} 
+                btnTxt={"Done"}
+                title={"Verification mail sent successfully!"}   
+                content={`Email verification reset link sent to the registered email address.`}
             />
 
             <ListItem>
@@ -242,7 +261,16 @@ const AccountSettings = ()=>{
                     </Typography>
                 </ListItemText>
                 <ListItemIcon>
-                    <Button variant="contained" sx={{width: "136px"}} onClick={()=>setOpen(true)} >Verify</Button>
+                    {
+                        user.emailVerified
+                            ? <BiSolidBadgeCheck style={{fontSize: "38px", color: "green"}}/>
+                            : <Button disabled={btnLoading} variant="contained" sx={{width: "136px"}} onClick={()=>handleVerifyEmail()} >
+                                { btnLoading
+                                    ? <CircularProgress size={24}/>
+                                    : 'Verify'
+                                }
+                            </Button>
+                    }
                 </ListItemIcon>
             </ListItem>
             <Divider sx={{my: 2}}/>
