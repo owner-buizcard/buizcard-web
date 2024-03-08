@@ -19,7 +19,7 @@ const VerifyEmail =()=>{
       const verify=async()=>{
           Cookies.set('accessToken', token);
           await verifyEmail();
-          navigate('/login');
+          navigate('/dashboard');
       }
       verify();
     })
