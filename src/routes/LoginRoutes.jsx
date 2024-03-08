@@ -5,6 +5,7 @@ import Loadable from '../components/Loadable';
 import MinimalLayout from "../layout/minimal/MinimalLayout";
 import CheckMail from '../pages/authentication/CheckMail';
 import PrivacyPolicy from '../pages/legal/PrivacyPolicy';
+import VerifyEmail from '../pages/settings/VerifyEmail';
 
 const AuthLogin = Loadable(lazy(() => import('../pages/authentication/Login')));
 const AuthRegister = Loadable(lazy(() => import('../pages/authentication/Register')));
@@ -35,6 +36,10 @@ const LoginRoutes = {
       {
         path: 'password/reset',
         element: <ResetPassword />
+      },
+      {
+        path: 'verify-email',
+        element: <VerifyEmail />
       },
       {
         path: 'check-mail',

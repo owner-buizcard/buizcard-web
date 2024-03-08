@@ -37,3 +37,7 @@ export async function resetPassword(data){
 export async function sendVerificationEmail(){
     return await axiosClient.put('/auth/verify-email');
 }
+
+export async function verifyEmail(){
+    return await axiosClient.put('/verify-email');
+}
