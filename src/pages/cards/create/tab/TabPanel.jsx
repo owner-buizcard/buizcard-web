@@ -3,6 +3,7 @@ import AboutTab from './AboutTab';
 import BusinessTab from './BusinessTab';
 import QrCodeTab from './QrCodeTab';
 import LinksTab from './LinksTab';
+import LeadCaptureTab from './LeadCaptureTab';
 
 function TabPanelWrapper({ children, value, index, ...other }) {
     return (
@@ -34,6 +35,9 @@ const TabPanel = ({value})=>{
             </TabPanelWrapper>
             <TabPanelWrapper value={value} index={3}>
                 <QrCodeTab/>
+            </TabPanelWrapper>
+            <TabPanelWrapper value={value} index={4}>
+                <LeadCaptureTab/>
             </TabPanelWrapper>
         </>
     )

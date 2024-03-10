@@ -24,6 +24,23 @@ export function groupList(data, keyName) {
     return groupMap;
 };
 
+export function filterAndGroupList(data, keyName, value) {
+    const groupMap = new Map();
+
+    const filtered = data.filter((e)=>e.label.toLowerCase().includes(value.toLowerCase()))
+
+    filtered.forEach(item => {
+        const keyValue = item[keyName];
+        if (!groupMap.has(keyValue)) {
+            groupMap.set(keyValue, [item]);
+        } else {
+            groupMap.get(keyValue).push(item);
+        }
+    });
+  
+    return groupMap;
+  }
+
 export function checkCookies(){
     const accessToken = Cookies.get('accessToken');
     const refreshToken = Cookies.get('refreshToken');

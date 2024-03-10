@@ -2,7 +2,7 @@ import { useTheme } from "@emotion/react";
 import { Avatar, Box, Chip, FormControl, Grid, InputAdornment, OutlinedInput, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import { generateRandomId, groupList } from "../../../../utils/utils";
+import { filterAndGroupList, generateRandomId, groupList } from "../../../../utils/utils";
 import { SearchOutlined } from "@ant-design/icons";
 import LinkItem from "../../../../components/items/LinkItem";
 import AddLinkDialog from "../../../../components/dialogs/AddLinkDialog";
@@ -20,7 +20,7 @@ const LinksTab = () => {
   const theme = useTheme();
   const [fields, setFields] = useState(cardData?.fields??[]);
 
-  const linkItems = groupList(fieldTypes, "category")
+  const [linkItems, setLinkItems] = useState(groupList(fieldTypes, "category"))
 
   const handleDragEnd = (result) => {
     if (!result.destination) {
@@ -81,6 +81,10 @@ const LinksTab = () => {
     });
   }
 
+  const handleSearch=(value)=>{
+    setLinkItems(filterAndGroupList(fieldTypes, "category", value))
+  } 
+
 
   return (
     <>
@@ -127,6 +131,7 @@ const LinksTab = () => {
                         <OutlinedInput
                             size="small"
                             id="header-search"
+                            onChange={(e)=>handleSearch(e.target.value)}
                             startAdornment={
                               <InputAdornment position="start" sx={{ mr: -0.5 }}>
                                   <SearchOutlined />

@@ -1,4 +1,4 @@
-import { BuildOutlined, LinkOutlined, QrcodeOutlined, UserOutlined } from "@ant-design/icons";
+import { BuildOutlined, FilterOutlined, LinkOutlined, QrcodeOutlined, UserOutlined } from "@ant-design/icons";
 import { Box, Tab, Tabs, useMediaQuery } from "@mui/material";
 
 
@@ -31,6 +31,10 @@ const TabBar = ({value, handleChange})=>{
         {
             label: 'Qr Code',
             icon: <QrcodeOutlined style={{ marginBottom: 0, marginRight: '10px' }} />
+        },
+        {
+            label: 'Lead Capture',
+            icon: <FilterOutlined style={{ marginBottom: 0, marginRight: '10px' }} />
         }
     ]
 
