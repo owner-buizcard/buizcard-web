@@ -16,6 +16,7 @@ import { getMyContacts, removeContact } from '../../../network/service/connectSe
 import { updateContacts } from '../../../store/reducers/app';
 import ExportOptions from '../../../components/Contact/ExportOptions';
 import SendMailDialog from '../../../components/dialogs/SendMailDialog';
+import { exportCSVFile } from "json2csv-converter";
 
 const ODD_OPACITY = 0.2;
 
@@ -159,8 +160,41 @@ const ContactList = () => {
   const renderExportCell = (params) => (
     <ExportOptions
       contactIds={[params.value]}
+      onExportToCsv={()=>exportToCSV(params.value)}
     />
   );
+
+  const exportToCSV = (id)=>{
+
+    const filtered = id!=null
+      ? [contactsData.find((contact) => contact._id == id)]
+      : contactsData.filter((contact) => selectedContacts.includes(contact._id));
+
+    const headers = ["name", "phone", "email", "address", "company", "website"];
+
+    const data = filtered.map((d)=>{
+      const card = d.card;
+      return {
+        name: d.name,
+        phone: d.phoneNumber,
+        email: d.email,
+        address: card!=null ? `${card.address?.addressLine1}, ${card?.address?.city}, ${card?.address?.state}, ${card?.address?.country} - ${card?.address?.pincode}`: '',
+        company: card!=null ? `${card.company?.title}` : '',
+        website: card!=null ? `${card.company?.companyWebsite}` : ''
+      }
+    })
+
+    const filename = "buizcard-contacts";
+    const csv = exportCSVFile(headers, data, filename);
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'buizcard-contacts.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
 
   const renderActionsCell = (params) => {
     const contact = contacts.find((item) => item._id === params.value);
