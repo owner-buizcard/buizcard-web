@@ -32,7 +32,7 @@ const ContactList = () => {
   const navigate = useNavigate();
 
   const [searchQuery, setSearchQuery] = useState('');
-  const contactsData = data?.map((contact) => {
+  const [contactsData, setContactsData] = useState(data?.map((contact) => {
     const updatedContact = { ...contact };
     const { details, card } = contact;
     const contactInfo = details ?? card;
@@ -46,7 +46,7 @@ const ContactList = () => {
     updatedContact.message = contactInfo?.message ?? '';
     updatedContact.cardName = card?.cardName ?? '';
     return updatedContact;
-  });
+  }));
   const [contacts, setContacts] = useState(contactsData);
 
   const StripedDataGrid = styled(DataGrid)(({ theme }) => ({
@@ -87,9 +87,11 @@ const ContactList = () => {
   };
 
   const deleteContact = async (contactId) => {
-    const updated = data.filter((contact) => contact._id !== contactId);
-    console.log(updated)
-    dispatch(updateContacts(updated));
+    const updated = data.filter((contact) => contact._id !== contactId);  
+    const newe = contactsData.filter((contact) => contact._id !== contactId); 
+    setContactsData(newe); 
+    setContacts(newe);
+    dispatch(updateContacts([...updated]));
     await removeContact(contactId);
   };
 
@@ -227,7 +229,7 @@ const ContactList = () => {
       </Grid>
       <Grid item xs={12} display={'flex'}>
         <MainCard sx={{ width: '100%' }}>
-          {loading ? (
+          {loading  ? (
             <SkeletonTable />
           ) : (
             <>
