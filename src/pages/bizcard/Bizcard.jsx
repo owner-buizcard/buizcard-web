@@ -213,6 +213,24 @@ const Bizcard = () => {
       {cardData?.company?.companyDescription}
       </Typography>
 
+      {cardData?.badges && cardData?.badges?.length>0 && <Divider sx={{my: 3}}/> }
+
+      <Grid container spacing={0} sx={{justifyContent: "center"}}>
+            {
+              cardData?.badges?.map((badge, idx)=>{
+                return <Grid key={idx} xs={3} item >
+                  <Box
+                      component={"img"}
+                      src={badge}
+                      width={"100%"}
+                      height={"100%"}
+                      p={1}
+                  />
+                </Grid>
+              })
+            }
+          </Grid>
+
       <Divider sx={{my: 3}}><Typography variant="caption">Follow me on</Typography></Divider>
 
       <Grid container sx={{justifyContent: "center", m: 0.5}}>

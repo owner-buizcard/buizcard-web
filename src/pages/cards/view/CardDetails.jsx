@@ -38,15 +38,18 @@ const CardDetails =()=>{
 
     const captureQr = () => {
         if (componentRef.current) {
-          html2canvas(componentRef.current).then((canvas) => {
+          html2canvas(componentRef.current, {useCORS: true, logging: true, letterRendering: 1,allowTaint: false}).then((canvas) => {
             const imgData = canvas.toDataURL('image/png');
+            var src = encodeURI(imgData);
             const link = document.createElement('a');
-            link.href = imgData;
+            link.href = src;
             link.download = `${cardData.cardName}-bizcard.png`;
+            document.body.appendChild(link);
             link.click();
+            document.body.removeChild(link);
           });
         }
-      };
+    };
 
     const handleBack =()=>{
         navigate(-1);

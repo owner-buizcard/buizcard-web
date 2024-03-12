@@ -88,6 +88,7 @@ const ContactList = () => {
 
   const deleteContact = async (contactId) => {
     const updated = data.filter((contact) => contact._id !== contactId);
+    console.log(updated)
     dispatch(updateContacts(updated));
     await removeContact(contactId);
   };

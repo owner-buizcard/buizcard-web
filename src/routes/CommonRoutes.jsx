@@ -42,11 +42,11 @@ const CommonRoutes = {
         element: <SpreadsheetCallback />
       },
       {
-        path: 'i/callback/zoho',
+        path: 'i/zoho/callback',
         element: <ZohoCallback />
       },
       {
-        path: 'i/callback/hubspot',
+        path: 'i/hubspot/callback',
         element: <HubspotCallback />
       }
     ]
