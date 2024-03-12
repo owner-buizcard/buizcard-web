@@ -35,6 +35,10 @@ const ExportOptions =({contactIds, disabled, style})=>{
         handleClose();
         if(option['id']=='zoho_crm'){
             await exportContacts(contactIds,'zoho');
+        }else if(option['id']=='hubspot_crm'){
+            await exportContacts(contactIds,'hubspot');
+        }else if(option['id']=='spreadsheet'){
+            await exportContacts(contactIds,'spreadsheet');
         }
     };
 
