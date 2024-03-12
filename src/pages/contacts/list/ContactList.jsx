@@ -314,6 +314,8 @@ const ContactList = () => {
                   contactIds={selectedContacts} 
                   style={{ border: `1px solid ${theme.palette.grey[300]}`, borderRadius: '4px', p: 1 }}
                   disabled={selectedContacts && selectedContacts.length<=0}
+                  onExportToCsv={()=>exportToCSV()}
+                  onExportToExcel={()=>exportToExcel()}
                 />
                 <IconButton onClick={refresh}>
                   <Box sx={{ border: `1px solid ${theme.palette.grey[300]}`, borderRadius: '4px', p: 1 }}>
