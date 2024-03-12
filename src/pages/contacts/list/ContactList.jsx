@@ -11,12 +11,12 @@ import ContactOptions from '../../../components/menu/ContactOptions';
 import SkeletonTable from '../../../components/skeleton/SkeletonTable';
 import AddTagDialog from '../../../components/dialogs/AddTagDialog';
 import { useNavigate } from 'react-router-dom';
-import { downloadFile, formatDate, generateVcard } from '../../../utils/utils';
+import { downloadFile, formatDate, generateUniqueName, generateVcard } from '../../../utils/utils';
 import { getMyContacts, removeContact } from '../../../network/service/connectService';
 import { updateContacts } from '../../../store/reducers/app';
 import ExportOptions from '../../../components/Contact/ExportOptions';
 import SendMailDialog from '../../../components/dialogs/SendMailDialog';
-import { exportCSVFile } from "json2csv-converter";
+import { exportCSVFile } from 'json2csv-converter';
 import * as XLSX from 'xlsx';
 
 const ODD_OPACITY = 0.2;
@@ -169,18 +169,18 @@ const ContactList = () => {
   const exportToCSV = (id)=>{
 
     const data = getData(id)
-    const headers = ["name", "phone", "email", "address", "company", "website"];
+    const headers = ["name", "phone", "email", "address", "company", "title", "website"];
 
-    const filename = "buizcard-contacts";
+    const filename = generateUniqueName("buizcard-contacts");
     const csv = exportCSVFile(headers, data, filename);
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'buizcard-contacts.csv';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    // const blob = new Blob([csv], { type: 'text/csv' });
+    // const url = window.URL.createObjectURL(blob);
+    // const a = document.createElement('a');
+    // a.href = url;
+    // a.download = 'buizcard-contacts.csv';
+    // document.body.appendChild(a);
+    // a.click();
+    // document.body.removeChild(a);
   }
 
   const renderActionsCell = (params) => {
@@ -208,13 +208,15 @@ const ContactList = () => {
 
     return filtered.map((d)=>{
       const card = d.card;
+      const details = d.details;
       return {
-        name: d.name,
-        phone: d.phoneNumber,
-        email: d.email,
-        address: card!=null ? `${card.address?.addressLine1}, ${card?.address?.city}, ${card?.address?.state}, ${card?.address?.country} - ${card?.address?.pincode}`: '',
-        company: card!=null ? `${card.company?.title}` : '',
-        website: card!=null ? `${card.company?.companyWebsite}` : ''
+        name: card?.name ? `${card.name?.firstName??''} ${card.name?.lastName??''}` : details?.name,
+        phone: card?.phoneNumber || details?.phone,
+        email: card?.email || details?.email,
+        address: card!=null ? `${card.address?.addressLine1}, ${card?.address?.city}, ${card?.address?.state}, ${card?.address?.country} - ${card?.address?.pincode}`: details?.location,
+        company: card!=null ? `${card.company?.companyName}` : details?.company,
+        title: card!=null ? `${card.company?.title}` : details?.title,
+        website: card!=null ? `${card.company?.companyWebsite}` : details?.website
       }
     })
   }

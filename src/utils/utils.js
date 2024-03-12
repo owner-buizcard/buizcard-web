@@ -5,6 +5,11 @@ import { formatDistanceToNow } from "date-fns";
 import vCardJs from 'vcards-js';
 import { CARD_IMAGE_PATH } from "./global";
 
+export function generateUniqueName (id) {
+    const uniqueName = `${id}_${Math.random().toString(36).substring(2, 9)}`;
+    return uniqueName;
+};
+
 export function generateRandomId() {
     return '_' + Math.random().toString(36).substr(2, 9);
 }
