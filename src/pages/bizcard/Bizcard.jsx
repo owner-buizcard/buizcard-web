@@ -13,6 +13,7 @@ import { checkCookies, downloadFile, generateVcard } from "../../utils/utils";
 import { addCardLog } from "../../network/service/analyticsService";
 import AvatarBanner from "../../components/Card/AvatarBanner";
 import ConnectFormDialog from "../../components/dialogs/ConnectFormDialog";
+import { connectBizard } from "../../network/service/connectService";
 
 let count = 0;
 
@@ -81,7 +82,7 @@ const Bizcard = () => {
 
   const connectCard =async ()=>{
     setConnectBtnLoading(true);
-    await connectCard(cardId, cardData?.createdBy);
+    await connectBizard(cardId, cardData?.createdBy);
     setConnectBtnLoading(false);
     setOpenCards(true)
   }

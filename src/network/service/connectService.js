@@ -1,6 +1,6 @@
 import axiosClient from "../axiosClient";
 
-export async function connectCard(cardId, ownerId){
+export async function connectBizard(cardId, ownerId){
     return await axiosClient.post('/contact', { cardId, ownerId, type: "Bizcard"});
 }
 
