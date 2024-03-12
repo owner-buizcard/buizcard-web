@@ -17,6 +17,7 @@ import { updateContacts } from '../../../store/reducers/app';
 import ExportOptions from '../../../components/Contact/ExportOptions';
 import SendMailDialog from '../../../components/dialogs/SendMailDialog';
 import { exportCSVFile } from "json2csv-converter";
+import * as XLSX from 'xlsx';
 
 const ODD_OPACITY = 0.2;
 
@@ -161,28 +162,14 @@ const ContactList = () => {
     <ExportOptions
       contactIds={[params.value]}
       onExportToCsv={()=>exportToCSV(params.value)}
+      onExportToExcel={()=>exportToExcel(params.value)}
     />
   );
 
   const exportToCSV = (id)=>{
 
-    const filtered = id!=null
-      ? [contactsData.find((contact) => contact._id == id)]
-      : contactsData.filter((contact) => selectedContacts.includes(contact._id));
-
+    const data = getData(id)
     const headers = ["name", "phone", "email", "address", "company", "website"];
-
-    const data = filtered.map((d)=>{
-      const card = d.card;
-      return {
-        name: d.name,
-        phone: d.phoneNumber,
-        email: d.email,
-        address: card!=null ? `${card.address?.addressLine1}, ${card?.address?.city}, ${card?.address?.state}, ${card?.address?.country} - ${card?.address?.pincode}`: '',
-        company: card!=null ? `${card.company?.title}` : '',
-        website: card!=null ? `${card.company?.companyWebsite}` : ''
-      }
-    })
 
     const filename = "buizcard-contacts";
     const csv = exportCSVFile(headers, data, filename);
@@ -212,6 +199,32 @@ const ContactList = () => {
         />
       </Stack>
     );
+  };
+
+  const getData =(id)=>{
+    const filtered = id!=null
+      ? [contactsData.find((contact) => contact._id == id)]
+      : contactsData.filter((contact) => selectedContacts.includes(contact._id));
+
+    return filtered.map((d)=>{
+      const card = d.card;
+      return {
+        name: d.name,
+        phone: d.phoneNumber,
+        email: d.email,
+        address: card!=null ? `${card.address?.addressLine1}, ${card?.address?.city}, ${card?.address?.state}, ${card?.address?.country} - ${card?.address?.pincode}`: '',
+        company: card!=null ? `${card.company?.title}` : '',
+        website: card!=null ? `${card.company?.companyWebsite}` : ''
+      }
+    })
+  }
+
+  const exportToExcel = (id) => {
+    const data = getData(id)
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.json_to_sheet(data);
+    XLSX.utils.book_append_sheet(wb, ws, 'Contacts');
+    XLSX.writeFile(wb, 'buizcard-contacts.xlsx');
   };
 
   const columns = [

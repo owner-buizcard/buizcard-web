@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { showSnackbar } from "../../utils/snackbar-utils";
 import { exportContacts } from "../../network/service/contactService";
 
-const ExportOptions =({contactIds, disabled, style, onExportToCsv})=>{
+const ExportOptions =({contactIds, disabled, style, onExportToCsv, onExportToExcel})=>{
 
     const config = useSelector((state)=>state.app.configs);
     const user = useSelector((state)=>state.app.user);
@@ -41,6 +41,8 @@ const ExportOptions =({contactIds, disabled, style, onExportToCsv})=>{
             await exportContacts(contactIds,'spreadsheet');
         }else if(option['id']=='csv'){
             onExportToCsv();
+        }else {
+            onExportToExcel();
         }
     };
 
