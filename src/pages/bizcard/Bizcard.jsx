@@ -3,18 +3,15 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Avatar, Box, Button, CircularProgress, Divider, Fab, Grid, ListItem, ListItemIcon, ListItemText, Skeleton, Stack, Typography } from "@mui/material";
 import { HiBuildingOffice2 } from "react-icons/hi2";
-import { DownloadOutlined, EnvironmentOutlined, GlobalOutlined, MailOutlined, PhoneOutlined, ShareAltOutlined, UserOutlined } from "@ant-design/icons";
+import { DownloadOutlined, EnvironmentOutlined, GlobalOutlined, MailOutlined, PhoneOutlined, UserOutlined } from "@ant-design/icons";
 import Cookies from "js-cookie";
 
 import MainCard from "../../components/MainCard";
-import Banner from "../../components/Card/Banner";
-import ShareDialog from "../../components/dialogs/ShareDialog";
 import CardsDialog from "../../components/dialogs/CardsDialog";
 import { getCardPreviewDetails } from "../../network/service/cardService";
 import { checkCookies, downloadFile, generateVcard } from "../../utils/utils";
 import { addCardLog } from "../../network/service/analyticsService";
 import AvatarBanner from "../../components/Card/AvatarBanner";
-import { connectPeople } from "../../network/service/connectService";
 import ConnectFormDialog from "../../components/dialogs/ConnectFormDialog";
 
 let count = 0;
@@ -84,7 +81,7 @@ const Bizcard = () => {
 
   const connectCard =async ()=>{
     setConnectBtnLoading(true);
-    await connectPeople(cardId);
+    await connectCard(cardId, cardData?.createdBy);
     setConnectBtnLoading(false);
     setOpenCards(true)
   }

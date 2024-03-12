@@ -1,7 +1,7 @@
 import axiosClient from "../axiosClient";
 
-export async function connectPeople(cardId){
-    return await axiosClient.post('/contact', { cardId, type: "Bizcard"});
+export async function connectCard(cardId, ownerId){
+    return await axiosClient.post('/contact', { cardId, ownerId, type: "Bizcard"});
 }
 
 export async function connectRequest(cardId, connectedBy, userId){
