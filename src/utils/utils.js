@@ -4,6 +4,7 @@ import { storage } from "../config/firebase";
 import { formatDistanceToNow } from "date-fns";
 import vCardJs from 'vcards-js';
 import { CARD_IMAGE_PATH } from "./global";
+import QRCode from 'qrcode';
 
 export function generateUniqueName (id) {
     const uniqueName = `${id}_${Math.random().toString(36).substring(2, 9)}`;
@@ -217,3 +218,59 @@ export async function downloadImageUrl(imageUrl){
 export function getImage(id, type){
     return `${CARD_IMAGE_PATH}${id}%2F${type}.jpg?alt=media`;
 }
+
+export async function downloadImageWithText(imageSrc, cardData, imageName = 'downloaded_image') {
+    try {
+      const imageFetch = await fetch(imageSrc);
+      const imageBlob = await imageFetch.blob();
+      const image = await createImageBitmap(imageBlob);
+
+      const name = `${cardData.name?.firstName??''} ${cardData.name?.lastName??''}`;
+  
+      // Create an off-screen canvas
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = image.width;
+      canvas.height = image.height;
+  
+      // Draw the image onto the canvas
+      ctx.drawImage(image, 0, 0);
+
+      // Generate QR code
+      const qrCanvas = document.createElement('canvas');
+      await QRCode.toCanvas(qrCanvas, 'qrText', {
+        width: 390, // Set as needed
+        margin: 2
+      });
+
+      // Calculate position for QR code to be in the top right corner
+      const qrX = canvas.width - qrCanvas.width - 100; // 10px from the right edge
+      const qrY = 100; // 10px from the top edge
+
+      ctx.drawImage(qrCanvas, qrX, qrY);
+    
+      // Add text over the image
+      ctx.font = '98px serif'; // Customize the font size and style
+      ctx.fillStyle = 'white'; // Text color
+      ctx.fillText(name, 100, 200); // Customize text position
+  
+      // Convert canvas to image and download
+      canvas.toBlob(function(blob) {
+        const imageURL = URL.createObjectURL(blob);
+  
+        // Create a temporary link and trigger the download
+        const tempLink = document.createElement('a');
+        tempLink.href = imageURL;
+        tempLink.setAttribute('download', imageName);
+        document.body.appendChild(tempLink);
+        tempLink.click();
+        document.body.removeChild(tempLink);
+  
+        // Clean up the blob URL
+        URL.revokeObjectURL(imageURL);
+      }, 'image/jpeg'); // You can adjust the format
+    } catch (error) {
+      console.error('Failed to download the image:', error);
+    }
+  }
+  

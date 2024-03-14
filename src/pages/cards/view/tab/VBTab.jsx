@@ -1,10 +1,11 @@
 import { DownloadOutlined } from "@ant-design/icons";
 import { Box, Button, CircularProgress, Grid, Skeleton, Stack, Typography } from "@mui/material";
 import { QRCode } from "react-qrcode-logo";
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { createVirtualBackground, getVirtualBackgrounds } from "../../../../network/service/backgroundService";
-import { downloadImageUrl } from "../../../../utils/utils";
+import { downloadImageUrl, downloadImageWithText } from "../../../../utils/utils";
 import { useTheme } from "@emotion/react";
+import GalleryView from "../../../../components/GalleryView";
 
 const VBTab =({cardData})=>{
     
@@ -29,8 +30,7 @@ const VBTab =({cardData})=>{
 
     const downloadVB = async() => {
         setBtnLoading(true);
-        const imageUrl = await createVirtualBackground(cardData._id, selected?._id);
-        await downloadImageUrl(imageUrl);
+        await downloadImageWithText(selected.large, cardData)
         setBtnLoading(false);
     }
 
@@ -74,15 +74,17 @@ const VBTab =({cardData})=>{
                                     sx={{
                                         backgroundColor: "rgba(0, 0, 0, 0.3)",
                                         height: "fit-content",
-                                        borderRadius: "4px",
-                                        p: 1
+                                        borderRadius: "2px",
+                                        px: 1,
+                                        py: 0.5
                                     }}
                                 >
-                                    <Typography sx={{color: 'white', fontWeight: 'bold'}} variant="body1">{cardData?.name?.firstName} {cardData?.name?.middleName} {cardData?.name?.lastName}</Typography>
+                                    <Typography sx={{color: 'white', fontSize: "8px"}} variant="subtitle2">{cardData?.name?.firstName} {cardData?.name?.middleName} {cardData?.name?.lastName}</Typography>
                                 </Box>
                                 <QRCode
                                     quietZone={2}
-                                    size={58}
+                                    size={28}
+                                    bgColor="#cccccc"
                                     logoWidth={58 * 0.25}
                                     logoHeight={58 * 0.25}
                                     qrStyle= {'dots'}
@@ -112,7 +114,7 @@ const VBTab =({cardData})=>{
                 <Typography variant='h5' sx={{mb: "24px"}}>Virtual Background</Typography>
                 {
                     
-                    <Grid container spacing={2}>
+                    <Grid container spacing={2} sx={{height: `${window.innerHeight - 310}px`, overflowY: 'auto', padding: '6px', border: '1px solid #eee', borderRadius: "4px"}}>
                         { loading ? (
                         Array.from({ length: 9 }).map((_, index) => (
                             <Grid item xs={12} sm={4} key={index}>
@@ -120,33 +122,7 @@ const VBTab =({cardData})=>{
                             </Grid>
                         ))
                         ) : (
-                            backgrounds?.map((data, index)=>(
-                                <Fragment key={index}>
-                                <Grid item xs={12}>
-                                    <Typography variant="body1" color={"gray"}>{data.category}</Typography>
-                                </Grid>
-                                {data.items.map((image, imageIndex) => (
-                                    <Grid item xs={12} sm={4} key={imageIndex}>
-                                        <img
-                                            src={image.normal}
-                                            alt={data.category}
-                                            loading="lazy"
-                                            style={{
-                                            border: selected._id==image._id ?`3px solid ${theme.palette.primary.main}` : 'none',
-                                            borderRadius: "6px",
-                                            top: '0',
-                                            left: '0',
-                                            width: '100%',
-                                            height: '140px',
-                                            objectFit: 'cover', 
-                                            cursor: 'pointer'
-                                            }}
-                                            onClick={() => setSelected(image)}
-                                        />
-                                    </Grid>
-                                ))}
-                                </Fragment>
-                            ))
+                            <GalleryView backgrounds={backgrounds} onClick={setSelected} selected={selected}/>
                         )}
                     </Grid>
                 }
