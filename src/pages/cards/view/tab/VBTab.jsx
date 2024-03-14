@@ -6,11 +6,14 @@ import { createVirtualBackground, getVirtualBackgrounds } from "../../../../netw
 import { downloadImageUrl, downloadImageWithText } from "../../../../utils/utils";
 import { useTheme } from "@emotion/react";
 import GalleryView from "../../../../components/GalleryView";
+import { useSelector } from "react-redux";
 
 const VBTab =({cardData})=>{
     
     const theme = useTheme();
     const [selected, setSelected] = useState(null);
+
+    let vbs = useSelector((state)=>state.app.backgrounds)
 
     const [loading, setLoading] = useState(true);
     const [btnLoading, setBtnLoading] = useState(false);
@@ -19,7 +22,7 @@ const VBTab =({cardData})=>{
     useEffect(()=>{
         const init=async()=>{
             if(loading){
-                const vbs = await getVirtualBackgrounds();
+                vbs = vbs?.length<=0 ?await getVirtualBackgrounds() : vbs;
                 setBackgrounds(vbs);
                 setSelected(vbs[0].items[0]);
             }

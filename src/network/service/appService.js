@@ -1,9 +1,23 @@
 import axiosClient from "../axiosClient";
 
 export async function fetchMainData(){
-    return await axiosClient.get('/main');
+    const [data, vbs] = await Promise.all([
+        axiosClient.get('/main'),
+        axiosClient.get('/vb')
+    ])
+
+    data.backgrounds = vbs;
+
+    return data;
 }
 
 export async function fetchConfigData(){
-    return await axiosClient.get('/config');
+    const [data, vbs] = await Promise.all([
+        axiosClient.get('/config'),
+        axiosClient.get('/vb')
+    ])
+
+    data.backgrounds = vbs;
+
+    return data;
 }

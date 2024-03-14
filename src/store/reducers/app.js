@@ -30,6 +30,7 @@ const app = createSlice({
         state.configs = action.payload?.config?.configs;
         state.plans = action.payload?.config?.plans?.sort((a, b) => a.order - b.order);
         state.subs = action.payload?.subscriptionMap;
+        state.backgrounds = action.payload?.backgrounds;
     },
     updateCards: (state, action)=>{
         state.cards = action.payload;
