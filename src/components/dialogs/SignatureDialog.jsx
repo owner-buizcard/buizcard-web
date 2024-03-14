@@ -8,8 +8,17 @@ import { useState } from "react";
 const SignatureDialog=({data, onCancel, open})=>{
 
     const [loading, setLoading] = useState(false);
+    const [signature, setSignature] = useState(null);
+    const [copied, setCopied] = useState(false);
+
 
     const generateSignature=async ()=>{
+        if(signature){
+            await clipboard.write([signature]);
+            setCopied(true);
+            return;
+        }
+
         setLoading(true);
         const signatureHtml = await generateEmailSignature(data);
         const item = new clipboard.ClipboardItem({
@@ -18,9 +27,8 @@ const SignatureDialog=({data, onCancel, open})=>{
               { type: "text/html" }
             ),
           });
-        await clipboard.write([item]);
+        setSignature(item);
         setLoading(false);
-        onCancel();
     }
 
 
@@ -33,7 +41,11 @@ const SignatureDialog=({data, onCancel, open})=>{
                             <Typography variant="h4" sx={{mb: 0.6}}>How to add a signature to your emails</Typography>
                             <Typography variant="body1">Follow to the steps to add your signature</Typography>
                         </Box>
-                        <IconButton onClick={onCancel}>
+                        <IconButton onClick={()=>{
+                            setCopied(false);
+                            setSignature(null);
+                            onCancel();
+                        }}>
                             <CloseOutlined/>
                         </IconButton>
                     </Stack>
@@ -49,14 +61,14 @@ const SignatureDialog=({data, onCancel, open})=>{
                             <Typography>{`Copy your email signature —>`}</Typography>
                         </ListItemText>
                         <ListItemIcon>
-                        <Button variant="contained" onClick={generateSignature} sx={{ width: "160px", height: "40px" }}>
+                        <Button variant="contained" onClick={generateSignature} sx={{ width: "160px", height: "40px", background: copied ? "green": null }}>
                             {loading ? (
                                 <CircularProgress
                                     size="1.6rem"
                                     sx={{color: "white"}}
                                 />
                             ) : (
-                                "Generate Signature"
+                               copied ? "Signature Copied": signature ? "Copy" : "Generate Signature"
                             )}
                         </Button>
                         </ListItemIcon>
