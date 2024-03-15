@@ -6,14 +6,27 @@ import { useSelector } from "react-redux";
 import { CloseOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import AddFieldDialog from "../../../../components/dialogs/AddFieldDialog";
+import { showUpgradeInfo } from "../../../../utils/snackbar-utils";
+import { useNavigate } from "react-router-dom";
 
 
 const LeadCaptureTab =()=>{
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const cardData = useSelector((state) => state.cardBuilder.cardData);
-    const enabled = !(cardData?.captureForm?.enable);
+    const isEnabled = useSelector((state) => state.app.leadCapture);
+
+    const enabled = !(cardData?.captureForm?.enable && isEnabled);
 
     const [open, setOpen] = useState(false);
+
+    const handleSwitch=(e)=>{
+      if(!isEnabled){
+        showUpgradeInfo(navigate, "Upgrade your account to use this feature!")
+        return;
+      }
+      dispatch(updateCardData({path: "captureForm.enable", value: e.target.checked}))
+    }
 
     const handleCancel=()=>{
       setOpen(false);
@@ -59,10 +72,8 @@ const LeadCaptureTab =()=>{
                     </Box>
                     <ListItemIcon onClick={(e)=>{}}>
                         <Switch 
-                          checked={cardData?.captureForm?.enable} 
-                          onClick={(e)=>
-                            dispatch(updateCardData({path: "captureForm.enable", value: e.target.checked}))
-                          }/>
+                          checked={cardData?.captureForm?.enable && isEnabled} 
+                          onClick={ (e)=>handleSwitch(e)}/>
                     </ListItemIcon>
                 </Stack>
                 </>}
