@@ -7,13 +7,17 @@ import { downloadImageUrl, downloadImageWithText } from "../../../../utils/utils
 import { useTheme } from "@emotion/react";
 import GalleryView from "../../../../components/GalleryView";
 import { useSelector } from "react-redux";
+import { showUpgradeInfo } from "../../../../utils/snackbar-utils";
+import { useNavigate } from "react-router-dom";
 
 const VBTab =({cardData})=>{
     
     const theme = useTheme();
     const [selected, setSelected] = useState(null);
+    const navigate = useNavigate();
 
     let vbs = useSelector((state)=>state.app.backgrounds)
+    let isEnabled = useSelector((state)=>state.app.enableVirtualBackground)
 
     const [loading, setLoading] = useState(true);
     const [btnLoading, setBtnLoading] = useState(false);
@@ -32,6 +36,10 @@ const VBTab =({cardData})=>{
     }, [loading])
 
     const downloadVB = async() => {
+        if(!isEnabled){
+            showUpgradeInfo(navigate, "Upgrade your account to use this feature!")
+            return;
+        }
         setBtnLoading(true);
         await downloadImageWithText(selected.large, cardData)
         setBtnLoading(false);

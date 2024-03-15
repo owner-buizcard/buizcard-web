@@ -8,12 +8,14 @@ import { hideLoader, showLoader, updateCards } from "../../store/reducers/app";
 import ConfirmDialog from "../../components/dialogs/ConfirmDialog";
 import { useState } from "react";
 import CreateCardDialog from "../../components/dialogs/CreateCardDialog";
+import { showUpgradeInfo } from "../../utils/snackbar-utils";
 
 const Dashboard = () => {
 
   const navigate = useNavigate();
 
   const cards = useSelector((state)=>state.app.cards)??[];
+  const maxCards = useSelector((state)=>state.app.maxCards)??1;
 
   const [open, setOpen] = useState(false);
   const [openCreate, setOpenCreate] = useState(false);
@@ -37,6 +39,14 @@ const Dashboard = () => {
   const handleCancel=()=>{
     setDeleteItem(null);
     setOpen(false);
+  }
+
+  const handleOpen=()=>{
+    if(cards.length==maxCards){
+      showUpgradeInfo(navigate, "Maximum limit exceeded, Upgrade your account!");
+      return;
+    }
+    setOpenCreate(true);
   }
 
   const deleteClick =async()=>{
@@ -79,7 +89,7 @@ const Dashboard = () => {
           <Stack direction={"row"} justifyContent={"space-between"} alignItems={"center"}>
             <Typography variant="h4">My Cards</Typography>
             <Button variant="contained" size="medium" sx={{px: 4}} 
-              onClick={()=>setOpenCreate(true)}
+              onClick={()=>handleOpen()}
               startIcon={
                 <PlusOutlined style={{fontSize: "16px"}}/>
               }>

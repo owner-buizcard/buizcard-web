@@ -1,4 +1,4 @@
-import { Box, Button, Chip, Divider, Grid, List, ListItem, ListItemText, Stack, Typography } from "@mui/material";
+import { Box, Chip, Divider, Grid, List, ListItem, ListItemText, Stack, Typography } from "@mui/material";
 import MainCard from "../../components/MainCard";
 import { useSelector } from "react-redux";
 import { CheckOutlined } from "@ant-design/icons";
@@ -102,9 +102,11 @@ const Pricing =()=>{
                           }}
                         />
                       </Box>
-                        
                     </Stack>
                     <List>
+                      <ListItem>
+                        <ListItemText><Typography variant="subtitle1" fontSize={13}>{index==0 ? 'Includes :': index==1 ? 'Everything in Basic plus :': 'Everything in Pro plus :'}</Typography></ListItemText>
+                      </ListItem>
                       {plan.features.map((value, index) => (
                         <ListItem key={index}>
                           <CheckOutlined style={{color: "green"}}/>

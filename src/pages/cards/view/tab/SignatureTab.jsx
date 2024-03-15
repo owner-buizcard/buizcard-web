@@ -4,10 +4,15 @@ import { Box, Button, Divider, Grid, InputLabel, OutlinedInput, Stack, Typograph
 import { useState } from "react";
 import { QRCode } from "react-qrcode-logo";
 import SignatureDialog from "../../../../components/dialogs/SignatureDialog";
+import { showUpgradeInfo } from "../../../../utils/snackbar-utils";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const SignatureTab = ({cardData})=>{
 
     const theme = useTheme();
+    const navigate = useNavigate();
+    let isEnabled = useSelector((state)=>state.app.enableEmailSignature)
 
     const [fullName, setFullName] = useState(`${cardData?.name?.firstName??""} ${cardData?.name?.lastName??""}`);
     const [jobTitle, setJobTitle] = useState(cardData?.designation??"");
@@ -20,6 +25,14 @@ const SignatureTab = ({cardData})=>{
 
     const handleClose=()=>{
         setOpen(false);
+    }
+
+    const handleOpen=()=>{
+        if(!isEnabled){
+            showUpgradeInfo(navigate, "Upgrade your account to use this feature!")
+            return;
+        }
+        setOpen(true);
     }
 
     return (
@@ -97,7 +110,7 @@ const SignatureTab = ({cardData})=>{
 
                     </Box>
                     <Button
-                        onClick={()=>setOpen(true)}
+                        onClick={()=>handleOpen()}
                         variant="outlined"
                         startIcon={<PlusOutlined/>}
                     >

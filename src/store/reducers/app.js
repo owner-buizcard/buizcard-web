@@ -14,7 +14,24 @@ const initialState = {
     backgrounds: [],
     plans: [],
     subs: {},
-    analytics: null
+    analytics: null,
+    maxCards: 1,
+    maxLeads: 3,
+    enableEmailSignature: false,
+    enableVirtualBackground: false,
+    enableIntegration: false,
+    enableExport: false,
+    enableQrCodeLogo: false,
+    cardAnalytics: false,
+    brandingRemove: false,
+    enableTags: false,
+    analytics: false,
+    personalizedLink: false,
+    leadCapture: false,
+    videos: false,
+    designs: false,
+    badges: false,
+    followup: false,
 }
 
 
@@ -29,8 +46,38 @@ const app = createSlice({
         state.fieldTypes = action.payload?.config?.fieldTypes;
         state.configs = action.payload?.config?.configs;
         state.plans = action.payload?.config?.plans?.sort((a, b) => a.order - b.order);
-        state.subs = action.payload?.subscriptionMap;
         state.backgrounds = action.payload?.backgrounds;
+        state.subs = action.payload?.subscriptionMap;
+        if(state.subs && state.subs['current'] && state.subs['current'][0]){
+          const currentPlan = state.subs['current'][0];
+          if(currentPlan.name=="Basic"){
+            state.maxCards = 5;
+            state.maxLeads = 5;
+          }else {
+            if(currentPlan.name=="Pro"){
+              state.maxCards = 10;
+              state.maxLeads = 250;
+            }else{
+              state.maxCards = 25;
+              state.maxLeads = 1000;
+              state.analytics= false;
+              state.personalizedLink= false;
+              state.leadCapture=  false;
+              state.videos=  false;
+              state.designs=  false;
+              state.badges=  false;
+              state.followup=  false;
+            }
+            state.enableIntegration = true;
+            state.enableExport = true;
+            state.enableQrCodeLogo= false;
+            state.cardAnalytics = false;
+            state.brandingRemove = false;
+            state.enableTags = false;
+          };
+          state.enableEmailSignature = true;
+          state.enableVirtualBackground = true;
+        }
     },
     updateCards: (state, action)=>{
         state.cards = action.payload;
