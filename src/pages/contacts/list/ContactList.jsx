@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTheme } from '@emotion/react';
 import { Avatar, Box, Button, Chip, FormControl, Grid, IconButton, InputAdornment, OutlinedInput, Stack, Typography } from '@mui/material';
-import { HiUser } from 'react-icons/hi2';
+import { HiLockClosed, HiMiniLockClosed, HiUser } from 'react-icons/hi2';
 import { alpha, styled } from '@mui/material/styles';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { ContactsOutlined, EditOutlined, ExportOutlined, PlusOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons';
@@ -13,7 +13,7 @@ import AddTagDialog from '../../../components/dialogs/AddTagDialog';
 import { useNavigate } from 'react-router-dom';
 import { downloadFile, formatDate, generateUniqueName, generateVcard } from '../../../utils/utils';
 import { getMyContacts, removeContact } from '../../../network/service/connectService';
-import { updateContacts } from '../../../store/reducers/app';
+import { updateContacts, updateMissedLeads } from '../../../store/reducers/app';
 import ExportOptions from '../../../components/Contact/ExportOptions';
 import SendMailDialog from '../../../components/dialogs/SendMailDialog';
 import { exportCSVFile } from 'json2csv-converter';
@@ -23,10 +23,13 @@ const ODD_OPACITY = 0.2;
 
 const ContactList = () => {
   const data = useSelector((state) => state.app.contacts);
+  const featureCount = useSelector((state) => state.app.featureCount);
+  
   const [loading, setLoading] = useState(false);
   const [openTag, setOpenTag] = useState(false);
   const [openMail, setOpenMail] = useState(false);
   const [selectedMail, setSelectedMail] = useState(null);
+  const [showUpgrade, setShowUpgrade] = useState(featureCount>0);
   const [selected, setSelected] = useState(null);
   const [selectedContacts, setSelectedContacts] = React.useState([]);
   const theme = useTheme();
@@ -253,8 +256,9 @@ const ContactList = () => {
 
   const refresh = async () => {
     setLoading(true);
-    const contacts = await getMyContacts();
-    dispatch(updateContacts(contacts));
+    const result = await getMyContacts();
+    dispatch(updateContacts(result.contacts??[]));
+    dispatch(updateMissedLeads(result.featureCount>0));
     setLoading(false);
   };
 
@@ -325,6 +329,12 @@ const ContactList = () => {
                   </Box>
                 </IconButton>
               </Stack>
+              { showUpgrade &&  <Box sx={{ width: '100%', background: `${theme.palette.grey[100]}`, p: 1.4, mb: 1, borderRadius: '2px'}}>
+                  <Stack direction={"row"} justifyContent={"center"} alignItems={"center"} spacing={2}>
+                    <HiMiniLockClosed/>
+                    <Typography variant='subtitle1' color={"green"}>{`${featureCount} lead is looking for you! Upgrade to connect with them!`}</Typography>
+                  </Stack>
+                </Box> }
               <StripedDataGrid
                 rows={rows}
                 columns={columns}

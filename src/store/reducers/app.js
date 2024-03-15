@@ -10,6 +10,7 @@ const initialState = {
     mailType: null,
     mailTitle: null,
     contacts: [],
+    featureCount: 0,
     cards: [],
     backgrounds: [],
     plans: [],
@@ -42,6 +43,7 @@ const app = createSlice({
     initialize: (state, action)=>{
         state.user = action.payload?.user;
         state.contacts = action.payload?.contacts;
+        state.showMissedLeads = action.payload?.featureCount;
         state.cards = action.payload?.cards;
         state.fieldTypes = action.payload?.config?.fieldTypes;
         state.configs = action.payload?.config?.configs;
@@ -86,6 +88,9 @@ const app = createSlice({
     updateContacts: (state, action)=>{
       state.contacts = action.payload;
     },
+    updateMissedLeads: (state, action)=>{
+      state.showMissedLeads = action.payload;
+    },
     updateAppUser: (state, action)=>{
       state.user = action.payload;
     },
@@ -115,6 +120,6 @@ const app = createSlice({
   }  
 })
 
-export const {initialize, updateCards, updateAnalytics, openMail, closeMail, updateContacts, updateAppUser, showLoader, hideLoader, openFeatureRequest, closeFeatureRequest} = app.actions;
+export const {initialize, updateCards, updateAnalytics, openMail, closeMail, updateContacts, updateMissedLeads, updateAppUser, showLoader, hideLoader, openFeatureRequest, closeFeatureRequest} = app.actions;
 
 export default app.reducer;
