@@ -2,13 +2,17 @@ import { ExportOutlined } from "@ant-design/icons";
 import { Box, IconButton, ListItem, ListItemIcon, ListItemText, Menu, MenuItem } from "@mui/material";
 import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { showSnackbar } from "../../utils/snackbar-utils";
+import { showSnackbar, showUpgradeInfo } from "../../utils/snackbar-utils";
 import { exportContacts } from "../../network/service/contactService";
+import { useNavigate } from "react-router-dom";
 
 const ExportOptions =({contactIds, disabled, style, onExportToCsv, onExportToExcel})=>{
 
     const config = useSelector((state)=>state.app.configs);
     const user = useSelector((state)=>state.app.user);
+    const navigate = useNavigate();
+
+    const isEnabled = useSelector((state)=>state.app.enableExport);
 
     var integrations = config.find((item)=>item['key']=="Integrations")['value'];
     integrations = integrations.filter((item)=>item['group']=="CRM" && user.integrations?.includes(item['id']));
@@ -31,6 +35,10 @@ const ExportOptions =({contactIds, disabled, style, onExportToCsv, onExportToExc
     };
     
     const handleOptionClick = async(option) => {
+        if(!isEnabled){
+            showUpgradeInfo(navigate, "Upgrade your account to use this feature!")
+            return;
+        }
         showSnackbar(`Exporting contacts to ${option['name']}`, { variant: 'success' }); 
         handleClose();
         if(option['id']=='zoho_crm'){

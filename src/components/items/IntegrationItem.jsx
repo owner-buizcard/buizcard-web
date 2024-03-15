@@ -1,12 +1,21 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
 import MainCard from "../MainCard";
 import { useTheme } from "@emotion/react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { showUpgradeInfo } from "../../utils/snackbar-utils";
 
 const IntegrationItem =({userId, item, isConnected, onClick})=>{
 
     const theme = useTheme();
+    const isEnabled = useSelector((state)=>state.app.enableIntegration);
+    const navigate = useNavigate();
 
     const handleClick=()=>{
+        if(!isEnabled){
+            showUpgradeInfo(navigate, "Upgrade your account to use this feature!")
+            return;
+        }
         let link = item.auth_link;
         const type = item.auth_type;
 

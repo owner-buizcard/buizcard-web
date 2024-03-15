@@ -21,6 +21,7 @@ const initialState = {
     enableEmailSignature: false,
     enableVirtualBackground: false,
     enableIntegration: false,
+    
     enableExport: false,
     enableQrCodeLogo: false,
     cardAnalytics: false,
