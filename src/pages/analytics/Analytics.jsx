@@ -10,6 +10,8 @@ import { useDispatch } from "react-redux";
 import { updateAnalytics } from "../../store/reducers/app";
 import { ReloadOutlined } from "@ant-design/icons";
 import { useTheme } from "@emotion/react";
+import UpgradeDialog from "../../components/dialogs/UpgradeDialog";
+import { useNavigate } from "react-router-dom";
 
 
 const Analytics=()=>{
@@ -18,8 +20,12 @@ const Analytics=()=>{
     const dispatch = useDispatch();
     const theme = useTheme();
 
+    const navigate = useNavigate();
+
     const [loading, setLoading] = useState(true);
     const [refresh, setRefresh] = useState(false);
+
+    const [showUpgrade, setShowUpgrade] = useState(!analytics);
 
     const [sortedCards, setSortedCards] = useState([]);
 
@@ -52,7 +58,7 @@ const Analytics=()=>{
 
     useEffect(()=>{
         const init=async()=>{
-            if(loading){
+            if(loading && analytics){
 
                 let data;
 
@@ -93,6 +99,12 @@ const Analytics=()=>{
     }
 
     return (
+        <>
+        <UpgradeDialog 
+            open={!analytics}
+            onClose={()=>navigate(-1)}
+            onOk={()=> navigate("/profile/pricing")}    
+        />
         <Grid container spacing={3}>
             <Grid item xs={12}>
                 <Stack direction={"row"} justifyContent={"space-between"}>
@@ -154,6 +166,7 @@ const Analytics=()=>{
 
             </Grid>
         </Grid>
+        </>
     )
 }
 

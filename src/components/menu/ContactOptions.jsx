@@ -1,9 +1,14 @@
 import React, { useState, Fragment } from "react";
 import { IconButton, ListItem, ListItemIcon, ListItemText, Menu } from "@mui/material";
 import { DeleteOutlined, DownloadOutlined, EditOutlined, EyeOutlined, MailOutlined, MoreOutlined, PlusOutlined } from "@ant-design/icons";
+import { useSelector } from "react-redux";
+import { showUpgradeInfo } from "../../utils/snackbar-utils";
+import { useNavigate } from "react-router-dom";
 
 const ContactOptions = ({ onDelete, onSave, onAdd, onEdit, isEdit, isEmail, onSend, onPreview }) => {
     const [anchorEl, setAnchorEl] = useState(null);
+    const enableTags = useSelector((state)=>state.app.enableTags);
+    const navigate = useNavigate();
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -24,7 +29,11 @@ const ContactOptions = ({ onDelete, onSave, onAdd, onEdit, isEdit, isEmail, onSe
 
     const handleListItemClick = (index) => {
         if (index === 0) {
-            onAdd();
+            if(enableTags){
+                onAdd();
+            }else{
+                showUpgradeInfo(navigate, "Upgrade your account to use this feature!")
+            }
         } else if (index === 1) {
             onSend();
         } else if (index === 2) {

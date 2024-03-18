@@ -15,7 +15,7 @@ import { useSelector } from "react-redux";
 import SuccessDialog from "../../components/dialogs/SuccessDialog";
 import { debounce } from "lodash";
 import { useDebounce } from 'use-debounce';
-import { showSnackbar } from "../../utils/snackbar-utils";
+import { showSnackbar, showUpgradeInfo } from "../../utils/snackbar-utils";
 import { BiSolidBadgeCheck } from "react-icons/bi";
 
 
@@ -29,6 +29,9 @@ const AccountSettings = ()=>{
     const dispatch = useDispatch();
 
     const user = useSelector((state)=>state.app.user);
+    const followup = useSelector((state)=>state.app.followup);
+    const personalizedLink = useSelector((state)=>state.app.personalizedLink);
+    const brandingRemove = useSelector((state)=>state.app.brandingRemove);
 
     const [link, setLink] = useState(user.personalizedLink??'');
     const [linkToSearch] = useDebounce (link, 300);
@@ -71,6 +74,10 @@ const AccountSettings = ()=>{
     }
 
     const handleSave = async()=>{
+        if(!personalizedLink){
+            showUpgradeInfo(navigate, "Upgrade your account to use this feature!")
+            return;
+        }
         const updated = {...user, personalizedLink: link};
         setLinkState(null);
         dispatch(updateAppUser(updated));
@@ -199,10 +206,15 @@ const AccountSettings = ()=>{
                 </ListItemText>
                 <ListItemIcon>
                     <Switch
-                        checked={user.followUp}
+                        checked={user.followUp && followup}
                         onChange={(e) => {
-                            const { checked } = e.target;
-                            handleFollowUp(checked);
+                            if(followup){
+                                const { checked } = e.target;
+                                handleFollowUp(checked);
+                            }else{
+                                showUpgradeInfo(navigate, "Upgrade your account to use this feature!")
+                            }
+
                         }}
                     />
                 </ListItemIcon>
@@ -224,8 +236,12 @@ const AccountSettings = ()=>{
                     <Switch
                         checked={!user.branding}
                         onChange={(e) => {
-                            const { checked } = e.target;
-                            handleBranding(!checked);
+                            if(brandingRemove){
+                                const { checked } = e.target;
+                                handleBranding(!checked);
+                            }else{
+                                showUpgradeInfo(navigate, "Upgrade your account to use this feature!")
+                            }
                         }}
                     />
                 </ListItemIcon>

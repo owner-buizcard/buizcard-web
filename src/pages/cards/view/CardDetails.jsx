@@ -13,19 +13,28 @@ import { useDispatch } from "react-redux";
 import { hideLoader, showLoader, updateCards } from "../../../store/reducers/app";
 import { cloneBizcard, deleteCard } from "../../../network/service/cardService";
 import ConfirmDialog from "../../../components/dialogs/ConfirmDialog";
+import { showUpgradeInfo } from "../../../utils/snackbar-utils";
 
 const CardDetails =()=>{
 
     const dispatch = useDispatch();
+    const cardAnalytics = useSelector((state)=>state.app.cardAnalytics);
+    const navigate = useNavigate();
 
     const [value, setValue] = useState(0);
     const [open, setOpen] = useState(false);
 
     const handleChange = (_, newValue) => {
-      setValue(newValue);
+        if(newValue==3){
+            if(cardAnalytics){
+                setValue(newValue);
+            }else{
+                showUpgradeInfo(navigate, "Upgrade your account to view Card analytics!")
+            }
+        }else{
+            setValue(newValue);
+        }
     };
-
-    const navigate = useNavigate();
 
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);

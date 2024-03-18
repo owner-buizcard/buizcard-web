@@ -22,18 +22,18 @@ const initialState = {
     enableVirtualBackground: false,
     enableIntegration: false,
     enableExport: false,
-
-    enableQrCodeLogo: false,
+    leadCapture: false,
     cardAnalytics: false,
+    followup: false,
+    personalizedLink: false,
     brandingRemove: false,
     enableTags: false,
     analytics: false,
-    personalizedLink: false,
-    leadCapture: false,
+
+    enableQrCodeLogo: false,
     videos: false,
     designs: false,
     badges: false,
-    followup: false,
 }
 
 

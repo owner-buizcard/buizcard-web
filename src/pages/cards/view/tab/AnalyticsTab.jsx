@@ -92,6 +92,7 @@ const AnalyticsTab =({cardData})=>{
     }, [loading])
 
     return ( 
+        <>
         <Grid container spacing={3}>
             { 
                 insights.map((insight)=>(
@@ -197,6 +198,7 @@ const AnalyticsTab =({cardData})=>{
                 </MainCard>
             </Grid>
         </Grid>
+        </>
     )   
 }
 
