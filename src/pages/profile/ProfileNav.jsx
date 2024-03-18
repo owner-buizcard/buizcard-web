@@ -84,10 +84,10 @@ const ProfileNav = ({ index, onChange }) => {
 
         <Stack spacing={0.2}>
           <Typography variant="h5" sx={{ textAlign: "center" }}>
-            {user.firstName} {user.lastName}
+            {user?.firstName} {user?.lastName}
           </Typography>
           <Typography variant="body1" sx={{ textAlign: "center", color: "gray" }}>
-            {user.designation}
+            {user?.designation}
           </Typography>
         </Stack>
         <Stack spacing={1} sx={{ width: "100%" }}>

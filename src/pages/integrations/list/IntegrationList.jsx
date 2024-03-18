@@ -27,7 +27,7 @@ const IntegrationList = ()=>{
         setOpen(false);
     }
 
-    const integrations = configs.find((con)=>con.key==="Integrations").value;
+    const integrations = configs?.find((con)=>con.key==="Integrations").value??[];
     const groupedData = integrations.reduce((acc, obj) => {
         const { group, ...rest } = obj;
         acc[group] = acc[group] || [];

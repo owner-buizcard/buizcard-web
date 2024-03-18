@@ -11,7 +11,7 @@ const ShareTab =({cardData, captureQr})=>{
     const [showToast, setShowToast] = useState(false);
 
     const copyLink = ()=>{
-        navigator.clipboard.writeText(cardData.cardLink);
+        navigator.clipboard.writeText(cardData?.cardLink);
         setShowToast(true);
     }
 
@@ -47,19 +47,19 @@ const ShareTab =({cardData, captureQr})=>{
                     </Stack>
                     <Divider sx={{width: "100%"}}>Share On</Divider>
                     <Stack direction={"row"} sx={{display: "flex", justifyContent: "center"}} spacing={2}>
-                        <EmailShareButton url={cardData.cardLink} quote={"Hello from buizcard!"} style={{width: "100%"}}>
+                        <EmailShareButton url={cardData?.cardLink} quote={"Hello from buizcard!"} style={{width: "100%"}}>
                         <Avatar sx={{p: 0.55, cursor: "pointer"}} src={`https://firebasestorage.googleapis.com/v0/b/buizcard-web.appspot.com/o/cardbuilder%2Ficons%2Fsocial%2Fgmail.png?alt=media`} />
                         </EmailShareButton>
 
-                        <FacebookShareButton url={cardData.cardLink} quote={"Hello from buizcard!"} style={{width: "100%"}}>
+                        <FacebookShareButton url={cardData?.cardLink} quote={"Hello from buizcard!"} style={{width: "100%"}}>
                         <Avatar sx={{p: 0.3, cursor: "pointer"}}  src={`https://firebasestorage.googleapis.com/v0/b/buizcard-web.appspot.com/o/cardbuilder%2Ficons%2Fsocial%2Ffacebook.png?alt=media`} />
                         </FacebookShareButton>
 
-                        <LinkedinShareButton url={cardData.cardLink} quote={"Hello from buizcard!"} >
+                        <LinkedinShareButton url={cardData?.cardLink} quote={"Hello from buizcard!"} >
                         <Avatar sx={{p: 0.3, cursor: "pointer"}}  src={`https://firebasestorage.googleapis.com/v0/b/buizcard-web.appspot.com/o/cardbuilder%2Ficons%2Fsocial%2Flinkedin.png?alt=media`} />
                         </LinkedinShareButton>
                         
-                        <WhatsappShareButton url={cardData.cardLink} quote={"Hello from buizcard!"} style={{width: "100%"}}>
+                        <WhatsappShareButton url={cardData?.cardLink} quote={"Hello from buizcard!"} style={{width: "100%"}}>
                         <Avatar sx={{p: 0.2, cursor: "pointer"}}  src={`https://firebasestorage.googleapis.com/v0/b/buizcard-web.appspot.com/o/cardbuilder%2Ficons%2Fcommunication%2Fwhatsapp.png?alt=media`} />
                         </WhatsappShareButton>
                     </Stack>

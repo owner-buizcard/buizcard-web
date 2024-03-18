@@ -14,9 +14,13 @@ const CheckAuthAndStorage = ({ children }) => {
   const config = useSelector((state) => state.app.configs);
   const currentLocation = useLocation();
 
+  console.log("dhana")
+
   useEffect(() => {
+    console.log('dahandjddjjddjdjdj')
       
       const isLoggedIn = checkCookies();
+
 
       const redirect = Cookies.get('redirect');
 
@@ -33,6 +37,9 @@ const CheckAuthAndStorage = ({ children }) => {
       if(currentLocation.pathname=='/loading' || currentLocation.pathname.includes('/i/')){
         return;
       }
+
+      console.log(`local storage: ${hasLocalStorage}`)
+      console.log(`config: ${hasConfig}`)
 
       if(isLoggedIn){
 
@@ -60,7 +67,7 @@ const CheckAuthAndStorage = ({ children }) => {
         navigate(redirect);
       }
 
-  }, [user, navigate, currentLocation]);
+  }, [user, navigate, currentLocation, config]);
 
   return <>{children}</>;
 };

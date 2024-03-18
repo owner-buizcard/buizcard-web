@@ -14,8 +14,8 @@ const ExportOptions =({contactIds, disabled, style, onExportToCsv, onExportToExc
 
     const isEnabled = useSelector((state)=>state.app.enableExport);
 
-    var integrations = config.find((item)=>item['key']=="Integrations")['value'];
-    integrations = integrations.filter((item)=>item['group']=="CRM" && user.integrations?.includes(item['id']));
+    var integrations = config?.find((item)=>item['key']=="Integrations")['value']??[];
+    integrations = integrations?.filter((item)=>item['group']=="CRM" && user.integrations?.includes(item['id']))??[];
 
     integrations = [ 
         {name: "Excel", id: "excel", image: "https://firebasestorage.googleapis.com/v0/b/bizcard-spiderlingz.appspot.com/o/app_icons%2Fexcel.png?alt=media&token=a54a4f0e-7431-4294-bb62-9274a528ef7e"}, 

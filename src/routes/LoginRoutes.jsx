@@ -4,7 +4,6 @@ import { lazy } from 'react';
 import Loadable from '../components/Loadable';
 import MinimalLayout from "../layout/minimal/MinimalLayout";
 import CheckMail from '../pages/authentication/CheckMail';
-import PrivacyPolicy from '../pages/legal/PrivacyPolicy';
 import VerifyEmail from '../pages/settings/VerifyEmail';
 
 const AuthLogin = Loadable(lazy(() => import('../pages/authentication/Login')));

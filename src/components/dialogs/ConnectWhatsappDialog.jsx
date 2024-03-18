@@ -20,8 +20,8 @@ const ConnectWhatsappDialog =({open, onCancel, onOk})=>{
             >
                 <Formik
                     initialValues={{
-                        whatsappNumber: user.whatsappNumber,
-                        enable: user.enableWhatsapp
+                        whatsappNumber: user?.whatsappNumber??'',
+                        enable: user?.enableWhatsapp
                     }}
                     validationSchema={Yup.object().shape({
                         whatsappNumber: Yup.string().test(
@@ -36,7 +36,7 @@ const ConnectWhatsappDialog =({open, onCancel, onOk})=>{
                     onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                         try {
                             
-                            onOk({whatsappNumber: values.whatsappNumber, enableWhatsapp: values.enable});
+                            onOk({whatsappNumber: values.whatsappNumber??'', enableWhatsapp: values.enable});
                             setStatus({ success: true });
                             setSubmitting(false);
                           } catch (err) {

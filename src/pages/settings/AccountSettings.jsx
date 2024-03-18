@@ -33,7 +33,7 @@ const AccountSettings = ()=>{
     const personalizedLink = useSelector((state)=>state.app.personalizedLink);
     const brandingRemove = useSelector((state)=>state.app.brandingRemove);
 
-    const [link, setLink] = useState(user.personalizedLink??'');
+    const [link, setLink] = useState(user?.personalizedLink??'');
     const [linkToSearch] = useDebounce (link, 300);
     const [linkState, setLinkState] = useState(null);
 
@@ -62,7 +62,7 @@ const AccountSettings = ()=>{
     };
 
     useEffect(() => {
-        if(linkToSearch==user.personalizedLink){
+        if(linkToSearch==user?.personalizedLink){
             setLinkState(null)
         }else if (linkToSearch.trim() !== '') {
             checkDomainIsAvailable();
@@ -206,7 +206,7 @@ const AccountSettings = ()=>{
                 </ListItemText>
                 <ListItemIcon>
                     <Switch
-                        checked={user.followUp && followup}
+                        checked={user?.followUp && followup}
                         onChange={(e) => {
                             if(followup){
                                 const { checked } = e.target;
@@ -234,7 +234,7 @@ const AccountSettings = ()=>{
                 </ListItemText>
                 <ListItemIcon>
                     <Switch
-                        checked={!user.branding}
+                        checked={!user?.branding}
                         onChange={(e) => {
                             if(brandingRemove){
                                 const { checked } = e.target;
@@ -278,7 +278,7 @@ const AccountSettings = ()=>{
                 </ListItemText>
                 <ListItemIcon>
                     {
-                        user.emailVerified
+                        user?.emailVerified
                             ? <BiSolidBadgeCheck style={{fontSize: "38px", color: "green"}}/>
                             : <Button disabled={btnLoading} variant="contained" sx={{width: "136px"}} onClick={()=>handleVerifyEmail()} >
                                 { btnLoading

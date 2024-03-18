@@ -63,20 +63,20 @@ const app = createSlice({
             }else{
               state.maxCards = 25;
               state.maxLeads = 1000;
-              state.analytics= false;
-              state.personalizedLink= false;
-              state.leadCapture=  false;
-              state.videos=  false;
-              state.designs=  false;
-              state.badges=  false;
-              state.followup=  false;
+              state.analytics= true;
+              state.personalizedLink= true;
+              state.leadCapture=  true;
+              state.videos=  true;
+              state.designs=  true;
+              state.badges=  true;
+              state.followup=  true;
             }
             state.enableIntegration = true;
             state.enableExport = true;
-            state.enableQrCodeLogo= false;
-            state.cardAnalytics = false;
-            state.brandingRemove = false;
-            state.enableTags = false;
+            state.enableQrCodeLogo= true;
+            state.cardAnalytics = true;
+            state.brandingRemove = true;
+            state.enableTags = true;
           };
           state.enableEmailSignature = true;
           state.enableVirtualBackground = true;
