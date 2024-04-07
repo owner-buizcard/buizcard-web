@@ -1,0 +1,40 @@
+import { Box, Button, Stack, Typography } from "@mui/material";
+import LogoImg from '../../assets/images/logo.png'
+
+const Header = ()=>{
+  return (
+    <Box sx={{
+      zIndex: "1100",
+      position: "fixed",
+      color: "rgb(240, 247, 255)",
+      backgroundColor: "rgba(255, 255, 255, 0.4)",
+      backdropFilter: "blur(24px)",
+      border: "1px solid rgba(191, 204, 217, 0.5)",
+      boxShadow:"rgba(85, 166, 246, 0.1) 0px 0px 1px, rgba(85, 166, 246, 0.15) 1px 1.5px 2px -1px, rgba(85, 166, 246, 0.15) 4px 4px 12px -2.5px",
+      right: 0,
+      left: 0,
+      m: "16px",
+      p: "12px 16px",
+      borderRadius: "36px"
+    }}>
+      <Stack direction={"row"} alignItems={"center"} spacing={8}>
+        <Box component={"img"} src={LogoImg} width={"100px"} style={{marginLeft: "16px"}}/>
+        <Stack direction={"row"} alignItems={"center"} spacing={6} width={"100%"}>
+          <Typography variant="h5" color={"#333"} fontWeight={400}>Features</Typography>
+          <Typography variant="h5" color={"#333"} fontWeight={400}>Pricing</Typography>
+          <Typography variant="h5" color={"#333"} fontWeight={400}>Testimonials</Typography>
+          <Typography variant="h5" color={"#333"} fontWeight={400}>FAQ</Typography>
+        </Stack>
+        <Stack direction={"row"} alignItems={"center"} spacing={2}>
+          <Button sx={{width: "120px", borderRadius: "30px", fontSize: "16px"}}>Contact Us</Button>
+          <Button variant="outlined" sx={{width: "80px", borderRadius: "30px", fontWeight: 600}}>Log In</Button>
+          <Button 
+            variant="contained" 
+            sx={{width: "120px", fontWeight: 600, borderRadius: "30px", backgroundImage: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)'}}>Create Card</Button>
+        </Stack>
+      </Stack>
+    </Box>
+  )
+}
+
+export default Header;
