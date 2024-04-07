@@ -1,8 +1,11 @@
 import { ArrowRightOutlined } from "@ant-design/icons";
 import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import AnimateButton from "../../components/@extended/AnimateButton";
+import { useNavigate } from "react-router-dom";
 
 const Banner = ()=>{
+
+  const navigate = useNavigate();
 
   return (
     <Grid container sx={{py: "200px"}}>
@@ -47,6 +50,7 @@ const Banner = ()=>{
 
         <AnimateButton>
           <Button
+            onClick={()=>navigate('/register')}
             sx={{
               color: "white",
               background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',

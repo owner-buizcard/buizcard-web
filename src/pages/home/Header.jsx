@@ -38,7 +38,7 @@ const Header = ({handleClick})=>{
           </Button>
         </Stack>
         <Stack direction={"row"} alignItems={"center"} spacing={2}>
-          <Button sx={{width: "120px", borderRadius: "30px", fontSize: "16px"}}>Contact Us</Button>
+          <Button onClick={()=>handleClick('contact')} sx={{width: "120px", borderRadius: "30px", fontSize: "16px"}}>Contact Us</Button>
           <Button 
             onClick={()=>navigate('/login')}
             variant="outlined" sx={{width: "80px", borderRadius: "30px", fontWeight: 600}}>Log In</Button>

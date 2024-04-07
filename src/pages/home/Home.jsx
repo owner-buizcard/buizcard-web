@@ -11,6 +11,8 @@ import Pricing from "./Pricing";
 import Features from "./Features";
 import Testimonials from "./Testimonials";
 import { useEffect, useLayoutEffect, useRef } from "react";
+import Footer from "./Footer";
+import Contact from "./Contact";
 
 const Home =()=>{
 
@@ -24,6 +26,7 @@ const Home =()=>{
     features: useRef(null),
     pricing: useRef(null),
     testimonials: useRef(null),
+    contact: useRef(null),
     faq: useRef(null)
   };
 
@@ -59,6 +62,16 @@ const Home =()=>{
         <div ref={sectionRefs.faq} style={{paddingTop: "42px"}}>
           <Faq/>
         </div>
+        <div ref={sectionRefs.contact} style={{paddingTop: "42px"}}>
+          <Contact/>
+        </div>
+        <Box
+          sx={{
+            margin: "54px 0px 54px 0px",
+            borderTop: "1px solid rgba(191, 204, 217, 0.5)"
+          }}
+        />
+        <Footer/>
       </Box>
     </Box>
   )
