@@ -80,7 +80,7 @@ const Pricing =()=>{
 
   return (
     <>
-      <Grid container spacing={2} sx={{background: "linear-gradient(45deg, #FE6B8B11 30%, rgba(79, 75, 255, 0.1) 90%)", py: 6, px: 4}}>
+      <Grid container spacing={2} sx={{background: "linear-gradient(45deg, #FE6B8B11 30%, rgba(79, 75, 255, 0.1) 90%)", py: 6, px: 12}}>
           <Grid item xs={12} sx={{ mb: 0.5 }}>
             <Stack alignItems={"center"} sx={{mb: "32px"}}>
               <Typography variant="h2">Pricing Plans</Typography>

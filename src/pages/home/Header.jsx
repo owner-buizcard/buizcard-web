@@ -1,7 +1,11 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
 import LogoImg from '../../assets/images/logo.png'
+import { useNavigate } from "react-router-dom";
 
 const Header = ({handleClick})=>{
+
+  const navigate = useNavigate();
+
   return (
     <Box sx={{
       zIndex: "1100",
@@ -35,9 +39,12 @@ const Header = ({handleClick})=>{
         </Stack>
         <Stack direction={"row"} alignItems={"center"} spacing={2}>
           <Button sx={{width: "120px", borderRadius: "30px", fontSize: "16px"}}>Contact Us</Button>
-          <Button variant="outlined" sx={{width: "80px", borderRadius: "30px", fontWeight: 600}}>Log In</Button>
+          <Button 
+            onClick={()=>navigate('/login')}
+            variant="outlined" sx={{width: "80px", borderRadius: "30px", fontWeight: 600}}>Log In</Button>
           <Button 
             variant="contained" 
+            onClick={()=>navigate('/register')}
             sx={{width: "120px", fontWeight: 600, borderRadius: "30px", backgroundImage: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)'}}>Create Card</Button>
         </Stack>
       </Stack>
