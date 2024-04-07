@@ -1,7 +1,7 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
 import LogoImg from '../../assets/images/logo.png'
 
-const Header = ()=>{
+const Header = ({handleClick})=>{
   return (
     <Box sx={{
       zIndex: "1100",
@@ -19,11 +19,19 @@ const Header = ()=>{
     }}>
       <Stack direction={"row"} alignItems={"center"} spacing={8}>
         <Box component={"img"} src={LogoImg} width={"100px"} style={{marginLeft: "16px"}}/>
-        <Stack direction={"row"} alignItems={"center"} spacing={6} width={"100%"}>
-          <Typography variant="h5" color={"#333"} fontWeight={400}>Features</Typography>
-          <Typography variant="h5" color={"#333"} fontWeight={400}>Pricing</Typography>
-          <Typography variant="h5" color={"#333"} fontWeight={400}>Testimonials</Typography>
-          <Typography variant="h5" color={"#333"} fontWeight={400}>FAQ</Typography>
+        <Stack direction={"row"} alignItems={"center"} width={"100%"}>
+          <Button sx={{width: "120px", borderRadius: "30px", fontSize: "16px"}} onClick={()=>handleClick('features')}>
+            <Typography variant="h5" color={"#333"} fontWeight={400}>Features</Typography>
+          </Button>
+          <Button sx={{width: "120px", borderRadius: "30px", fontSize: "16px"}} onClick={()=>handleClick('pricing')} >
+            <Typography variant="h5" color={"#333"} fontWeight={400}>Pricing</Typography>
+          </Button>
+          <Button sx={{width: "120px", borderRadius: "30px", fontSize: "16px"}} onClick={()=>handleClick('testimonials')}>
+            <Typography variant="h5" color={"#333"} fontWeight={400}>Testimonials</Typography>
+          </Button>
+          <Button sx={{width: "120px", borderRadius: "30px", fontSize: "16px"}} onClick={()=>handleClick('faq')} >
+            <Typography variant="h5" color={"#333"} fontWeight={400}>FAQ</Typography>
+          </Button>
         </Stack>
         <Stack direction={"row"} alignItems={"center"} spacing={2}>
           <Button sx={{width: "120px", borderRadius: "30px", fontSize: "16px"}}>Contact Us</Button>

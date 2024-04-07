@@ -9,6 +9,8 @@ import Faq from "./Faq";
 import App from "./App";
 import Pricing from "./Pricing";
 import Features from "./Features";
+import Testimonials from "./Testimonials";
+import { useEffect, useLayoutEffect, useRef } from "react";
 
 const Home =()=>{
 
@@ -16,15 +18,47 @@ const Home =()=>{
 
   const navigate = useNavigate();
 
+  const sectionRefs = {
+    home: useRef(null),
+    app: useRef(null),
+    features: useRef(null),
+    pricing: useRef(null),
+    testimonials: useRef(null),
+    faq: useRef(null)
+  };
+
+  const handleScrollToSection = (section) => {
+
+    console.log(sectionRefs[section])
+    if (sectionRefs[section].current) {
+      sectionRefs[section].current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   return (
     <Box sx={{position: "relative"}}>
-      <Header/>
+      <Header 
+        handleClick={(s)=>handleScrollToSection(s)}
+      />
       <Box sx={{display: "flex", flexDirection: "column"}}>
-        <Banner/>
-        <App/>
-        <Features/>
-        <Pricing/>
-        <Faq/>
+        <div ref={sectionRefs.home}>
+          <Banner/>
+        </div>
+        <div ref={sectionRefs.app}>
+          <App/>
+        </div>
+        <div ref={sectionRefs.features} style={{paddingTop: "42px"}}>
+          <Features/>
+        </div>
+        <div ref={sectionRefs.pricing} style={{paddingTop: "42px"}}>
+          <Pricing/>
+        </div>
+        <div ref={sectionRefs.testimonials} style={{paddingTop: "42px"}}>
+          <Testimonials/>
+        </div>
+        <div ref={sectionRefs.faq} style={{paddingTop: "42px"}}>
+          <Faq/>
+        </div>
       </Box>
     </Box>
   )
