@@ -10,15 +10,18 @@ import App from "./App";
 import Pricing from "./Pricing";
 import Features from "./Features";
 import Testimonials from "./Testimonials";
-import { useEffect, useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Footer from "./Footer";
 import Contact from "./Contact";
+import HomeDrawer from "./HomeDrawer";
 
 const Home =()=>{
 
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
 
   const navigate = useNavigate();
+
+  const [open, setOpen] = useState(false);
 
   const sectionRefs = {
     home: useRef(null),
@@ -40,8 +43,17 @@ const Home =()=>{
 
   return (
     <Box sx={{position: "relative"}}>
+      <HomeDrawer 
+        open={open} 
+        onClose={()=>setOpen(false)}
+        handleClick={(v)=>{
+          setOpen(false);
+          handleScrollToSection(v)
+        }}
+      />
       <Header 
         handleClick={(s)=>handleScrollToSection(s)}
+        handleDrawer={()=>setOpen(true)}
       />
       <Box sx={{display: "flex", flexDirection: "column"}}>
         <div ref={sectionRefs.home}>

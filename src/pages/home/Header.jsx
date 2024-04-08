@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useTheme } from "@emotion/react";
 import { MenuOutlined } from "@ant-design/icons";
 
-const Header = ({handleClick})=>{
+const Header = ({handleClick, handleDrawer})=>{
 
   const navigate = useNavigate();
   const theme = useTheme();
@@ -66,7 +66,7 @@ const Header = ({handleClick})=>{
           {
             !isMdScreen && (
               <Box>
-                <IconButton>
+                <IconButton onClick={handleDrawer}>
                   <MenuOutlined/>
                 </IconButton>
               </Box>
