@@ -1,12 +1,19 @@
-import { Box, Grid, Stack, Typography } from '@mui/material'
+import { Box, Grid, Stack, Typography, useMediaQuery } from '@mui/material'
 import React from 'react'
 import MainCard from '../../components/MainCard'
 import Feature1 from '../../assets/images/feature1.png'
 import { MdOutlineDoubleArrow } from "react-icons/md";
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import { useTheme } from '@emotion/react';
 
 function Features() {
+
+
+  const theme = useTheme();
+
+  const isMdScreen = useMediaQuery('(min-width:960px)');
+  const isMobileScreen = useMediaQuery('(min-width:600px)');
 
   const features = [
     {
@@ -55,27 +62,26 @@ function Features() {
 
   return (
     <Box>
-      <Stack alignItems={"center"} spacing={12} sx={{py: 6}}>
+      <Stack alignItems={"center"} spacing={ !isMobileScreen ? 6: 12} sx={{py: 6}}>
         <Typography variant="h1" sx={{fontWeight: 600}}>Endless Features</Typography>
 
-        <Stack alignItems={"center"} spacing={8} >
+        <Stack alignItems={"center"} spacing={ !isMobileScreen ? 0: 8 } >
           {
             features.map((f, idx)=>{
               const { ref, inView } = useInView();
               return (
 
                 <Stack key={f.title} direction={idx%2==0 ? "row": "row-reverse"} sx={{justifyContent: "center"}} spacing={4}>
-                  <motion.div
-                    ref={ref}
-                    initial={{ opacity: 0, x: -100 }}
-                    animate={{ opacity: inView ? 1 : 0, x: inView ?  0 : idx%2==0 ? -100 : 100 }}
-                    transition={{ duration: 0.5 }}
-                  >
                   <MainCard
                     sx={{
                       background: `${idx%2==0 ? "#FE6B8B22": "#FF8E5322"}`,
                       height: "430px",
-                      width: "430px"
+                      width: "430px",
+                      [theme.breakpoints.down('sm')]: {
+                        width: "100%",
+                        margin: "20px !important",
+                        height: "fit-content"
+                      }
                     }}
                   >
                     <Stack spacing={2} >
@@ -96,22 +102,28 @@ function Features() {
                       </Stack>
                     </Stack>
                   </MainCard>
-                  </motion.div>
-                  <motion.div
-                    ref={ref}
-                    initial={{ opacity: 0, x: 100 }}
-                    animate={{ opacity: inView ? 1 : 0, x: inView ? 0 : idx%2==0 ? 100 : -100 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                  <MainCard
-                      sx={{
-                        height: "430px",
-                        width: "630px"
-                      }}
-                    >
-                      <Box component={"img"} src={Feature1} width={"100%"} height={"400px"} sx={{objectFit: "contain"}}/>
-                  </MainCard>
-                  </motion.div>
+                  {
+                    isMdScreen && (
+                      <motion.div
+                        ref={ref}
+                        initial={{ opacity: 0, x: 100 }}
+                        animate={{ opacity: inView ? 1 : 0, x: inView ? 0 : idx%2==0 ? 100 : -100 }}
+                        transition={{ duration: 0.5 }}
+                      >
+                      <MainCard
+                          sx={{
+                            height: "430px",
+                            width: "500px",
+                            [theme.breakpoints.up('lg')]: {
+                              width: "630px",
+                            }
+                          }}
+                        >
+                          <Box component={"img"} src={Feature1} width={"100%"} height={"400px"} sx={{objectFit: "contain"}}/>
+                      </MainCard>
+                      </motion.div>
+                    )
+                  }
                 </Stack>
               )
             })
