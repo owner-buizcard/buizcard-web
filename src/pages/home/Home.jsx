@@ -71,7 +71,9 @@ const Home =()=>{
             borderTop: "1px solid rgba(191, 204, 217, 0.5)"
           }}
         />
-        <Footer/>
+        <Footer
+          handleProductClick={(s)=>handleScrollToSection(s)}
+        />
       </Box>
     </Box>
   )

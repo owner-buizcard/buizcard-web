@@ -1,4 +1,4 @@
-import { Box, Divider, Grid, Stack, Typography } from '@mui/material'
+import { Box, Grid, Stack, Typography } from '@mui/material'
 import React from 'react'
 import LogoImage from '../../assets/images/logo.png'
 import QrImage from '../../assets/images/qr.png'
@@ -6,9 +6,89 @@ import MainCard from '../../components/MainCard'
 import { FaLinkedin } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { FaSquareInstagram } from "react-icons/fa6";
+import { useNavigate } from 'react-router-dom'
 
 
-function Footer() {
+function Footer({handleProductClick}) {
+  const navigate = useNavigate();
+  const items = [
+    {
+      title: "Product",
+      items: [
+        {
+          label: "Features",
+          key: "features"
+        },
+        {
+          label: "Pricing",
+          key: "pricing"
+        },
+        {
+          label: "Testimonials",
+          key: "testimonials"
+        },
+        {
+          label: "Faq",
+          key: "faq"
+        }
+      ]
+    },
+    {
+      title: "Company",
+      items: [
+        {
+          label: "About Us",
+          key: "about"
+        },
+        {
+          label: "Help Center",
+          key: "help"
+        },
+        {
+          label: "Careers",
+          key: "careers"
+        }
+      ]
+    },
+    {
+      title: "Legal",
+      items: [
+        {
+          label: "Terms",
+          key: "terms"
+        },
+        {
+          label: "Privacy",
+          key: "privacy"
+        },
+        {
+          label: "Contact",
+          key: "contact"
+        }
+      ]
+    }
+  ]
+
+  const handleClick =(key, title)=>{
+    if(title=="Product" || (title=="Legal" && key=="contact")){
+      handleProductClick(key)
+    }else if(title=="Legal"){
+      navigate(`/legal/${key}`)
+    }
+  }
+
+  const openSocialMedia =(key)=>{
+    let link = '';
+    if(key=="instagram"){
+      link = "";
+    }else if(key=="linkedin"){
+      link = "https://www.linkedin.com/company/buizcard";
+    }else{
+      link = "https://twitter.com/buizcard_ai";
+    }
+    window.open(link, "_blank");
+  }
+
   return (
     <Grid container px={6} py={3}>
       <Grid item xs={6}>
@@ -24,37 +104,36 @@ function Footer() {
           </Stack>
         </Stack>
       </Grid>
-      <Grid item xs={2}>
-        <Stack spacing={3} sx={{pt: 1}}>
-          <Typography variant='h5'>Product</Typography>
-          <Stack spacing={1}>
-            <Typography>Features</Typography>
-            <Typography>Pricing</Typography>
-            <Typography>Testimonials</Typography>
-            <Typography>Faq</Typography>
-          </Stack>
-        </Stack>
-      </Grid>
-      <Grid item xs={2}>
-        <Stack spacing={3} sx={{pt: 1}}>
-          <Typography variant='h5'>Company</Typography>
-          <Stack spacing={1}>
-            <Typography>About Us</Typography>
-            <Typography>Help Center</Typography>
-            <Typography>Careers</Typography>
-          </Stack>
-        </Stack>
-      </Grid>
-      <Grid item xs={2}>
-        <Stack spacing={3} sx={{pt: 1}}>
-          <Typography variant='h5'>Legal</Typography>
-          <Stack spacing={1}>
-            <Typography>Terms</Typography>
-            <Typography>Privacy</Typography>
-            <Typography>Contact</Typography>
-          </Stack>
-        </Stack>
-      </Grid>
+      {
+        items.map((i, idx)=>{
+          return (
+            <Grid item xs={2} key={idx}>
+              <Stack spacing={3} sx={{pt: 1}}>
+                <Typography variant='h5'>{i.title}</Typography>
+                <Stack spacing={1} alignItems={"start"}>
+                  {
+                    i.items.map((opt)=>{
+                      return (
+                        <Box
+                          onClick={()=>handleClick(opt.key, i.title)}
+                          sx={{
+                            cursor: "pointer",
+                            ":hover": {
+                              color: "#1677ff"
+                            }
+                          }}
+                        >
+                          <Typography>{opt.label}</Typography>
+                        </Box>
+                      )
+                    })
+                  }
+                </Stack>
+              </Stack>
+            </Grid>
+          )
+        })
+      }
       <Grid item xs={12}>
         <Box
           sx={{
@@ -66,14 +145,38 @@ function Footer() {
       <Grid item xs={12}>
         <Stack direction={"row"} justifyContent={"space-between"} alignItems={"center"}>
           <Stack spacing={0.5}>
-            <Typography variant="h5" sx={{fontWeight: 500}}>Privacy Policy • Terms of Service</Typography>
-            <Typography sx={{color: "#6f6f6f"}}>Copyright © Buizcard 2024</Typography>
+            <Typography
+              variant="h5" sx={{
+                fontWeight: 500, 
+                
+              }}> <Stack direction={"row"} spacing={0.5}>
+                <Box
+                  onClick={()=>handleClick("privacy", "Legal")}
+                  sx={{
+                    cursor: "pointer",
+                    ":hover": {
+                      textDecoration: "underline"
+                    }  
+                  }}
+                >Privacy Policy</Box> 
+                <Box>.</Box> 
+                <Box
+                  onClick={()=>handleClick("terms", "Legal")}
+                  sx={{
+                    cursor: "pointer",
+                    ":hover": {
+                      textDecoration: "underline"
+                    }  
+                  }}
+                >Terms of Service</Box>
+              </Stack></Typography>
+            <Typography sx={{color: "#6f6f6f", cursor: "pointer"}}>Copyright © Buizcard 2024</Typography>
           </Stack>
 
           <Stack direction={"row"} spacing={3} >
-            <FaSquareInstagram style={{fontSize: "28px", color: "#6f6f6f"}}/>
-            <FaLinkedin style={{fontSize: "28px", color: "#6f6f6f"}}/>
-            <FaXTwitter style={{fontSize: "28px", color: "#6f6f6f"}}/>
+            <FaSquareInstagram onClick={()=>openSocialMedia("instagram")} style={{fontSize: "28px", color: "#6f6f6f", cursor: "pointer"}}/>
+            <FaLinkedin onClick={()=>openSocialMedia("linkedin")} style={{fontSize: "28px", color: "#6f6f6f", cursor: "pointer"}}/>
+            <FaXTwitter onClick={()=>openSocialMedia("twitter")} style={{fontSize: "28px", color: "#6f6f6f", cursor: "pointer"}}/>
           </Stack>
         </Stack>
       </Grid>
