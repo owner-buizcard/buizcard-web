@@ -1,4 +1,4 @@
-import { Box, Button, Chip, Divider, Grid, List, ListItem, ListItemText, Stack, Typography } from "@mui/material";
+import { Box, Button, Chip, Divider, Grid, List, ListItem, ListItemText, Stack, Typography, useMediaQuery } from "@mui/material";
 import MainCard from "../../components/MainCard";
 import { useSelector } from "react-redux";
 import { CheckOutlined } from "@ant-design/icons";
@@ -11,6 +11,9 @@ import { useNavigate } from "react-router-dom";
 const Pricing =()=>{
   const theme = useTheme();
   const navigate = useNavigate();
+
+  const isMdScreen = useMediaQuery('(min-width:960px)');
+  const isMobileScreen = useMediaQuery('(min-width:600px)');
 
   const plans = [
     {
@@ -80,7 +83,7 @@ const Pricing =()=>{
 
   return (
     <>
-      <Grid container spacing={2} sx={{background: "linear-gradient(45deg, #FE6B8B11 30%, rgba(79, 75, 255, 0.1) 90%)", py: 6, px: 12}}>
+      <Grid container spacing={2} justifyContent={"center"} sx={{background: "linear-gradient(45deg, #FE6B8B11 30%, rgba(79, 75, 255, 0.1) 90%)", py: 6, px: !isMobileScreen ? "16px": !isMdScreen ? 6: 12}}>
           <Grid item xs={12} sx={{ mb: 0.5 }}>
             <Stack alignItems={"center"} sx={{mb: "32px"}}>
               <Typography variant="h2">Pricing Plans</Typography>
@@ -123,7 +126,7 @@ const Pricing =()=>{
           {
             plans.map((plan, index)=>{
               return (
-                <Grid item xs={4} key={plan._id}>
+                <Grid item xs={12} md={6} lg={4}  key={plan._id}>
                   <MainCard
                     sx={{
                       background: index==1 ? "#eff8ff": null
