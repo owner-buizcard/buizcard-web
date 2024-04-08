@@ -1,16 +1,20 @@
-import { Box, Button, FormLabel, Grid, InputLabel, OutlinedInput, Stack, Typography } from '@mui/material'
+import { Box, Button, FormLabel, Grid, InputLabel, OutlinedInput, Stack, Typography, useMediaQuery } from '@mui/material'
 import React from 'react'
 
 function Contact() {
+
+
+  const isMdScreen = useMediaQuery('(min-width:960px)');
+
   return (
     <Grid container spacing={2} sx={{my: 6}} justifyContent={"center"}>
       <Grid item xs={12} sx={{mb: 3}}>
-        <Stack alignItems={"center"} sx={{mb: "32px"}}>
+        <Stack alignItems={"center"} sx={{mb: "32px", textAlign: "center"}} spacing={1}>
           <Typography variant="h2">Get in touch with our sales team</Typography>
           <Typography>Have a general question about our product, plans, or something else?</Typography>
         </Stack>
       </Grid>
-      <Grid item xs={8}>
+      <Grid item xs={12} md={8} mx={"16px"}>
         <Stack direction={"row"} spacing={4}>
           <Stack spacing={1} sx={{width: "100%"}}>
             <InputLabel htmlFor="email" >First Name</InputLabel>
@@ -21,8 +25,8 @@ function Contact() {
                 placeholder="Enter first name"
                 sx={{
                   p: 0.5,
-                  borderRadius: "16px",
-                background: "#efefef11"
+                  borderRadius: isMdScreen ? "16px": "8px",
+                  background: "#efefef11"
                 }}
                 fullWidth
             />
@@ -36,15 +40,15 @@ function Contact() {
                 placeholder="Enter last name"
                 sx={{
                   p: 0.5,
-                  borderRadius: "16px",
-                background: "#efefef11"
+                  borderRadius: isMdScreen ? "16px": "8px",
+                  background: "#efefef11"
                 }}
                 fullWidth
             />
           </Stack>
         </Stack>
       </Grid>
-      <Grid item xs={8}>
+      <Grid item xs={12} md={8} mx={"16px"}>
         <Stack direction={"row"} spacing={4}>
           <Stack spacing={1} sx={{width: "100%"}}>
             <InputLabel htmlFor="email" >Email Address</InputLabel>
@@ -55,8 +59,8 @@ function Contact() {
                 placeholder="Enter email address"
                 sx={{
                   p: 0.5,
-                  borderRadius: "16px",
-                background: "#efefef11"
+                  borderRadius: isMdScreen ? "16px": "8px",
+                  background: "#efefef11"
                 }}
                 fullWidth
             />
@@ -70,15 +74,15 @@ function Contact() {
                 placeholder="Enter phone number"
                 sx={{
                   p: 0.5,
-                  borderRadius: "16px",
-                background: "#efefef11"
+                  borderRadius: isMdScreen ? "16px": "8px",
+                  background: "#efefef11"
                 }}
                 fullWidth
             />
           </Stack>
         </Stack>
       </Grid>
-      <Grid item xs={8}>
+      <Grid item xs={12} md={8} mx={"16px"}>
         <Stack spacing={1} sx={{width: "100%"}}>
           <InputLabel htmlFor="email" >Job Title</InputLabel>
           <OutlinedInput
@@ -88,14 +92,14 @@ function Contact() {
               placeholder="Enter job title"
               sx={{
                 p: 0.5,
-                borderRadius: "16px",
+                borderRadius: isMdScreen ? "16px": "8px",
                 background: "#efefef11"
               }}
               fullWidth
           />
         </Stack>
       </Grid>
-      <Grid item xs={8}>
+      <Grid item xs={12} md={8} mx={"16px"}>
         <Stack spacing={1} sx={{width: "100%"}}>
           <InputLabel htmlFor="email" >Website Url</InputLabel>
           <OutlinedInput
@@ -105,14 +109,14 @@ function Contact() {
               placeholder="Enter website url"
               sx={{
                 p: 0.5,
-                borderRadius: "16px",
+                borderRadius: isMdScreen ? "16px": "8px",
                 background: "#efefef11"
               }}
               fullWidth
           />
         </Stack>
       </Grid>
-      <Grid item xs={8}>
+      <Grid item xs={12} md={8} mx={"16px"}>
         <Stack spacing={1} sx={{width: "100%"}}>
           <InputLabel htmlFor="email" >Message</InputLabel>
           <OutlinedInput
@@ -124,7 +128,7 @@ function Contact() {
               placeholder="Enter your message"
               sx={{
                 p: 2.2,
-                borderRadius: "16px",
+                borderRadius: isMdScreen ? "16px": "8px",
                 background: "#efefef11"
               }}
               fullWidth

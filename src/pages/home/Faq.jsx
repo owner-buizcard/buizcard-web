@@ -5,7 +5,8 @@ import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import { IoIosArrowForward } from "react-icons/io";
-import { Box, Stack } from '@mui/material';
+import { Box, Stack, useMediaQuery } from '@mui/material';
+import { useTheme } from '@emotion/react';
 
 
 const Accordion = styled((props) => (
@@ -51,6 +52,13 @@ export default function Faq() {
     setExpanded(newExpanded ? panel : false);
   };
 
+  const theme = useTheme();
+
+  const isMdScreen = useMediaQuery('(min-width:960px)');
+  const isMobileScreen = useMediaQuery('(min-width:600px)');
+
+  
+
   const faqs = [
     {
       "q": "What is a digital business card application?",
@@ -80,8 +88,8 @@ export default function Faq() {
 
   return (
     <Stack alignItems={"center"} spacing={6} sx={{py: 6}}>
-      <Typography variant="h2" sx={{fontWeight: 500}}>Frequently Asked Questions</Typography>
-      <Box sx={{px: 6}}>
+      <Typography variant="h2" sx={{fontWeight: 500, textAlign: "center"}}>Frequently Asked Questions</Typography>
+      <Box sx={{px: isMdScreen ? 6: "16px"}}>
         {
           faqs.map((i, idx)=>{
             return (
