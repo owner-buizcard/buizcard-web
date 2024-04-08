@@ -1,4 +1,4 @@
-import { Box, Grid, Stack, Typography } from '@mui/material'
+import { Box, Grid, Stack, Typography, useMediaQuery } from '@mui/material'
 import React from 'react'
 import LogoImage from '../../assets/images/logo.png'
 import QrImage from '../../assets/images/qr.png'
@@ -7,10 +7,17 @@ import { FaLinkedin } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { FaSquareInstagram } from "react-icons/fa6";
 import { useNavigate } from 'react-router-dom'
+import { useTheme } from '@emotion/react'
 
 
 function Footer({handleProductClick}) {
   const navigate = useNavigate();
+
+  const theme = useTheme();
+
+  const isMdScreen = useMediaQuery('(min-width:1024px)');
+  const isMobileScreen = useMediaQuery('(min-width:600px)');
+
   const items = [
     {
       title: "Product",
@@ -90,9 +97,9 @@ function Footer({handleProductClick}) {
   }
 
   return (
-    <Grid container px={6} py={3}>
-      <Grid item xs={6}>
-        <Stack spacing={2}>
+    <Grid container px={ isMdScreen ? 6: "16px"} py={3}>
+      <Grid item xs={12} md={6} >
+        <Stack spacing={2} alignItems={ isMdScreen ? "start": "center"}>
           <Box component={"img"} src={LogoImage} width={"180px"}/>
           <Stack spacing={1}>
             <Typography>Scan To Get Buizcard</Typography>
@@ -107,10 +114,12 @@ function Footer({handleProductClick}) {
       {
         items.map((i, idx)=>{
           return (
-            <Grid item xs={2} key={idx}>
-              <Stack spacing={3} sx={{pt: 1}}>
-                <Typography variant='h5'>{i.title}</Typography>
+            <Grid item xs={4} md={2}  key={idx}>
+              <Stack spacing={3} sx={{pt: isMdScreen ? 1 : 5}} alignItems={"center"}>
                 <Stack spacing={1} alignItems={"start"}>
+                  <Box sx={{pb: 1}}>
+                    <Typography variant='h5' >{i.title}</Typography>
+                  </Box>
                   {
                     i.items.map((opt)=>{
                       return (
@@ -143,8 +152,8 @@ function Footer({handleProductClick}) {
         />
       </Grid>
       <Grid item xs={12}>
-        <Stack direction={"row"} justifyContent={"space-between"} alignItems={"center"}>
-          <Stack spacing={0.5}>
+        <Stack direction={ isMdScreen ? "row" : "column"} justifyContent={"space-between"} alignItems={"center"}>
+          <Stack spacing={0.5} alignItems={ isMdScreen ? "start": "center"}>
             <Typography
               variant="h5" sx={{
                 fontWeight: 500, 
@@ -173,7 +182,7 @@ function Footer({handleProductClick}) {
             <Typography sx={{color: "#6f6f6f", cursor: "pointer"}}>Copyright © Buizcard 2024</Typography>
           </Stack>
 
-          <Stack direction={"row"} spacing={3} >
+          <Stack direction={"row"} spacing={3} mt={ isMdScreen ? 0: 5}>
             <FaSquareInstagram onClick={()=>openSocialMedia("instagram")} style={{fontSize: "28px", color: "#6f6f6f", cursor: "pointer"}}/>
             <FaLinkedin onClick={()=>openSocialMedia("linkedin")} style={{fontSize: "28px", color: "#6f6f6f", cursor: "pointer"}}/>
             <FaXTwitter onClick={()=>openSocialMedia("twitter")} style={{fontSize: "28px", color: "#6f6f6f", cursor: "pointer"}}/>
@@ -183,7 +192,10 @@ function Footer({handleProductClick}) {
       <Grid item xs={12} sx={{pt: 6}}>
         <Stack alignItems={"center"}>
           <Typography variant="body2" color={"#6f6f6f"}>Powered By</Typography>
-          <Typography variant="body1" fontWeight={700} color={"#5b3fa9"}>SPIDERLINGZ</Typography>
+          <Typography
+            onClick={()=>window.open("https://spiderlingz.com", "_blank")}
+            sx={{cursor: "pointer"}}
+            variant="body1" fontWeight={700} color={"#5b3fa9"}>SPIDERLINGZ</Typography>
         </Stack>
       </Grid>
     </Grid>
