@@ -1,10 +1,25 @@
-import { Box, Button, Stack, Typography } from "@mui/material";
+import { Avatar, Box, Button, IconButton, Stack, Typography, useMediaQuery } from "@mui/material";
 import LogoImg from '../../assets/images/logo.png'
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "@emotion/react";
+import { MenuOutlined } from "@ant-design/icons";
 
 const Header = ({handleClick})=>{
 
   const navigate = useNavigate();
+  const theme = useTheme();
+
+  const isMdScreen = useMediaQuery('(min-width:960px)');
+  const isMobileScreen = useMediaQuery('(min-width:600px)');
+
+  const btnStyle = {
+    width: "100px", 
+    borderRadius: "30px", 
+    fontSize: "16px",
+    [theme.breakpoints.up('md')]: {
+      width: "120px",
+    }
+  }
 
   return (
     <Box sx={{
@@ -21,31 +36,42 @@ const Header = ({handleClick})=>{
       p: "12px 16px",
       borderRadius: "36px"
     }}>
-      <Stack direction={"row"} alignItems={"center"} spacing={8}>
-        <Box component={"img"} src={LogoImg} width={"100px"} style={{marginLeft: "16px"}}/>
-        <Stack direction={"row"} alignItems={"center"} width={"100%"}>
-          <Button sx={{width: "120px", borderRadius: "30px", fontSize: "16px"}} onClick={()=>handleClick('features')}>
-            <Typography variant="h5" color={"#333"} fontWeight={400}>Features</Typography>
-          </Button>
-          <Button sx={{width: "120px", borderRadius: "30px", fontSize: "16px"}} onClick={()=>handleClick('pricing')} >
-            <Typography variant="h5" color={"#333"} fontWeight={400}>Pricing</Typography>
-          </Button>
-          <Button sx={{width: "120px", borderRadius: "30px", fontSize: "16px"}} onClick={()=>handleClick('testimonials')}>
-            <Typography variant="h5" color={"#333"} fontWeight={400}>Testimonials</Typography>
-          </Button>
-          <Button sx={{width: "120px", borderRadius: "30px", fontSize: "16px"}} onClick={()=>handleClick('faq')} >
-            <Typography variant="h5" color={"#333"} fontWeight={400}>FAQ</Typography>
-          </Button>
-        </Stack>
+      <Stack direction={"row"} alignItems={"center"} justifyContent={"space-between"}>
+        <Box component={"img"} src={LogoImg} width={"100px"} style={{marginLeft: "16px", marginRight: "16px"}}/>
+        {
+          isMdScreen && <Stack direction={"row"} alignItems={"center"} width={"100%"}>
+            <Button sx={btnStyle} onClick={()=>handleClick('features')}>
+              <Typography variant="h5" color={"#333"} fontWeight={400}>Features</Typography>
+            </Button>
+            <Button sx={btnStyle} onClick={()=>handleClick('pricing')} >
+              <Typography variant="h5" color={"#333"} fontWeight={400}>Pricing</Typography>
+            </Button>
+            <Button sx={btnStyle} onClick={()=>handleClick('testimonials')}>
+              <Typography variant="h5" color={"#333"} fontWeight={400}>Testimonials</Typography>
+            </Button>
+            <Button sx={btnStyle} onClick={()=>handleClick('faq')} >
+              <Typography variant="h5" color={"#333"} fontWeight={400}>FAQ</Typography>
+            </Button>
+          </Stack>
+        }
         <Stack direction={"row"} alignItems={"center"} spacing={2}>
-          <Button onClick={()=>handleClick('contact')} sx={{width: "120px", borderRadius: "30px", fontSize: "16px"}}>Contact Us</Button>
+          <Button onClick={()=>handleClick('contact')} sx={{width: "120px", display: `${!isMobileScreen? "none": ""}`, borderRadius: "30px", fontSize: "16px"}}>Contact Us</Button>
           <Button 
             onClick={()=>navigate('/login')}
-            variant="outlined" sx={{width: "80px", borderRadius: "30px", fontWeight: 600}}>Log In</Button>
+            variant="outlined" sx={{width: "80px", display: `${!isMobileScreen? "none": ""}`, borderRadius: "30px", fontWeight: 600}}>Log In</Button>
           <Button 
             variant="contained" 
             onClick={()=>navigate('/register')}
-            sx={{width: "120px", fontWeight: 600, borderRadius: "30px", backgroundImage: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)'}}>Create Card</Button>
+            sx={{width: "120px",fontWeight: 600, display: `${!isMobileScreen? "none": ""}`, borderRadius: "30px", backgroundImage: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)'}}>Create Card</Button>
+          {
+            !isMdScreen && (
+              <Box>
+                <IconButton>
+                  <MenuOutlined/>
+                </IconButton>
+              </Box>
+            )
+          }
         </Stack>
       </Stack>
     </Box>
