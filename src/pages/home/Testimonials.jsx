@@ -36,14 +36,14 @@ function Testimonials() {
   ];
 
   return (
-    <Grid container spacing={2} justifyContent={"center"} sx={{my: 6}}>
+    <Grid container spacing={2} justifyContent={"center"} sx={{my: 6}} px={"16px"}>
       <Grid item xs={12} sx={{mb: 3}}>
         <Typography variant="h2" sx={{fontWeight: 500, textAlign: "center"}}>Customer Reviews</Typography>
       </Grid>
       {
         reviews.map((i, idx)=>{
           return (
-            <Grid key={idx} item xs={3}>
+            <Grid key={idx} item xs={12} md={3}>
               <MainCard>
                 <Stack>
                   <Stack spacing={2} direction={"row"} justifyContent={"center"}>
