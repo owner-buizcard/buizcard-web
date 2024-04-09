@@ -38,28 +38,7 @@ const CheckAuthAndStorage = ({ children }) => {
     if(isLoggedIn && isUnAuthRoute && currentLocation.pathname !== '/dashboard'){
       navigate('/dashboard');
     }
-
-    // navigate('/loading');
-
-    // if (isLoggedIn) {
-    //   if (!hasLocalStorage) {
-    //     Cookies.set('redirect', currentLocation.pathname);
-    //     navigate('/loading');
-    //   } else if (isUnAuthRoute && currentLocation.pathname !== '/dashboard') {
-    //     navigate('/dashboard');
-    //   }
-    // } else {
-    //   if (!isUnAuthRoute && isConfigRoute && !hasConfig) {
-    //     Cookies.set('redirect', currentLocation.pathname);
-    //     navigate('/loading');
-    //   } else if (!isUnAuthRoute) {
-    //     navigate('/login');
-    //   }
-    // }
-
-    // if (redirect) {
-    //   navigate(redirect);
-    // }
+    
   }, [user, navigate, currentLocation, config]);
 
   return <>{children}</>;
