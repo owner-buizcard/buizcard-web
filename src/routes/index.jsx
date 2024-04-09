@@ -28,6 +28,10 @@ const CheckAuthAndStorage = ({ children }) => {
       return;
     }
 
+    if(!isLoggedIn && !isUnAuthRoute){
+      navigate('/login');
+    }
+
     if(isLoggedIn && !hasLocalStorage){
       if(currentLocation.pathname && currentLocation.pathname!='/' && currentLocation.pathname!='/dashboard'){
         Cookies.set('redirect', currentLocation.pathname);
