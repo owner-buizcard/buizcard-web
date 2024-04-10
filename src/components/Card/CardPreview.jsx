@@ -19,6 +19,9 @@ const CardPreview = ({cardData, isLive=true, removePadding=false}) => {
       title={ !isLive && <Box sx={{marginBottom: "24px"}}>
         <AvatarBanner image={cardData?.banner} picture={cardData?.picture} />
       </Box>}
+      contentSX={{
+        padding: removePadding ? "16px 0px" : "12px"
+      }}
       sx={{
         minHeight: "calc(100vh - 180px)",
         width: "100%"
@@ -35,7 +38,7 @@ const CardPreview = ({cardData, isLive=true, removePadding=false}) => {
           </Stack> }
 
           { isLive && <div style={{ position: 'relative', marginBottom: "-20px" }}>
-            <Banner image={cardData?.banner??BANNER_PLACEHOLDER} theme={cardData?.theme}/>
+            <Banner image={cardData?.banner??BANNER_PLACEHOLDER} sharpEdge={true} theme={cardData?.theme}/>
             <Avatar
               src={cardData?.picture}
               sx={{
