@@ -49,7 +49,7 @@ const CardPreview = ({cardData, isLive=true, removePadding=false}) => {
               }}
             />
           </div> }
-          <Stack spacing={2} sx={{background: `linear-gradient(to bottom, ${cardData?.theme} 0%, #fff 100%)`, pt: 6, pl: 2, pr: 2}}>
+          <Stack spacing={2} sx={{background: `linear-gradient(to bottom, ${cardData?.theme}33 10%, #fff 100%)`, pt: 6, pl: 2, pr: 2}}>
 
             <Stack display={'flex'} alignItems={'center'} sx={{marginTop: "30px"}}>
               <Typography variant="h4">{cardData?.name?.prefix} {cardData?.name?.firstName} {cardData?.name?.middleName} {cardData?.name?.lastName}</Typography>

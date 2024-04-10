@@ -18,7 +18,7 @@ const Banner =({image, height, sharpEdge, theme})=>{
         image={ isEmpty ? 'none' : image}
         alt=""
         onError={handleImageError}
-        sx={{background: "#f5f5f5", borderRadius: sharpEdge ? 0 : "6px"}}
+        sx={{background: "#f5f5f5", borderRadius: sharpEdge ? 0 : "6px 6px 0 0"}}
     />
   )
 }
