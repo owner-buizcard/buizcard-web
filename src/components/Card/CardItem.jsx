@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Chip, CircularProgress, Divider, Stack, Typography } from '@mui/material';
+import { Avatar, Box, Button, Chip, CircularProgress, Divider, IconButton, Stack, Typography } from '@mui/material';
 import MainCard from '../MainCard';
 import Banner from './Banner';
 import { BANNER_PLACEHOLDER } from '../../utils/global';
@@ -6,6 +6,7 @@ import CardOptions from './CardOptions';
 import { useNavigate } from 'react-router-dom';
 import { formatDateDistance } from '../../utils/utils';
 import { useState } from 'react';
+import { ShareAltOutlined } from '@ant-design/icons';
 
 const CardItem = ({cardData, handlePreviewClick, handleDeleteClick, isLoading}) => {
 
@@ -35,6 +36,9 @@ const CardItem = ({cardData, handlePreviewClick, handleDeleteClick, isLoading}) 
         </div>
       }
     >
+    <div>
+      <Chip size="small" variant="outlined" label={cardData?.cardName} sx={{ color: 'grey', textTransform: "capitalize" }} />
+    </div>
       <Stack spacing={2}>
         <Box display={'flex'} sx={{height: "80px", alignItems: "center"}}>
           <Box sx={{ flexGrow: 1 }}>
@@ -55,15 +59,14 @@ const CardItem = ({cardData, handlePreviewClick, handleDeleteClick, isLoading}) 
           </Box>
         </Box>
         <Divider />
-        <div>
-          <Chip size="small" variant="outlined" label={cardData?.cardName} sx={{ color: 'grey' }} />
-        </div>
 
         <Box display="flex" justifyContent={"space-between"} alignItems={"center"}>
           <Typography variant="caption" sx={{color: "grey"}}> {timestamp} </Typography>
-          <Button variant="outlined" size="small" sx={{ height: '30px' }} onClick={handlePreviewClick}>
-            View
-          </Button>
+          <Stack direction={"row"} spacing={1}>
+            <Button variant="outlined" size="small" sx={{ height: '30px' }} onClick={handlePreviewClick}>
+              View
+            </Button>
+          </Stack>
         </Box>
       </Stack>
     </MainCard>

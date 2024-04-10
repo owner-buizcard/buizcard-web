@@ -124,7 +124,7 @@ const CardDetails =()=>{
                         >
                             <FaArrowLeft/>
                         </IconButton>
-                        <Typography variant="h4">{cardData?.cardName}</Typography>
+                        <Typography variant="h4" sx={{textTransform: "capitalize"}}>{cardData?.cardName}</Typography>
                     </Stack>
                     <Stack direction={"row"}>
                         <Box sx={{ flexShrink: 0, ml: 1 }}>

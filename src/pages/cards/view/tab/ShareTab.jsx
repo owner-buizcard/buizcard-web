@@ -1,14 +1,20 @@
-import { Avatar, Button, Divider, Grid, Stack, Typography } from "@mui/material";
+import { Avatar, Button, Divider, Grid, Stack, Typography, useMediaQuery } from "@mui/material";
 import CardPreview from "../../../../components/Card/CardPreview";
 import QRCodeView from "../../../../components/QRCodeView";
 import { CopyOutlined, DownloadOutlined } from "@ant-design/icons";
 import Toaster from "../../../../components/@extended/Toaster";
 import { useState } from "react";
-import { EmailShareButton, FacebookShareButton, LinkedinShareButton, WhatsappShareButton } from 'react-share';
+import { EmailIcon, EmailShareButton, FacebookShareButton, LinkedinShareButton, WhatsappShareButton } from 'react-share';
+import WhatsappImg from '../../../../assets/images/whatsapp.png'
+import FacebookImg from '../../../../assets/images/facebook.png'
+import LinkedinImg from '../../../../assets/images/linkedin.png'
+import GmailImg from '../../../../assets/images/gmail.png'
 
 const ShareTab =({cardData, captureQr})=>{
 
     const [showToast, setShowToast] = useState(false);
+
+    const isMobileScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
 
     const copyLink = ()=>{
         navigator.clipboard.writeText(cardData?.cardLink);
@@ -37,7 +43,7 @@ const ShareTab =({cardData, captureQr})=>{
                         eyeColor={cardData?.qr?.eyeColor}
                         eyeStyle={cardData?.qr?.eyeStyle}
                     />
-                    <Stack direction={"row"} sx={{display: "flex", justifyContent: "center"}} spacing={2}>
+                    <Stack direction={ isMobileScreen ? "column" : "row"} sx={{display: "flex", justifyContent: "center"}} spacing={2}>
                         <Button sx={{minWidth: "160px"}} variant="contained" startIcon={<DownloadOutlined/>} onClick={captureQr}>
                             Download Qr
                         </Button>
@@ -46,21 +52,21 @@ const ShareTab =({cardData, captureQr})=>{
                         </Button>
                     </Stack>
                     <Divider sx={{width: "100%"}}>Share On</Divider>
-                    <Stack direction={"row"} sx={{display: "flex", justifyContent: "center"}} spacing={2}>
+                    <Stack direction={"row"} sx={{display: "flex", justifyContent: "center"}} spacing={3}>
                         <EmailShareButton url={cardData?.cardLink} quote={"Hello from buizcard!"} style={{width: "100%"}}>
-                        <Avatar sx={{p: 0.55, cursor: "pointer"}} src={`https://firebasestorage.googleapis.com/v0/b/buizcard-web.appspot.com/o/cardbuilder%2Ficons%2Fsocial%2Fgmail.png?alt=media`} />
+                        <Avatar sx={{p: 0.55, cursor: "pointer", width: "50px"}} src={GmailImg} />
                         </EmailShareButton>
 
                         <FacebookShareButton url={cardData?.cardLink} quote={"Hello from buizcard!"} style={{width: "100%"}}>
-                        <Avatar sx={{p: 0.3, cursor: "pointer"}}  src={`https://firebasestorage.googleapis.com/v0/b/buizcard-web.appspot.com/o/cardbuilder%2Ficons%2Fsocial%2Ffacebook.png?alt=media`} />
+                        <Avatar sx={{p: 0.3, cursor: "pointer", width: "50px"}}  src={FacebookImg} />
                         </FacebookShareButton>
 
                         <LinkedinShareButton url={cardData?.cardLink} quote={"Hello from buizcard!"} >
-                        <Avatar sx={{p: 0.3, cursor: "pointer"}}  src={`https://firebasestorage.googleapis.com/v0/b/buizcard-web.appspot.com/o/cardbuilder%2Ficons%2Fsocial%2Flinkedin.png?alt=media`} />
+                        <Avatar sx={{p: 0.3, cursor: "pointer", width: "50px"}}  src={LinkedinImg} />
                         </LinkedinShareButton>
                         
                         <WhatsappShareButton url={cardData?.cardLink} quote={"Hello from buizcard!"} style={{width: "100%"}}>
-                        <Avatar sx={{p: 0.2, cursor: "pointer"}}  src={`https://firebasestorage.googleapis.com/v0/b/buizcard-web.appspot.com/o/cardbuilder%2Ficons%2Fcommunication%2Fwhatsapp.png?alt=media`} />
+                        <Avatar sx={{p: 0.2, cursor: "pointer", width: "50px"}}  src={WhatsappImg} />
                         </WhatsappShareButton>
                     </Stack>
                 </Stack>

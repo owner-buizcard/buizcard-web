@@ -274,3 +274,10 @@ export async function downloadImageWithText(imageSrc, cardData, imageName = 'dow
     }
   }
   
+  String.prototype.addCommaIfNotEmpty = function() {
+    if (this && this.trim() !== "") {
+      return this.trim() + ",";
+    } else {
+      return this || "";
+    }
+  };

@@ -100,14 +100,12 @@ const CardPreview = ({cardData, isLive=true, removePadding=false}) => {
             )
           }
 
-          {
-            cardData?.address && (
-              <Stack direction={'row'} alignItems={'center'} spacing={2}>
-                <EnvironmentOutlined />
-                <Typography>{cardData?.address?.addressLine1}, {cardData?.address?.city}, {cardData?.address?.state}, {cardData?.address?.country} - {cardData?.address?.pincode}</Typography>
-              </Stack>
-            )
-          }
+          {cardData?.address && Object.values(cardData.address).some(value => !!value) && (
+            <Stack direction={'row'} alignItems={'center'} spacing={2}>
+              <EnvironmentOutlined />
+              <Typography>{cardData?.address?.addressLine1?.addCommaIfNotEmpty()} {cardData?.address?.city?.addCommaIfNotEmpty()} {cardData?.address?.state?.addCommaIfNotEmpty()} {cardData?.address?.country?.addCommaIfNotEmpty()} {cardData?.address?.pincode}</Typography>
+            </Stack>
+          )}
 
           {
             cardData?.company?.companyWebsite && (
@@ -125,21 +123,22 @@ const CardPreview = ({cardData, isLive=true, removePadding=false}) => {
           </MainCard> }
 
           {cardData?.badges && cardData?.badges?.length>0 && <Divider/> }
-         
-          <Grid container spacing={0}>
-            {
-              cardData?.badges?.map((badge, idx)=>{
-                return <Grid key={idx} xs={3} item>
-                  <Box
-                      component={"img"}
-                      src={badge}
-                      width={"100%"}
-                      height={"100%"}
-                      p={1}
-                  />
-                </Grid>
-              })
-            }
+
+          <Grid container rowSpacing={2} columnSpacing={2}>
+              {
+                  cardData?.badges?.map((badge, idx)=>{
+                      return (
+                          <Grid item xs={4} key={`badge-wrapper-${idx}`}>
+                              <Box
+                                component={"img"}
+                                src={badge}
+                                width={"100%"}
+                                height={"100%"}
+                            />
+                          </Grid>
+                      )   
+                  })  
+              }
           </Grid>
 
           {
