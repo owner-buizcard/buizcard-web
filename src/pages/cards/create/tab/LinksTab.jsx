@@ -85,6 +85,7 @@ const LinksTab = () => {
     setLinkItems(filterAndGroupList(fieldTypes, "category", value))
   } 
 
+  console.log(fields);
 
   return (
     <>

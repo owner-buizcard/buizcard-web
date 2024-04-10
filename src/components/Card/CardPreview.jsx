@@ -160,12 +160,12 @@ const CardPreview = ({cardData, isLive=true, removePadding=false}) => {
           
           <Grid item key={item.id} xs={ !item.highlight ? 2 : 12}>
 
-            <ListItem sx={{ my: 2, px: 0, py: '4px', alignItems: 'center', justifyContent: item.highlight ? 'start': 'center' }}>
+            <ListItem sx={{ my: 2, mx: item.highlight ? 2 : 0, px: 0, py: '4px', alignItems: 'center', justifyContent: item.highlight ? 'start': 'center' }}>
               <ListItemIcon sx={{ minWidth: '32px', marginRight: '8px' }}>
                 <Avatar src={`https://firebasestorage.googleapis.com/v0/b/bizcard-web.appspot.com/o/${item.icon}?alt=media`} />
               </ListItemIcon>
               {
-                item.highlight && <Stack sx={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>
+                item.highlight && <Stack sx={{ whiteSpace: 'normal', wordWrap: 'break-word', marginLeft: "16px", marginRight: "12px" }}>
                   <Typography variant="body1">{item.title}</Typography>
                   <Box>
                     <Typography variant="caption" sx={{ color: 'grey' }}>
