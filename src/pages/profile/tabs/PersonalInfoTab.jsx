@@ -29,10 +29,10 @@ const PersonalInfoTab =()=>{
                     addressLine1: user?.address?.addressLine1,
                     state: user?.address?.state,
                     country: user?.address?.country,
-                    email: user?.email,
-                    additionalEmail: user?.additionalEmail,
+                    email: user?.primaryEmail,
+                    secondaryEmail: user?.secondaryEmail,
                     phoneNumber: user?.phoneNumber,
-                    additionalPhoneNumber: user?.additionalPhoneNumber
+                    secondaryNumber: user?.secondaryNumber
                 }}
                 validationSchema={Yup.object().shape({
                     firstName: Yup.string().max(40).required('First name required'),
@@ -43,7 +43,7 @@ const PersonalInfoTab =()=>{
 
                         const data = { firstName: values.firstName, lastName: values.lastName, companyName: values.companyName, companyWebsite: values.companyWebsite, designation: values.designation,
                                             address: { addressLine1: values.addressLine1, state: values.state, country: values.country },
-                                            phoneNumber: values.phoneNumber, additionalEmail: values.additionalEmail, additionalPhoneNumber: values.additionalPhoneNumber}
+                                            phoneNumber: values.phoneNumber, secondaryEmail: values.secondaryEmail, secondaryNumber: values.secondaryNumber}
                                             
                     
                         const updated = await updateProfile({...data, ...{picture: user.picture}});
@@ -146,17 +146,17 @@ const PersonalInfoTab =()=>{
                                     <OutlinedInput
                                         id="additional-email"
                                         type="email"
-                                        value={values.additionalEmail}
-                                        name="additionalEmail"
+                                        value={values.secondaryEmail}
+                                        name="secondaryEmail"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
                                         placeholder="Enter additional email"
                                         fullWidth
-                                        error={Boolean(touched.additionalEmail && errors.additionalEmail)}
+                                        error={Boolean(touched.secondaryEmail && errors.secondaryEmail)}
                                     />
-                                    {touched.additionalEmail && errors.additionalEmail && (
+                                    {touched.secondaryEmail && errors.secondaryEmail && (
                                         <FormHelperText error id="standard-weight-helper-text-additional-email">
-                                            {errors.additionalEmail}
+                                            {errors.secondaryEmail}
                                         </FormHelperText>
                                     )}
                                 </Stack>
@@ -167,17 +167,17 @@ const PersonalInfoTab =()=>{
                                     <OutlinedInput
                                         id="additional-phone-number"
                                         type="tel"
-                                        value={values.additionalPhoneNumber}
-                                        name="additionalPhoneNumber"
+                                        value={values.secondaryNumber}
+                                        name="secondaryNumber"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
                                         placeholder="Enter additional phone number"
                                         fullWidth
-                                        error={Boolean(touched.additionalPhoneNumber && errors.additionalPhoneNumber)}
+                                        error={Boolean(touched.secondaryNumber && errors.secondaryNumber)}
                                     />
-                                    {touched.additionalPhoneNumber && errors.additionalPhoneNumber && (
+                                    {touched.secondaryNumber && errors.secondaryNumber && (
                                         <FormHelperText error id="standard-weight-helper-text-additional-phone-number">
-                                            {errors.additionalPhoneNumber}
+                                            {errors.secondaryNumber}
                                         </FormHelperText>
                                     )}
                                 </Stack>
