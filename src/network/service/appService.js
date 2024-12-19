@@ -1,14 +1,7 @@
 import axiosClient from "../axiosClient";
 
 export async function fetchMainData(){
-    const [data, vbs] = await Promise.all([
-        axiosClient.get('/main'),
-        axiosClient.get('/vb')
-    ])
-
-    data.backgrounds = vbs;
-
-    return data;
+    return await axiosClient.get('/main');
 }
 
 export async function fetchConfigData(){

@@ -7,6 +7,7 @@ import CheckMail from '../pages/authentication/CheckMail';
 import VerifyEmail from '../pages/settings/VerifyEmail';
 
 const AuthLogin = Loadable(lazy(() => import('../pages/authentication/Login')));
+const AuthVerification = Loadable(lazy(() => import('../pages/authentication/Verfication')));
 const AuthRegister = Loadable(lazy(() => import('../pages/authentication/Register')));
 const AuthCallback = Loadable(lazy(() => import('../pages/authentication/AuthCallback')));
 const ForgotPassword = Loadable(lazy(() => import('../pages/authentication/ForgotPassword')));
@@ -19,6 +20,10 @@ const LoginRoutes = {
       {
         path: 'login',
         element: <AuthLogin />
+      },
+      {
+        path: 'code-verification',
+        element: <AuthVerification />
       },
       {
         path: 'register',

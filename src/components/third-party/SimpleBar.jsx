@@ -39,7 +39,7 @@ export default function SimpleBarScroll({ children, sx, ...other }) {
   return (
     <>
       <RootStyle>
-        <SimpleBar style={{overflowY: 'scroll'}}>
+        <SimpleBar >
           {children}
         </SimpleBar>
       </RootStyle>

@@ -1,7 +1,7 @@
 
 import Banner from '../assets/images/banner.png';
 
-export const BASE_URL = "https://buizcard.co";
+export const BASE_URL = "https://api.buizcard.in";
 
 export const BANNER_PLACEHOLDER = Banner;
 

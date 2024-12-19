@@ -3,16 +3,8 @@
     "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
-      "package_name": "com.spiderlingz.bizcard",
-      "sha256_cert_fingerprints": ["C8:D0:53:6B:AB:A9:BF:27:D5:48:EA:91:A8:39:22:33:3E:A7:EB:ED:FB:A5:32:D9:CD:5E:D3:B7:DB:CF:F5:46"]
-    }
-  },
-  {
-    "relation": ["delegate_permission/common.handle_all_urls"],
-    "target": {
-      "namespace": "android_app",
-      "package_name": "com.spiderlingz.bizcard",
-      "sha256_cert_fingerprints": ["18:57:D2:47:E7:A1:95:E7:3D:90:1D:CD:6C:EB:D8:F5:4C:D2:85:DD:D1:ED:86:77:CD:D3:B2:17:2B:A7:10:9E"]
+      "package_name": "com.instrive.clans",
+      "sha256_cert_fingerprints": ["ED:96:36:58:45:34:6A:4E:F1:1D:57:A1:1F:0D:3D:E9:7B:B5:B0:9D:70:86:6B:54:6E:AF:B5:09:3C:10:5B:10"]
     }
   }
 ]

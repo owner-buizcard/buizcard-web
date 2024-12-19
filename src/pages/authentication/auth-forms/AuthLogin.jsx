@@ -1,18 +1,13 @@
 import React from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import Cookies from "js-cookie";
 
 // material-ui
 import {
   Button,
-  Checkbox,
   Divider,
-  FormControlLabel,
   FormHelperText,
   Grid,
-  Link,
-  IconButton,
-  InputAdornment,
-  InputLabel,
   OutlinedInput,
   Stack,
   Typography
@@ -25,23 +20,10 @@ import { Formik } from 'formik';
 // project import
 import FirebaseSocial from './FirebaseSocial';
 import AnimateButton from '../../../components/@extended/AnimateButton';
-
-// assets
-import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
-import { signInWithEmail } from '../../../network/service/authService';
+import { requestOTP } from '../../../network/service/authService';
 
 
 const AuthLogin = () => {
-  const [checked, setChecked] = React.useState(false);
-
-  const [showPassword, setShowPassword] = React.useState(false);
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
 
   const navigate = useNavigate();
 
@@ -49,27 +31,48 @@ const AuthLogin = () => {
     <>
       <Formik
         initialValues={{
-          email: '',
-          password: '',
-          submit: null
+          email: ''
         }}
         validationSchema={Yup.object().shape({
-          email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-          password: Yup.string().max(255).required('Password is required')
+          email: Yup.string()
+            .test(
+              'email-or-phone',
+              'Must be a valid email or phone number',
+              (value) => {
+                if (!value) return false;
+        
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                const phoneRegex = /^[0-9]{10,15}$/; 
+        
+                return emailRegex.test(value) || phoneRegex.test(value);
+              }
+            )
+            .required('Email or phone number is required'),
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
 
-            const data = await signInWithEmail({email: values.email, password: values.password});
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-            if(!data){
-              return;
+            let data;
+
+            if (emailRegex.test(values.email)) {
+              data = {
+                provider: 'email',
+                email: values.email
+              };
+            } else {
+              data = {
+                provider: 'phone',
+                phoneNumber: `91${values.email}`
+              };
             }
+            const result = await requestOTP(data);
 
-            setStatus({ success: true });
-            setSubmitting(false);
-
-            navigate('/loading');
+            if(result){
+              Cookies.set('contactInfo', values.email);
+              navigate('/code-verification', { state: { contactInfo: values.email } });
+            } 
 
           } catch (err) {
             setStatus({ success: false });
@@ -82,8 +85,10 @@ const AuthLogin = () => {
           <form noValidate onSubmit={handleSubmit}>
             <Grid container spacing={3}>
               <Grid item xs={12}>
+                <Typography >Enter your phone number or email to login or create a new account.</Typography>
+              </Grid>
+              <Grid item xs={12}>
                 <Stack spacing={1}>
-                  <InputLabel htmlFor="email-login">Email Address</InputLabel>
                   <OutlinedInput
                     id="email-login"
                     type="email"
@@ -91,7 +96,7 @@ const AuthLogin = () => {
                     name="email"
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    placeholder="Enter email address"
+                    placeholder="Enter email address or phone number"
                     fullWidth
                     error={Boolean(touched.email && errors.email)}
                   />
@@ -102,65 +107,7 @@ const AuthLogin = () => {
                   )}
                 </Stack>
               </Grid>
-              <Grid item xs={12}>
-                <Stack spacing={1}>
-                  <InputLabel htmlFor="password-login">Password</InputLabel>
-                  <OutlinedInput
-                    fullWidth
-                    error={Boolean(touched.password && errors.password)}
-                    id="-password-login"
-                    type={showPassword ? 'text' : 'password'}
-                    value={values.password}
-                    name="password"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowPassword}
-                          onMouseDown={handleMouseDownPassword}
-                          edge="end"
-                          size="large"
-                        >
-                          {showPassword ? <EyeOutlined /> : <EyeInvisibleOutlined />}
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                    placeholder="Enter password"
-                  />
-                  {touched.password && errors.password && (
-                    <FormHelperText error id="standard-weight-helper-text-password-login">
-                      {errors.password}
-                    </FormHelperText>
-                  )}
-                </Stack>
-              </Grid>
-
-              <Grid item xs={12} sx={{ mt: -1 }}>
-                <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={checked}
-                        onChange={(event) => setChecked(event.target.checked)}
-                        name="checked"
-                        color="primary"
-                        size="small"
-                      />
-                    }
-                    label={<Typography variant="h6">Keep me sign in</Typography>}
-                  />
-                  <Link variant="h6" component={RouterLink} to="/password/forgot" color="text.primary">
-                    Forgot Password?
-                  </Link>
-                </Stack>
-              </Grid>
-              {errors.submit && (
-                <Grid item xs={12}>
-                  <FormHelperText error>{errors.submit}</FormHelperText>
-                </Grid>
-              )}
+              
               <Grid item xs={12}>
                 <AnimateButton>
                   <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="primary">

@@ -16,7 +16,7 @@ const CheckAuthAndStorage = ({ children }) => {
   useEffect(() => {
     const isLoggedIn = checkCookies();
     const redirect = Cookies.get('redirect');
-    const isUnAuthRoute = ['/', '/login', '/register', '/auth/callback', '/password/forgot', '/password/reset', '/verify-email', '/check-mail', '/legal/privacy', '/legal/terms'].includes(redirect ?? currentLocation.pathname);
+    const isUnAuthRoute = ['/', '/login', '/code-verification', '/register', '/auth/callback', '/password/forgot', '/password/reset', '/verify-email', '/check-mail', '/legal/privacy', '/legal/terms'].includes(redirect ?? currentLocation.pathname);
     const routePattern = /^\/app\/p\/card\/\w+$/; 
     const matchesRedirect = redirect && routePattern.test(redirect);
     const matchesCurrentLocation = routePattern.test(currentLocation.pathname);

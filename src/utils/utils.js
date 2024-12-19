@@ -49,9 +49,9 @@ export function filterAndGroupList(data, keyName, value) {
 
 export function checkCookies(){
     const accessToken = Cookies.get('accessToken');
-    const refreshToken = Cookies.get('refreshToken');
+    // const refreshToken = Cookies.get('refreshToken');
 
-    if (accessToken && refreshToken) {
+    if (accessToken) {
         return true; 
     } else {
         return false; 
