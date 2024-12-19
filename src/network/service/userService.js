@@ -5,15 +5,15 @@ export async function updateProfile(data){
 }
 
 export async function updateFollowUp(value){
-    return await axiosClient.put(`/followUp?value=${value}`);
+    return await axiosClient.put(`/me`, { followUp: value});
 }
 
 export async function updateBranding(value){
-    return await axiosClient.put(`/branding?value=${value}`);
+    return await axiosClient.put(`/me`, { branding: value});
 }
 
 export async function updatePersonalizedLink(value){
-    return await axiosClient.put(`/personalizedLink?value=${value}`);
+    return await axiosClient.put(`/me`, { personalizedLink: value });
 }
 
 export async function personalizedLinkCheck(value){
