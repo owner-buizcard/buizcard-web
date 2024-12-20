@@ -160,7 +160,7 @@ const AccountSettings = ()=>{
                         name="cardName"
                         startAdornment={
                             <InputAdornment position="start" sx={{ mr: -1 }}>
-                              <Typography>bizcard.co/</Typography>
+                              <Typography>bizcard.in/</Typography>
                             </InputAdornment>
                         }
                         endAdornment={
