@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { CircularProgress, Stack, Typography } from "@mui/material";
 import styled from "@emotion/styled";
-import { connectHubspot } from "../../../network/service/integrationService";
+import { connectPipedrive } from "../../../network/service/integrationService";
 import { showSnackbar } from "../../../utils/snackbar-utils";
 
 const LoaderWrapper = styled('div')(({ _ }) => ({
@@ -13,7 +13,7 @@ const LoaderWrapper = styled('div')(({ _ }) => ({
     height: "100vh",
   }));
 
-const HubspotCallback =()=>{
+const PipedriveCallback =()=>{
 
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
@@ -24,10 +24,10 @@ const HubspotCallback =()=>{
     useEffect(()=>{
         const initApp=async()=>{
 
-            const connected = await connectHubspot(code);
+            const connected = await connectPipedrive(code);
 
             if(connected){
-                showSnackbar('Hubspot connected successfully!', { variant: 'success' });
+                showSnackbar('Pipedrive connected successfully!', { variant: 'success' });
             }
 
             navigate('/dashboard');
@@ -39,10 +39,10 @@ const HubspotCallback =()=>{
         <LoaderWrapper>
             <Stack spacing={2} alignItems={"center"}>
                 <CircularProgress size={32}/>
-                <Typography variant="subtitle1">Connecting Zoho CRM...</Typography>
+                <Typography variant="subtitle1">Connecting Pipedrive CRM...</Typography>
             </Stack>
         </LoaderWrapper>
     )
 }
 
-export default HubspotCallback;
+export default PipedriveCallback;

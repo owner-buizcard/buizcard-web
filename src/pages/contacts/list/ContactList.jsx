@@ -1,30 +1,37 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTheme } from '@emotion/react';
 import { Avatar, Box, Button, Chip, FormControl, Grid, IconButton, InputAdornment, OutlinedInput, Stack, Typography } from '@mui/material';
-import { HiLockClosed, HiMiniLockClosed, HiUser } from 'react-icons/hi2';
-import { alpha, styled } from '@mui/material/styles';
-import { DataGrid, gridClasses } from '@mui/x-data-grid';
-import { ContactsOutlined, EditOutlined, ExportOutlined, PlusOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons';
+import { HiMiniLockClosed, HiUser } from 'react-icons/hi2';
+import { ContactsOutlined, EditOutlined, PlusOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons';
 import MainCard from '../../../components/MainCard';
 import ContactOptions from '../../../components/menu/ContactOptions';
 import SkeletonTable from '../../../components/skeleton/SkeletonTable';
 import AddTagDialog from '../../../components/dialogs/AddTagDialog';
 import { useNavigate } from 'react-router-dom';
 import { downloadFile, formatDate, generateUniqueName, generateVcard } from '../../../utils/utils';
-import { getMyContacts, removeContact } from '../../../network/service/connectService';
-import { updateContacts, updateMissedLeads } from '../../../store/reducers/app';
+import { removeContact } from '../../../network/service/connectService';
+import { updateContacts } from '../../../store/reducers/app';
 import ExportOptions from '../../../components/Contact/ExportOptions';
 import SendMailDialog from '../../../components/dialogs/SendMailDialog';
 import { exportCSVFile } from 'json2csv-converter';
 import * as XLSX from 'xlsx';
+import { StripedDataGrid } from '../../../components/@extended/StripedDataGrid';
+import { getContacts } from '../../../network/service/contactService';
+import { MdOutlineKeyboardArrowLeft, MdOutlineKeyboardArrowRight } from "react-icons/md";
 
-const ODD_OPACITY = 0.2;
 
 const ContactList = () => {
-  const data = useSelector((state) => state.app.contacts);
   const featureCount = useSelector((state) => state.app.featureCount);
   
+  const [page, setPage] = useState(0);
+  const [query, setQuery] = useState('');
+
+  const [start, setStart] = useState(1);
+  const [end, setEnd] = useState(0);
+  const [total, setTotal] = useState(0);
+
+  const [refresh, setRefresh] = useState(false);
   const [loading, setLoading] = useState(false);
   const [openTag, setOpenTag] = useState(false);
   const [openMail, setOpenMail] = useState(false);
@@ -36,67 +43,67 @@ const ContactList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [searchQuery, setSearchQuery] = useState('');
-  const [contactsData, setContactsData] = useState(data?.map((contact) => {
-    const updatedContact = { ...contact };
-    const { details, card } = contact;
-    const contactInfo = details ?? card;
-    updatedContact.picture = contactInfo?.picture;
-    updatedContact.name =
-      details != null
-        ? contactInfo.name
-        : `${contactInfo?.name?.firstName ?? ''} ${contactInfo?.name?.middleName ?? ''} ${contactInfo?.name?.lastName ?? ''}`;
-    updatedContact.phoneNumber = details != null ? contactInfo?.phone : contactInfo?.phoneNumber ?? '';
-    updatedContact.email = contactInfo?.email ?? '';
-    updatedContact.message = contactInfo?.message ?? '';
-    updatedContact.cardName = card?.cardName ?? '';
-    return updatedContact;
-  }));
-  const [contacts, setContacts] = useState(contactsData);
+  const [contacts, setContacts] = useState([]);
 
-  const StripedDataGrid = styled(DataGrid)(({ theme }) => ({
-    [`& .${gridClasses.row}.even`]: {
-      backgroundColor: theme.palette.grey[200],
-      '&:hover, &.Mui-hovered': {
-        backgroundColor: alpha(theme.palette.primary.main, ODD_OPACITY),
-        '@media (hover: none)': {
-          backgroundColor: 'transparent'
+  useEffect(() => {
+    const fetchContacts = async () => {
+      try {
+        if (page !== -1 || refresh) {
+          setRefresh(false);
+          const data = await getContacts({ page: refresh ? 1: page+1 , query });
+
+          const updatedContacts = data.contacts?.map((contact) => {
+            const updatedContact = { ...contact };
+            const { details, card } = contact;
+            const contactInfo = details ?? card;
+            updatedContact.picture = contactInfo?.picture;
+            updatedContact.name =
+              details != null
+                ? `${contactInfo.firstName} ${contactInfo.lastName}`
+                : `${contactInfo?.name?.firstName ?? ''} ${contactInfo?.name?.middleName ?? ''} ${contactInfo?.name?.lastName ?? ''}`;
+            updatedContact.phoneNumber = details != null ? contactInfo?.phone : contactInfo?.phoneNumber ?? '';
+            updatedContact.email = contactInfo?.email ?? '';
+            updatedContact.message = contactInfo?.message ?? '';
+            updatedContact.cardName = card?.cardName ?? '';
+            return updatedContact;
+          });
+
+          setContacts(updatedContacts);
+          setTotal(data.count);
+
+          const s = page * 10 + 1;
+          const isNextEnable = s + 9 <= data.count;
+          setStart(s);
+          setEnd(isNextEnable ? s + 9 : data.count);
         }
-      },
-      '&.Mui-selected': {
-        backgroundColor: alpha(theme.palette.primary.main, ODD_OPACITY + theme.palette.action.selectedOpacity),
-        '&:hover, &.Mui-hovered': {
-          backgroundColor: alpha(
-            theme.palette.primary.main,
-            ODD_OPACITY + theme.palette.action.selectedOpacity + theme.palette.action.hoverOpacity
-          ),
-          '@media (hover: none)': {
-            backgroundColor: alpha(theme.palette.primary.main, ODD_OPACITY + theme.palette.action.selectedOpacity)
-          }
-        }
+      } catch (error) {
+        console.error("Error fetching orders:", error);
       }
+    };
+    fetchContacts();
+  }, [page, refresh, query]);
+
+  const onMoveNext = () => {
+    if (start + 9 < total) {
+      setPage(page + 1);
     }
-  }));
+  };
+
+  const onMovePrev = () => {
+    if (page >= 1) {
+      setPage(page - 1);
+    }
+  };
 
   const handleSearch = (event) => {
     const query = event.target.value.toLowerCase();
-    setSearchQuery(query);
-    const filtered = contactsData.filter(
-      (contact) =>
-        contact.name?.toLowerCase()?.includes(query) ||
-        contact.email?.toLowerCase()?.includes(query) ||
-        contact.phoneNumber?.includes(query) ||
-        contact.location?.toLowerCase()?.includes(query)
-    );
-    setContacts(filtered);
+    setQuery(query);
   };
 
-  const deleteContact = async (contactId) => {
-    const updated = data.filter((contact) => contact._id !== contactId);  
-    const newe = contactsData.filter((contact) => contact._id !== contactId); 
-    setContactsData(newe); 
+  const deleteContact = async (contactId) => { 
+    const newe = contacts.filter((contact) => contact._id !== contactId); 
     setContacts(newe);
-    dispatch(updateContacts([...updated]));
+    dispatch(updateContacts([...newe]));
     await removeContact(contactId);
   };
 
@@ -137,7 +144,7 @@ const ContactList = () => {
   const renderContactCell = (params) => (
     <Stack>
       <Typography variant="title">{params.value?.fullName}</Typography>
-      {/* <Typography variant="caption" sx={{color: 'grey'}}>{params.value?.email}</Typography> */}
+      <Typography variant="caption" sx={{color: 'grey'}}>{params.value?.email}</Typography>
     </Stack>
   );
 
@@ -206,8 +213,8 @@ const ContactList = () => {
 
   const getData =(id)=>{
     const filtered = id!=null
-      ? [contactsData.find((contact) => contact._id == id)]
-      : contactsData.filter((contact) => selectedContacts.includes(contact._id));
+      ? [contacts.find((contact) => contact._id == id)]
+      : contacts.filter((contact) => selectedContacts.includes(contact._id));
 
     return filtered.map((d)=>{
       const card = d.card;
@@ -253,14 +260,6 @@ const ContactList = () => {
     phoneNumber: contact.phoneNumber,
     connectedAt: formatDate(contact.connectedAt)
   }));
-
-  const refresh = async () => {
-    setLoading(true);
-    const result = await getMyContacts();
-    dispatch(updateContacts(result.contacts??[]));
-    dispatch(updateMissedLeads(result.featureCount>0));
-    setLoading(false);
-  };
 
   const updateTags = async (updated) => {
     setOpenTag(false);
@@ -323,7 +322,7 @@ const ContactList = () => {
                   onExportToCsv={()=>exportToCSV()}
                   onExportToExcel={()=>exportToExcel()}
                 />
-                <IconButton onClick={refresh}>
+                <IconButton onClick={()=>setRefresh(true)}>
                   <Box sx={{ border: `1px solid ${theme.palette.grey[300]}`, borderRadius: '4px', p: 1 }}>
                     <ReloadOutlined />
                   </Box>
@@ -335,25 +334,54 @@ const ContactList = () => {
                     <Typography variant='subtitle1' color={"green"}>{`${featureCount} lead is looking for you! Upgrade to connect with them!`}</Typography>
                   </Stack>
                 </Box> }
-              <StripedDataGrid
-                rows={rows}
-                columns={columns}
-                getRowClassName={(params) => (params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd')}
-                sx={{
-                  '& .MuiDataGrid-columnHeader': { fontSize: '15px', fontWeight: '900' },
-                  '& .MuiDataGrid-cell': { fontSize: '14px' },
-                  border: 1,
-                  borderColor: `${theme.palette.grey[200]}`
-                }}
-                initialState={{ pagination: { paginationModel: { page: 0, pageSize: 5 } } }}
-                pageSizeOptions={[5, 10]}
-                checkboxSelection
-                disableRowSelectionOnClick
-                onRowSelectionModelChange={(selected) => {
-                  setSelectedContacts(selected);
-                }}
-                rowSelectionModel={selectedContacts}
-              />
+              <Box sx={{ position: "relative" }}>
+                <StripedDataGrid
+                  rows={rows}
+                  columns={columns}
+                  getRowClassName={(params) => (params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd')}
+                  sx={{
+                    '& .MuiDataGrid-columnHeader': { fontSize: '15px', fontWeight: '900' },
+                    '& .MuiDataGrid-cell': { fontSize: '14px' },
+                    border: 1,
+                    borderColor: `${theme.palette.grey[200]}`
+                  }}
+                  initialState={{ pagination: { paginationModel: { page: 0, pageSize: 10 } } }}
+                  pageSize={10}
+                  pageSizeOptions={[10]}
+                  checkboxSelection
+                  disableRowSelectionOnClick
+                  onRowSelectionModelChange={(selected) => {
+                    setSelectedContacts(selected);
+                  }}
+                  rowSelectionModel={selectedContacts}
+                />
+                <Box
+                  sx={{
+                    background: "white",
+                    position: "absolute",
+                    bottom: 0,
+                    height: 60,
+                    width: "100%",
+                    border: 1,
+                    borderColor: `${theme.palette.grey[200]}`,
+                    display: "flex",
+                    justifyContent: "end",
+                    px: "20px"
+                  }}
+                >
+                  <Stack direction={"row"} alignItems={"center"}>
+                    <IconButton onClick={onMovePrev}>
+                      <MdOutlineKeyboardArrowLeft />
+                    </IconButton>
+                    <Typography sx={{ mx: 1 }}>
+                      {`${start} - ${end} of ${total}`}
+                    </Typography>
+                    <IconButton onClick={onMoveNext}>
+                      <MdOutlineKeyboardArrowRight />
+                    </IconButton>
+                  </Stack>
+                </Box>
+              </Box>
             </>
           )}
         </MainCard>

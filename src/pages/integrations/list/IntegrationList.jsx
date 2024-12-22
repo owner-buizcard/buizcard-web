@@ -12,6 +12,8 @@ const IntegrationList = ()=>{
     const configs = useSelector((state)=>state.app.configs);
     const user = useSelector((state)=>state.app.user);
 
+    console.log(user)
+
     const dispatch = useDispatch();
 
     const [open, setOpen] = useState(false);
@@ -26,8 +28,6 @@ const IntegrationList = ()=>{
         dispatch(hideLoader());
         setOpen(false);
     }
-
-    console.log(configs);
 
     const integrations = configs?.find((con)=>con.key==="integrations").value??[];
     const groupedData = integrations.reduce((acc, obj) => {

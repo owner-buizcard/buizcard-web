@@ -14,7 +14,8 @@ const ExportOptions =({contactIds, disabled, style, onExportToCsv, onExportToExc
 
     const isEnabled = useSelector((state)=>state.app.enableExport);
 
-    var integrations = config?.find((item)=>item['key']=="Integrations")['value']??[];
+    // var integrations = config?.find((item)=>item['key']=="Integrations")['value']??[];
+    var integrations = [];
     integrations = integrations?.filter((item)=>item['group']=="CRM" && user.integrations?.includes(item['id']))??[];
 
     integrations = [ 

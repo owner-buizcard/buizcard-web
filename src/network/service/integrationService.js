@@ -8,6 +8,10 @@ export async function connectHubspot(code){
     return await axiosClient.post('/hubspot/connect', { code });
 }
 
+export async function connectPipedrive(code){
+    return await axiosClient.post('/pipedrive/connect', { code });
+}
+
 export async function connectWhatsapp(data){
     return await axiosClient.put('/me', data);
 }

@@ -10,6 +10,7 @@ import HubspotCallback from '../pages/integrations/callback/HubspotCallback';
 import Home from '../pages/home/Home';
 import PrivacyPolicy from '../pages/legal/PrivacyPolicy';
 import TermsOfService from '../pages/legal/TermsOfService';
+import PipedriveCallback from '../pages/integrations/callback/PipedriveCallback';
 
 const Loader = Loadable(lazy(() => import('../pages/loader/MainLoader')));
 
@@ -44,6 +45,10 @@ const CommonRoutes = {
       {
         path: 'i/callback/zoho',
         element: <ZohoCallback />
+      },
+      {
+        path: 'i/callback/pipedrive',
+        element: <PipedriveCallback />
       },
       {
         path: 'i/callback/hubspot',

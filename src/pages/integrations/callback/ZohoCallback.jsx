@@ -1,9 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { checkCookies } from "../../../utils/utils";
-import { fetchConfigData, fetchMainData } from "../../../network/service/appService";
 import { useEffect } from "react";
-import { dispatch } from "../../../store/store";
-import { initialize } from "../../../store/reducers/app";
 import { CircularProgress, Stack, Typography } from "@mui/material";
 import styled from "@emotion/styled";
 import { connectZohoCRM } from "../../../network/service/integrationService";

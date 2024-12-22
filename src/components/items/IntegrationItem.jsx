@@ -12,15 +12,16 @@ const IntegrationItem =({userId, item, isConnected, onClick})=>{
     const navigate = useNavigate();
 
     const handleClick=()=>{
+        console.log("clickinh")
         if(!isEnabled){
             showUpgradeInfo(navigate, "Upgrade your account to use this feature!")
             return;
         }
-        let link = item.auth_link;
-        const type = item.auth_type;
+        let link = item.authLink;
+        const type = item.authType;
 
-        if (link.includes('${userId}')) {
-            link = link.replace('${userId}', userId);
+        if (link.includes('${accountID}')) {
+            link = link.replace('${accountID}', userId);
         }
 
         if(type=="_blank"){

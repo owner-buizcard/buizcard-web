@@ -1,7 +1,11 @@
 import axiosClient from "../axiosClient";
 
-export async function saveContactDetails(data){
-    return await axiosClient.post(`/contact-details`, data);
+export async function getContacts({ page, limit, query}){
+    return await axiosClient.get(`/contact-list?page=${page}&limit=10&query=${query??''}`);
+}
+
+export async function createContact(data){
+    return await axiosClient.post(`/contact`, data);
 }
 
 export async function updateContactDetails(contactId, data){

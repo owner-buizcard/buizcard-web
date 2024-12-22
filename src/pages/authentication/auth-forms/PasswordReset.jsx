@@ -30,7 +30,7 @@ import AnimateButton from '../../../components/@extended/AnimateButton';
 
 // assets
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
-import { resetPassword, signInWithEmail } from '../../../network/service/authService';
+import { resetPassword } from '../../../network/service/authService';
 import { strengthColor, strengthIndicator } from '../../../utils/password-strength';
 
 

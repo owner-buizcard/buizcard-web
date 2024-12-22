@@ -9,7 +9,7 @@ import { uploadCardImage } from "../../../network/service/cardService";
 import ImagePicker from "../../../components/ImagePicker";
 import { UserOutlined } from "@ant-design/icons";
 import { values } from "lodash";
-import { saveContactDetails, updateContactDetails } from "../../../network/service/contactService";
+import { createContact, updateContactDetails } from "../../../network/service/contactService";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { hideLoader, showLoader, updateContacts } from "../../../store/reducers/app";
@@ -47,8 +47,8 @@ const CreateContact =()=>{
     <>
       <Formik
         initialValues={{
-          fname: (details?.name ? details.name.split(' ')[0] : '') || '',
-          lname: (details?.name ? details.name.split(' ')[1] : '') || '',
+          fname: details?.firstName??'',
+          lname: details?.lastName??'',
           email: details?.email??'',
           phone: details?.phone??'',
           title: details?.title??'',
@@ -73,7 +73,8 @@ const CreateContact =()=>{
             dispatch(showLoader());
 
             const data = {
-              name: `${values.fname} ${values.lname}`,
+              firstName: values.fname,
+              lastName: values.lname,
               email: values.email,
               phone: values.phone,
               title: values.title,
@@ -84,7 +85,7 @@ const CreateContact =()=>{
             };
 
             if(details==null){
-              const contactData = await saveContactDetails(data)
+              const contactData = await createContact(data)
               const updated = [...contacts, contactData];
               dispatch(updateContacts(updated))
             }else{
