@@ -162,7 +162,7 @@ const CardPreview = ({cardData, isLive=true, removePadding=false}) => {
 
             <ListItem sx={{ my: 2, mx: item.highlight ? 2 : 0, px: 0, py: '4px', alignItems: 'center', justifyContent: item.highlight ? 'start': 'center' }}>
               <ListItemIcon sx={{ minWidth: '32px', marginRight: '8px' }}>
-                <Avatar src={`https://firebasestorage.googleapis.com/v0/b/bizcard-web.appspot.com/o/${item.icon}?alt=media`} />
+                <Avatar src={`${item.icon}`} />
               </ListItemIcon>
               {
                 item.highlight && <Stack sx={{ whiteSpace: 'normal', wordWrap: 'break-word', marginLeft: "16px", marginRight: "12px" }}>

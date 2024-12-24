@@ -52,7 +52,7 @@ const AddLinkDialog =({open, handleCancel, item, onAddItem})=>{
                     <form noValidate onSubmit={handleSubmit}>
                     <Stack spacing={3} px={4}>
 
-                        <Avatar src={`https://firebasestorage.googleapis.com/v0/b/bizcard-web.appspot.com/o/${item?.icon}`}/>
+                        <Avatar src={`${item?.icon}`}/>
                         <Stack spacing={2}>
                             <Stack spacing={1}>
                                 <InputLabel htmlFor="link">{item?.label} Link</InputLabel>

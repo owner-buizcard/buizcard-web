@@ -237,7 +237,7 @@ const Bizcard = () => {
           cardData?.fields?.map((item)=>(
               <Grid key={item.icon} item md={2} xs={3}>
                   <Box sx={{justifyContent: "center", display: "flex", cursor: "pointer"}} onClick={()=>onWebClick(item)}>
-                      <img style={{width: "48px", height: "48px"}} src={`https://firebasestorage.googleapis.com/v0/b/bizcard-web.appspot.com/o/${item.icon}?alt=media`} />
+                      <img style={{width: "48px", height: "48px"}} src={`${item.icon}`} />
                   </Box>
               </Grid>
           ))

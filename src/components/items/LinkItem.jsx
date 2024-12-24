@@ -19,7 +19,7 @@ const LinkItem =({value, onRemove, onChangeHighlight})=>{
                 </ListItemIcon>
                 <Stack direction={"row"} spacing={2} alignItems={"center"} flexGrow={1}>
                     <ListItemIcon>
-                        <Avatar src={`https://firebasestorage.googleapis.com/v0/b/bizcard-web.appspot.com/o/${value.icon}`}/>
+                        <Avatar src={`${value.icon}`}/>
                     </ListItemIcon>
                     <Typography variant="subtitle1">{value.title}</Typography>
                 </Stack>

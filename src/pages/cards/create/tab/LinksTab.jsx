@@ -154,7 +154,7 @@ const LinksTab = () => {
                                     {
                                         value.map((val)=>(
                                             <Chip
-                                                icon={<Avatar sx={{width: 24, height: 24}} src={`https://firebasestorage.googleapis.com/v0/b/bizcard-web.appspot.com/o/${val.icon}`}/>}
+                                                icon={<Avatar sx={{width: 24, height: 24}} src={val.icon}/>}
                                                 key={val.name}
                                                 label={val.label}
                                                 sx={{ 
