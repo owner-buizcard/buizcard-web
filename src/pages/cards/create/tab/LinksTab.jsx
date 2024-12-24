@@ -85,8 +85,6 @@ const LinksTab = () => {
     setLinkItems(filterAndGroupList(fieldTypes, "category", value))
   } 
 
-  console.log(fields);
-
   return (
     <>
       <AddLinkDialog open={open} handleCancel={handleCancel} item={addLinkItem} onAddItem={handleChange}/>
