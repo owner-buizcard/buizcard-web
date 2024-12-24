@@ -35,7 +35,7 @@ export async function uploadCardImage({cardId, key, file, fileName}){
   formDataToSend.append('key', key)
   formDataToSend.append('file', file, fileName)
 
-  return await axiosClient.post(`/card-image`, formDataToSend);
+  return await axiosClient.post(`/upload`, formDataToSend);
 }
 
 
