@@ -131,7 +131,7 @@ const CardDetails =()=>{
                             <IconButton
                                 disableRipple
                                 color="secondary"
-                                title="Download Free Version"
+                                title="Clone Card"
                                 sx={{ color: 'text.primary', }}
                                 onClick={createCloneClick}
                             >
@@ -142,7 +142,7 @@ const CardDetails =()=>{
                             <IconButton
                                 disableRipple
                                 color="secondary"
-                                title="Download Free Version"
+                                title="Download Qr code"
                                 sx={{ color: 'text.primary', }}
                                 onClick={captureQr}
                             >
@@ -153,7 +153,7 @@ const CardDetails =()=>{
                             <IconButton
                                 disableRipple
                                 color="secondary"
-                                title="Download Free Version"
+                                title="Delete Card"
                                 sx={{ color: 'text.primary', }}
                                 onClick={handleDelete}
                             >

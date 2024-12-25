@@ -36,7 +36,7 @@ const AddLinkDialog =({open, handleCancel, item, onAddItem})=>{
                             description: values.description,
                             highlight: values.highlight,
                             icon: item.icon,
-                            storeId: item._id,
+                            storeId: item.id,
                           });
                           setStatus({ success: true });
                           setSubmitting(false);

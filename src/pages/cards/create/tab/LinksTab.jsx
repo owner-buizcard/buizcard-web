@@ -20,6 +20,8 @@ const LinksTab = () => {
   const theme = useTheme();
   const [fields, setFields] = useState(cardData?.fields??[]);
 
+  console.log(fields)
+
   const [linkItems, setLinkItems] = useState(groupList(fieldTypes, "category"))
 
   const handleDragEnd = (result) => {
@@ -63,7 +65,7 @@ const LinksTab = () => {
   const handleHighlightChange=(id)=>{
     setFields(prevFields => {
       const updated = prevFields.map(item => {
-        if (item.id === id) {
+        if (item.id??item._id === id) {
           return { ...item, highlight: !item.highlight };
         }
         return item;
@@ -100,7 +102,7 @@ const LinksTab = () => {
                 {(provided) => (
                     <div {...provided.droppableProps} ref={provided.innerRef}>
                     {fields.map((value, index) => (
-                        <Draggable key={value.id} draggableId={value.id} index={index}>
+                        <Draggable key={value.id??value._id} draggableId={value.id??value._id} index={index}>
                             {(provided) => (
                                 <div
                                 ref={provided.innerRef}
@@ -109,8 +111,8 @@ const LinksTab = () => {
                                 >
                                     <LinkItem 
                                       value={value}
-                                      onChangeHighlight={()=>handleHighlightChange(value.id)}
-                                      onRemove={()=>handleRemove(value.id)}  
+                                      onChangeHighlight={()=>handleHighlightChange(value.id??value._id)}
+                                      onRemove={()=>handleRemove(value.id??value._id)}  
                                     />
                                 </div>
                             )}
