@@ -66,11 +66,11 @@ const CardDetails =()=>{
 
     const createCloneClick =async(data)=>{
         dispatch(showLoader());
-        const cardData = await cloneBizcard({cardId: cardId});
+        const cloneData = await cloneBizcard({cardId: cardData._id});
         dispatch(hideLoader());
-        const updated = [...cards, cardData];
+        const updated = [...cards, cloneData];
         dispatch(updateCards(updated))
-        navigate(`/dashboard/card?cardId=${cardData._id}`);
+        navigate(`/dashboard/card?cardId=${cloneData._id}`);
     }
 
     const handleSettingsChange =(data)=>{
@@ -92,7 +92,7 @@ const CardDetails =()=>{
     const deleteClick =async()=>{
         setOpen(false);
         await deleteCard(cardId);
-        const updated = cards.filter(item=>item._id!==cardId);
+        const updated = cards.filter(item=>item._id!==cardData._id);
         dispatch(updateCards(updated))
         navigate(`/dashboard`);
     }

@@ -19,12 +19,21 @@ const AddLinkDialog =({open, handleCancel, item, onAddItem})=>{
                 <Formik
                     initialValues={{
                         link: item?.link,
-                        title: item?.title,
+                        title: item?.label,
                         description: item?.description,
                         highlight: item?.highlight || false
                     }}
                     validationSchema={Yup.object().shape({
-                        link: Yup.string().required('Link is required'),
+                        link: Yup.string().required('Link is required')
+                        .test(
+                            'is-valid-link',
+                            `Invalid ${item?.label} link format`,
+                            (value) => {
+                                if (!item?.regex) return true; 
+                                const regex = new RegExp(item.regex);
+                                return regex.test(value);
+                            }
+                        ),
                         title: Yup.string().max(120).required('Link title is required')
                     })}
                     onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
@@ -56,7 +65,7 @@ const AddLinkDialog =({open, handleCancel, item, onAddItem})=>{
                         <Avatar src={`${item?.icon}`}/>
                         <Stack spacing={2}>
                             <Stack spacing={1}>
-                                <InputLabel htmlFor="link">{item?.label} Link</InputLabel>
+                                <InputLabel htmlFor="link">{item?.label} {item.field}</InputLabel>
                                 <OutlinedInput
                                     id="link"
                                     type="text"
@@ -65,7 +74,7 @@ const AddLinkDialog =({open, handleCancel, item, onAddItem})=>{
                                     onBlur={handleBlur}
                                     onChange={handleChange}
                                     error={Boolean(touched.link && errors.link)}
-                                    placeholder={`Enter ${item?.label} Link`}
+                                    placeholder={`Enter ${item?.label} ${item.field}`}
                                     fullWidth
                                 />
                                 {touched.link && errors.link && (
