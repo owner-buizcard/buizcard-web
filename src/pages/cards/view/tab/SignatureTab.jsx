@@ -97,7 +97,7 @@ const SignatureTab = ({cardData})=>{
                                         <QRCode
                                             quietZone={2}
                                             size={100}
-                                            value={`${window.origin}/app/p/card/${cardData._id}`}
+                                            value={`${window.origin}/p/${cardData._id}`}
                                             logoWidth={100 * 0.25}
                                             logoHeight={100 * 0.25}
                                             qrStyle= {'dots'}

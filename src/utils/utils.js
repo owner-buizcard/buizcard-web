@@ -98,7 +98,7 @@ export const formatDateDistance = (dateString) => {
 
 export function formCardLink(cardId){
     const location = window.location.origin;
-    return `${location}/app/p/card/${cardId}`
+    return `${location}/p/${cardId}`
 }
 
 export function generateVcard(cardData) {

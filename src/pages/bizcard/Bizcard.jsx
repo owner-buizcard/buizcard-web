@@ -14,6 +14,9 @@ import { addCardLog } from "../../network/service/analyticsService";
 import AvatarBanner from "../../components/Card/AvatarBanner";
 import ConnectFormDialog from "../../components/dialogs/ConnectFormDialog";
 import { connectBizard } from "../../network/service/connectService";
+import { fetchConfigData } from "../../network/service/appService";
+import { useDispatch } from "react-redux";
+import { initialize } from "../../store/reducers/app";
 
 let count = 0;
 
@@ -21,10 +24,13 @@ const ICON_SIZE = "20px";
 const MAX_CARD_WIDTH = "440px";
 
 const Bizcard = () => {
+
   const { cardId } = useParams();
   const navigate = useNavigate();
 
-  const fieldTypes = useSelector((state)=>state.app.fieldTypes);
+  const dispatch = useDispatch();
+
+  const [fieldTypes, setFieldTypes] = useState(useSelector((state)=>state.app.fieldTypes));
 
   const [loading, setLoading] = useState(true);
   const [connectBtnloading, setConnectBtnLoading] = useState(false);
@@ -39,7 +45,7 @@ const Bizcard = () => {
   let by = null;
 
   if (isLoggedIn) {
-    by = useSelector((state) => state.app.user);
+    by = useSelector((state) => state.app.user)?._id;
   }
 
   useEffect(() => {
@@ -50,7 +56,15 @@ const Bizcard = () => {
 
       Cookies.set("visited", true);
 
-      if(fieldTypes!=null && count===0){
+      console.log("Bizcard");
+
+      if(fieldTypes==null){
+        const data = await fetchConfigData()
+        dispatch(initialize(data));
+        setFieldTypes(data.config?.fieldTypes);
+      }
+
+      if(count===0){
         const [data] = await Promise.all([
           getCardPreviewDetails(cardId),
           addCardLog(cardId, by, logType)

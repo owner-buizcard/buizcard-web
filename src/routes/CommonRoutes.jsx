@@ -35,7 +35,7 @@ const CommonRoutes = {
         element: <Loader />
       },
       {
-        path: 'app/p/card/:cardId',
+        path: 'p/:cardId',
         element: <Bizcard />
       },
       {

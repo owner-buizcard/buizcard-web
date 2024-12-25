@@ -17,16 +17,20 @@ const CheckAuthAndStorage = ({ children }) => {
     const isLoggedIn = checkCookies();
     const redirect = Cookies.get('redirect');
     const isUnAuthRoute = ['/', '/login', '/code-verification', '/register', '/auth/callback', '/password/forgot', '/password/reset', '/verify-email', '/check-mail', '/legal/privacy', '/legal/terms'].includes(redirect ?? currentLocation.pathname);
-    const routePattern = /^\/app\/p\/card\/\w+$/; 
+    const routePattern = /^\/p\/\w+$/; 
     const matchesRedirect = redirect && routePattern.test(redirect);
     const matchesCurrentLocation = routePattern.test(currentLocation.pathname);
     const isConfigRoute = matchesRedirect || matchesCurrentLocation;
     const hasLocalStorage = user !== null;
     const hasConfig = config !== null;
 
-    if (currentLocation.pathname === '/loading' || currentLocation.pathname.includes('/i/')) {
+    console.log("I am here");
+
+    if (currentLocation.pathname === '/loading' || currentLocation.pathname.includes('/i/') || currentLocation.pathname.includes('/p/')) {
       return;
     }
+
+    console.log("I am here too");
 
     if(!isLoggedIn && !isUnAuthRoute){
       navigate('/login');
