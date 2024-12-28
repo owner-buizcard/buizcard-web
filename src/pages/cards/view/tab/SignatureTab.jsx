@@ -1,12 +1,16 @@
 import { PlusOutlined } from "@ant-design/icons";
 import { useTheme } from "@emotion/react";
-import { Box, Button, Divider, Grid, InputLabel, OutlinedInput, Stack, Typography } from "@mui/material";
+import { Box, Button, Card, Divider, Grid, InputLabel, OutlinedInput, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 import { QRCode } from "react-qrcode-logo";
 import SignatureDialog from "../../../../components/dialogs/SignatureDialog";
 import { showUpgradeInfo } from "../../../../utils/snackbar-utils";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import MainCard from "../../../../components/MainCard";
+import PlatformPicker from "../../../../components/PlatformPicker";
+import OSPicker from "../../../../components/OsPicker";
+import SignatureInstructions from "../../../../components/SignatureInstructions";
 
 const SignatureTab = ({cardData})=>{
 
@@ -14,12 +18,19 @@ const SignatureTab = ({cardData})=>{
     const navigate = useNavigate();
     let isEnabled = useSelector((state)=>state.app.enableEmailSignature)
 
+    const configs = useSelector((state)=>state.app.configs);
+
+    const instructions = configs?.find((con)=>con.key==="es-instructions").value??[];
+
     const [fullName, setFullName] = useState(`${cardData?.name?.firstName??""} ${cardData?.name?.lastName??""}`);
     const [jobTitle, setJobTitle] = useState(cardData?.designation??"");
     const [company, setCompany] = useState(cardData?.company?.companyName??"");
     const [phoneNumber, setPhoneNumber] = useState(cardData?.phoneNumber??"");
     const [location, setLocation] = useState(cardData?.address?.city??"");
     const [disclaimer, setDisclaimer] = useState('');
+
+    const [platform, setPlatform] = useState('Gmail');
+    const [os, setOs] = useState(null);
 
     const [open, setOpen] = useState(false);
 
@@ -34,6 +45,7 @@ const SignatureTab = ({cardData})=>{
         }
         setOpen(true);
     }
+    
 
     return (
         <>
@@ -45,7 +57,7 @@ const SignatureTab = ({cardData})=>{
         <Box sx={{ minHeight: "calc(100vh - 280px)" }}>
 
         <Grid container spacing={3} >
-                <Grid item xs={12} sm={5}>
+                <Grid item xs={12} sm={5} sx={{height: `${window.innerHeight - 310}px`, overflowY: 'auto'}}>
                 <Box 
                     sx={{
                         p: 2
@@ -109,16 +121,10 @@ const SignatureTab = ({cardData})=>{
                         </Grid>
 
                     </Box>
-                    <Button
-                        onClick={()=>handleOpen()}
-                        variant="outlined"
-                        startIcon={<PlusOutlined/>}
-                    >
-                        Add To Email
-                    </Button>
                 </Box>
             </Grid>
-            <Grid item xs={12} sm={7}>  
+
+            <Grid item xs={12} sm={7} sx={{height: `${window.innerHeight - 310}px`, overflowY: 'auto'}}>  
 
             <Box>
                 <Typography variant='h5' sx={{mb: "24px"}}>Email Signature</Typography>
@@ -209,6 +215,39 @@ const SignatureTab = ({cardData})=>{
                         </Stack>
                     </Grid>
                 </Grid>
+            </Box>
+
+            <Box sx={{mt: "24px"}}>
+                <Stack direction={"column"} spacing={2}>
+                    <Typography variant='h5' sx={{mb: "24px"}}>Platform</Typography>
+                    <PlatformPicker
+                        value={platform}
+                        onChange={(v)=>{
+                            setPlatform(v);
+                            setOs(null);
+                        }}
+                    />
+                    <OSPicker
+                        value={os}
+                        platform={platform}
+                        onChange={(v)=>setOs(v)}
+                    />
+                </Stack>
+            </Box>
+
+            <Box sx={{mt: "24px"}}>
+                <Stack direction={"column"} spacing={2}>
+                    <Typography variant='h5' sx={{mb: "24px"}}>Apply</Typography>
+                    <SignatureInstructions 
+                        data={
+                            { 
+                                fullName, jobTitle, company, phoneNumber, location, disclaimer, cardId: cardData._id, showQrCode: true 
+                            }
+                        }
+                        values={platform?.toLowerCase()=="other"
+                            ? instructions["other"]
+                            : instructions[`${platform?.toLowerCase()}-${os?.toLowerCase()}`]}/>               
+                </Stack>
             </Box>
 
             </Grid>

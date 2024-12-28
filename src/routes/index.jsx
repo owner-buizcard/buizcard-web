@@ -13,6 +13,8 @@ const CheckAuthAndStorage = ({ children }) => {
   const config = useSelector((state) => state.app.configs);
   const currentLocation = useLocation();
 
+  console.log("I am here");
+
   useEffect(() => {
     const isLoggedIn = checkCookies();
     const redirect = Cookies.get('redirect');

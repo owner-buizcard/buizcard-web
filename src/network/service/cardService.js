@@ -16,6 +16,11 @@ export async function updateQrLogo(status, cardId){
   return await axiosClient.put(`/card?cardId=${cardId}`, {qrWithLogo: status});
 }
 
+export async function updatePersonalizedLink(link, cardId){
+  return await axiosClient.put(`/card?cardId=${cardId}`, {personalizedLink: link});
+}
+
+
 export async function pauseCard(isPaused, cardId){
   return await axiosClient.put(`/card?cardId=${cardId}`, {status: isPaused ? "ACTIVE" : "PAUSED"});
 }

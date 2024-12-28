@@ -90,13 +90,23 @@ const Bizcard = () => {
   };
 
   const onWebClick = async (item) => {
-    window.open(item.link, "_blank", 'noopener,noreferrer');
+    if (item.storeId === "phone") {
+      window.open(`tel:${item.link}`, "_self");
+    } else if (item.storeId === "message") {
+      window.open(`sms:${item.link}`, "_self");
+    } else if (item.storeId === "email") {
+      window.open(`mailto:${item.link}`, "_self");
+    } else if (item.storeId === "whatsapp") {
+      window.open(`https://wa.me/${item.link}`, "_blank", "noopener,noreferrer");
+    } else {
+      window.open(item.link, "_blank", 'noopener,noreferrer');
+    }
     await addCardLog(cardId, by, 'webclick');
   };
 
   const connectCard =async ()=>{
     setConnectBtnLoading(true);
-    await connectBizard(cardId, cardData?.createdBy);
+    await connectBizard(cardId);
     setConnectBtnLoading(false);
     setOpenCards(true)
   }
