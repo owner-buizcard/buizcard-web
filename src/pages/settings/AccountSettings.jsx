@@ -1,8 +1,8 @@
 import { Box, Button, CircularProgress, Divider, InputAdornment, ListItem, ListItemIcon, ListItemText, OutlinedInput, Stack, Switch, Typography } from "@mui/material";
 import MainCard from "../../components/MainCard";
 import { CheckOutlined, CloseOutlined, CopyOutlined, DeleteOutlined, LinkOutlined, LockOutlined, MailOutlined } from "@ant-design/icons";
-import { MdOutlineBadge, MdOutlineWavingHand } from "react-icons/md";
-import { BsBadge3D, BsEyeglasses } from "react-icons/bs";
+import { MdOutlineWavingHand } from "react-icons/md";
+import { BsEyeglasses } from "react-icons/bs";
 import ConfirmDialog from "../../components/dialogs/ConfirmDialog";
 import { useEffect, useState } from "react";
 import { deleteAccount, personalizedLinkCheck, updateBranding, updateFollowUp, updatePersonalizedLink } from "../../network/service/userService";
@@ -13,7 +13,6 @@ import { hideLoader, showLoader, updateAppUser } from "../../store/reducers/app"
 import { forgotPassword, sendVerificationEmail } from "../../network/service/authService";
 import { useSelector } from "react-redux";
 import SuccessDialog from "../../components/dialogs/SuccessDialog";
-import { debounce } from "lodash";
 import { useDebounce } from 'use-debounce';
 import { showSnackbar, showUpgradeInfo } from "../../utils/snackbar-utils";
 import { BiSolidBadgeCheck } from "react-icons/bi";
@@ -44,7 +43,7 @@ const AccountSettings = ()=>{
         await deleteAccount();
         clearCookies();
         dispatch(hideLoader());
-        navigate('/loading');
+        navigate('/login');
     }
 
     const checkDomainIsAvailable = async (query) => {

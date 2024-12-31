@@ -24,11 +24,16 @@ const IntegrationItem =({userId, item, isConnected, onClick})=>{
             link = link.replace('${accountID}', userId);
         }
 
-        if(type=="_blank"){
-            window.open(link, "_blank")
-        }
-
-        if(type=="api"){
+        if(type=="download"){
+            const anchor = document.createElement("a");
+            anchor.href = link;
+            anchor.download = ""; 
+            document.body.appendChild(anchor);
+            anchor.click(); 
+            document.body.removeChild(anchor);
+        } else if (type === "_blank") {
+            window.open(link, "_blank");
+        } else if (type === "api") {
             onClick();
         }
     }
@@ -47,7 +52,9 @@ const IntegrationItem =({userId, item, isConnected, onClick})=>{
                 </Box>
                 <Button variant="contained" disabled={isConnected} onClick={handleClick}>
                     {
-                        isConnected ? 'Connected' : 'Connect'
+                       item.authType=="download"
+                       ? "Download Format"
+                       : isConnected ? 'Connected' : 'Connect'
                     }
                 </Button>
             </Stack>

@@ -60,14 +60,8 @@ const Analytics=()=>{
         const init=async()=>{
             if(loading && analytics){
 
-                let data;
-
-                if(analytics==null || refresh){
-                    data = await getUserAnalytics();
-                    dispatch(updateAnalytics(data));
-                }else{
-                    data = analytics;
-                }
+                const data = await getUserAnalytics();
+                dispatch(updateAnalytics(data));
 
                 const totals = data.totals;
 

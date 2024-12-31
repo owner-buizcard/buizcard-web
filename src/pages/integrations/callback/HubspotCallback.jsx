@@ -39,7 +39,7 @@ const HubspotCallback =()=>{
         <LoaderWrapper>
             <Stack spacing={2} alignItems={"center"}>
                 <CircularProgress size={32}/>
-                <Typography variant="subtitle1">Connecting Zoho CRM...</Typography>
+                <Typography variant="subtitle1">Connecting Hubspot CRM...</Typography>
             </Stack>
         </LoaderWrapper>
     )

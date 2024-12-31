@@ -102,9 +102,7 @@ const CreateContact =()=>{
             dispatch(hideLoader());
             setStatus({ success: true });
             setSubmitting(false);
-            if(details==null){
-              resetForm();
-            }
+            navigate(-1);
           } catch (err) {
             setStatus({ success: false });
             setErrors({ submit: err.message });
