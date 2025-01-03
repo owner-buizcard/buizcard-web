@@ -1,7 +1,7 @@
 import axiosClient from "../axiosClient";
 
-export async function getContacts({ page, limit, query}){
-    return await axiosClient.get(`/contact-list?page=${page}&limit=10&query=${query??''}`);
+export async function getContacts({ page, query, groupBy}){
+    return await axiosClient.get(`/contact-list?page=${page}&limit=10&query=${query??''}&groupBy=${groupBy}`);
 }
 
 export async function createContact(data){

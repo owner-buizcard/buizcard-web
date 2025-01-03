@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useTheme } from '@emotion/react';
 import { Avatar, Box, Button, Chip, FormControl, Grid, IconButton, InputAdornment, OutlinedInput, Stack, Typography } from '@mui/material';
 import { HiMiniLockClosed, HiUser } from 'react-icons/hi2';
-import { ContactsOutlined, EditOutlined, MessageOutlined, PlusOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons';
+import { CloseOutlined, ContactsOutlined, EditOutlined, MessageOutlined, PlusOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons';
 import MainCard from '../../../components/MainCard';
 import ContactOptions from '../../../components/menu/ContactOptions';
 import SkeletonTable from '../../../components/skeleton/SkeletonTable';
@@ -19,6 +19,7 @@ import * as XLSX from 'xlsx';
 import { StripedDataGrid } from '../../../components/@extended/StripedDataGrid';
 import { getContacts } from '../../../network/service/contactService';
 import { MdOutlineKeyboardArrowLeft, MdOutlineKeyboardArrowRight } from "react-icons/md";
+import GroupByOptions from '../../../components/Contact/GroupByOptions';
 
 
 const ContactList = () => {
@@ -45,12 +46,14 @@ const ContactList = () => {
 
   const [contacts, setContacts] = useState([]);
 
+  const [groupBy, setGroupBy] = useState('');
+
   useEffect(() => {
     const fetchContacts = async () => {
       try {
         if (page !== -1 || refresh) {
           setRefresh(false);
-          const data = await getContacts({ page: refresh ? 1: page+1 , query });
+          const data = await getContacts({ page: refresh ? 1: page+1 , query, groupBy });
 
           const updatedContacts = data.contacts?.map((contact) => {
             const updatedContact = { ...contact };
@@ -81,7 +84,11 @@ const ContactList = () => {
       }
     };
     fetchContacts();
-  }, [page, refresh, query]);
+  }, [page, refresh, query, groupBy]);
+
+  useEffect(() => {
+    setPage(0);
+  }, [groupBy, query]);
 
   const onMoveNext = () => {
     if (start + 9 < total) {
@@ -324,12 +331,26 @@ const ContactList = () => {
                   onExportToCsv={()=>exportToCSV()}
                   onExportToExcel={()=>exportToExcel()}
                 />
+                <GroupByOptions 
+                  style={{ border: `1px solid ${theme.palette.grey[300]}`, borderRadius: '4px', p: 1 }}
+                  onClick={(id)=>{
+                    setGroupBy(id)
+                  }}
+                />
                 <IconButton onClick={()=>setRefresh(true)}>
                   <Box sx={{ border: `1px solid ${theme.palette.grey[300]}`, borderRadius: '4px', p: 1 }}>
                     <ReloadOutlined />
                   </Box>
                 </IconButton>
               </Stack>
+              {
+                groupBy && groupBy!='' && <Chip 
+                  label={groupBy.charAt(0).toUpperCase() + groupBy.slice(1).toLowerCase()} 
+                  sx={{ mb: 2, fontSize: "14px" }} 
+                  deleteIcon={<CloseOutlined style={{fontSize: "14px", marginRight: "10px"}}/>} 
+                  onDelete={()=>setGroupBy('')}
+                />
+              }
               { showUpgrade &&  <Box sx={{ width: '100%', background: `${theme.palette.grey[100]}`, p: 1.4, mb: 1, borderRadius: '2px'}}>
                   <Stack direction={"row"} justifyContent={"center"} alignItems={"center"} spacing={2}>
                     <HiMiniLockClosed/>
