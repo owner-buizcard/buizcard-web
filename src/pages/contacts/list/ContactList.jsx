@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useTheme } from '@emotion/react';
 import { Avatar, Box, Button, Chip, FormControl, Grid, IconButton, InputAdornment, OutlinedInput, Stack, Typography } from '@mui/material';
 import { HiMiniLockClosed, HiUser } from 'react-icons/hi2';
-import { ContactsOutlined, EditOutlined, PlusOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons';
+import { ContactsOutlined, EditOutlined, MessageOutlined, PlusOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons';
 import MainCard from '../../../components/MainCard';
 import ContactOptions from '../../../components/menu/ContactOptions';
 import SkeletonTable from '../../../components/skeleton/SkeletonTable';
@@ -163,8 +163,10 @@ const ContactList = () => {
   );
 
   const renderTypeCell = (params) => (
-    params.value=="PaperCard"
+    params.value=="manual"
       ? <EditOutlined style={{ fontSize: 22 }} />
+      : params.value=="message"
+      ? <MessageOutlined style={{ fontSize: 22 }} />
       : <ContactsOutlined style={{ fontSize: 22 }} />
   );
 
@@ -220,7 +222,7 @@ const ContactList = () => {
       const card = d.card;
       const details = d.details;
       return {
-        name: card?.name ? `${card.name?.firstName??''} ${card.name?.lastName??''}` : details?.name,
+        name: card?.name ? `${card.name?.firstName??''} ${card.name?.lastName??''}` : `${details?.firstName??''} ${details?.lastName??''}`,
         phone: card?.phoneNumber || details?.phone,
         email: card?.email || details?.email,
         address: card!=null ? `${card.address?.addressLine1}, ${card?.address?.city}, ${card?.address?.state}, ${card?.address?.country} - ${card?.address?.pincode}`: details?.location,

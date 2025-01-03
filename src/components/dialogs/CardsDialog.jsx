@@ -4,17 +4,29 @@ import { formCardLink } from "../../utils/utils";
 import { useTheme } from "@emotion/react";
 import { useSelector } from "react-redux";
 import { HiCheckBadge } from "react-icons/hi2";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AnimateButton from "../@extended/AnimateButton";
 import { connectRequest } from "../../network/service/connectService";
+import { getAllCards } from "../../network/service/cardService";
 
 const CardsDialog =({open, handleCancel, cardData})=>{
 
     const theme = useTheme();
-    const cards = useSelector((state)=>state.app.cards);
+    const [ cards, setCards ] = useState(useSelector((state)=>state.app.cards));
 
     const [selected, setSelected] = useState(null);
     const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+
+        const init = async () => {
+            var data = await getAllCards();
+            setCards(data);
+        };
+        
+        init();
+         
+    }, []);
 
     const sendConnectRequest =async ()=>{
         setLoading(true);

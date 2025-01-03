@@ -8,8 +8,8 @@ export async function connectRequest(cardId, connectedBy, userId){
     return await axiosClient.post('/contact-request', { cardId, connectedBy, userId, type: "Bizcard"});
 }
 
-export async function connectWithForm({ name, email, phone, message, userId, connectedBy }){
-    return await axiosClient.post('/contact-form', { name, email, phone, message, userId, connectedBy });
+export async function connectWithForm({ firstName, lastName, email, phone, message, accountID, connectedBy }){
+    return await axiosClient.post('/contact/message', { firstName, lastName, email, phone, message, accountID, connectedBy });
 }
 
 export async function getMyContacts(){

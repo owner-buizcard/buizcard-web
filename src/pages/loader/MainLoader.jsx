@@ -25,9 +25,14 @@ const MainLoader =()=>{
         const initApp=async()=>{
             const isLoggedIn = checkCookies();
             const data = isLoggedIn ? await fetchMainData() : await fetchConfigData();
+
             dispatch(initialize(data));
             const redirect = Cookies.get('redirect');
             Cookies.remove('redirect');
+            if(data.user.registrationStatus == "registered"){
+                navigate('/info');
+                return;
+            }
             navigate(redirect ?? '/dashboard');
         }
         initApp();

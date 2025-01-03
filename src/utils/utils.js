@@ -51,7 +51,7 @@ export function checkCookies(){
     const accessToken = Cookies.get('accessToken');
     // const refreshToken = Cookies.get('refreshToken');
 
-    if (accessToken) {
+    if (accessToken!==undefined && accessToken!==null && accessToken!=='') {
         return true; 
     } else {
         return false; 

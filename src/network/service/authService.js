@@ -1,6 +1,10 @@
 import { BASE_URL } from "../../utils/global";
 import axiosClient from "../axiosClient";
 
+export async function signup(data){
+    return await axiosClient.post('/signup', { data });
+}
+
 export async function requestOTP(data){
     return await axiosClient.post('/auth/otp', data);
 }

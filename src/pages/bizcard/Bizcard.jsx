@@ -56,8 +56,6 @@ const Bizcard = () => {
 
       Cookies.set("visited", true);
 
-      console.log("Bizcard");
-
       if(fieldTypes==null){
         const data = await fetchPreviewMainData()
         dispatch(initialize(data));
@@ -85,7 +83,7 @@ const Bizcard = () => {
   };
 
   const goTocreate = () => {
-    navigate('/register');
+    navigate('/register', '_blank');
   };
 
   const onWebClick = async (item) => {

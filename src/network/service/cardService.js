@@ -12,6 +12,10 @@ export async function updateQrVisible(status, cardId){
   return await axiosClient.put(`/card?cardId=${cardId}`, {qrVisible: status});
 }
 
+export async function getAllCards(){
+  return await axiosClient.get(`/user-cards`);
+}
+
 export async function updateQrLogo(status, cardId){
   return await axiosClient.put(`/card?cardId=${cardId}`, {qrWithLogo: status});
 }

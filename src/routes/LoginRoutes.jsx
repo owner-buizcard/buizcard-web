@@ -5,6 +5,7 @@ import Loadable from '../components/Loadable';
 import MinimalLayout from "../layout/minimal/MinimalLayout";
 import CheckMail from '../pages/authentication/CheckMail';
 import VerifyEmail from '../pages/settings/VerifyEmail';
+import Initialize from '../pages/authentication/Initialize';
 
 const AuthLogin = Loadable(lazy(() => import('../pages/authentication/Login')));
 const AuthVerification = Loadable(lazy(() => import('../pages/authentication/Verfication')));
@@ -48,6 +49,10 @@ const LoginRoutes = {
       {
         path: 'check-mail',
         element: <CheckMail />
+      },
+      {
+        path: '/info',
+        element: <Initialize />
       },
     ]
   };
