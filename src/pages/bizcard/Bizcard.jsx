@@ -14,7 +14,7 @@ import { addCardLog } from "../../network/service/analyticsService";
 import AvatarBanner from "../../components/Card/AvatarBanner";
 import ConnectFormDialog from "../../components/dialogs/ConnectFormDialog";
 import { connectBizard } from "../../network/service/connectService";
-import { fetchConfigData } from "../../network/service/appService";
+import { fetchConfigData, fetchPreviewMainData } from "../../network/service/appService";
 import { useDispatch } from "react-redux";
 import { initialize } from "../../store/reducers/app";
 
@@ -59,20 +59,19 @@ const Bizcard = () => {
       console.log("Bizcard");
 
       if(fieldTypes==null){
-        const data = await fetchConfigData()
+        const data = await fetchPreviewMainData()
         dispatch(initialize(data));
         setFieldTypes(data.config?.fieldTypes);
       }
 
       if(count===0){
-        const [data] = await Promise.all([
-          getCardPreviewDetails(cardId),
-          addCardLog(cardId, by, logType)
-        ]);
+        const data = await getCardPreviewDetails(cardId);
         count++;
         setCardData(data);
         setLoading(false);
+        await addCardLog(cardId, by, logType);
       }
+      
     };
   
     init();

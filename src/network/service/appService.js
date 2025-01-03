@@ -21,3 +21,10 @@ export async function fetchConfigData(){
 
     return data;
 }
+
+export async function fetchPreviewMainData(){
+    const data = await axiosClient.get('/config');
+    data.backgrounds = vbs;
+
+    return data;
+}
