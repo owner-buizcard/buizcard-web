@@ -20,6 +20,7 @@ import { StripedDataGrid } from '../../../components/@extended/StripedDataGrid';
 import { getContacts } from '../../../network/service/contactService';
 import { MdOutlineKeyboardArrowLeft, MdOutlineKeyboardArrowRight } from "react-icons/md";
 import GroupByOptions from '../../../components/Contact/GroupByOptions';
+import AddNotesDialog from '../../../components/dialogs/AddNotesDialog';
 
 
 const ContactList = () => {
@@ -35,6 +36,7 @@ const ContactList = () => {
   const [refresh, setRefresh] = useState(false);
   const [loading, setLoading] = useState(false);
   const [openTag, setOpenTag] = useState(false);
+  const [openNotes, setOpenNotes] = useState(false);
   const [openMail, setOpenMail] = useState(false);
   const [selectedMail, setSelectedMail] = useState(null);
   const [showUpgrade, setShowUpgrade] = useState(featureCount>0);
@@ -136,10 +138,14 @@ const ContactList = () => {
     downloadFile(vcfData, `${contact.card?.name?.firstName}-${contact.card?.name?.lastName}-Buizcard`);
   };
 
-  const addTag = async (contactId) => {
-    const contact = data.find((contact) => contact._id === contactId);
+  const addTag = async (contact) => {
     setSelected(contact);
     setOpenTag(true);
+  };
+
+  const addNotes = async (contact) => {
+    setSelected(contact);
+    setOpenNotes(true);
   };
 
   const renderProfileCell = (params) => (
@@ -214,7 +220,8 @@ const ContactList = () => {
           onEdit={() => editContact(params.value)}
           onDelete={() => deleteContact(params.value)}
           onSave={() => saveContact(params.value)}
-          onAdd={() => addTag(params.value)}
+          onAdd={() => addTag(contact)}
+          onAddNotes={() => addNotes(contact)}
         />
       </Stack>
     );
@@ -272,8 +279,30 @@ const ContactList = () => {
 
   const updateTags = async (updated) => {
     setOpenTag(false);
-    const updatedContacts = data.map((contact) => (contact._id === updated._id ? updated : contact));
-    dispatch(updateContacts(updatedContacts));
+    const updatedContacts = contacts.map((contact) => {
+      if(contact._id === updated._id){
+        return {
+          ...contact,
+          tags: updated.tags
+        };
+      } else {
+        return contact;
+      }});
+    setContacts(updatedContacts);
+  };
+
+  const updateNotes = async (updated) => {
+    setOpenNotes(false);
+    const updatedContacts = contacts.map((contact) => {
+      if(contact._id === updated._id){
+        return {
+          ...contact,
+          notes: updated.notes
+        };
+      } else {
+        return contact;
+      }});
+    setContacts(updatedContacts);
   };
 
   const openCreateContact = () => {
@@ -284,6 +313,7 @@ const ContactList = () => {
     <>
     <SendMailDialog open={openMail} onClose={()=>setOpenMail(false)} selectedMails={selectedMail}/>
     <Grid container rowSpacing={2.5} columnSpacing={2.75}>
+      <AddNotesDialog open={openNotes} contact={selected} handleCancel={() => setOpenNotes(false)} onAdded={(updated) => updateNotes(updated)} />
       <AddTagDialog open={openTag} contact={selected} handleCancel={() => setOpenTag(false)} onAdded={(updated) => updateTags(updated)} />
       <Grid item xs={8} sx={{ mb: 0 }}>
         <Typography variant="h4">My Contacts</Typography>

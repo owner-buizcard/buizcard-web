@@ -1,11 +1,11 @@
 import React, { useState, Fragment } from "react";
 import { IconButton, ListItem, ListItemIcon, ListItemText, Menu } from "@mui/material";
-import { DeleteOutlined, DownloadOutlined, EditOutlined, EyeOutlined, MailOutlined, MoreOutlined, PlusOutlined } from "@ant-design/icons";
+import { BookOutlined, DeleteOutlined, DownloadOutlined, EditOutlined, EyeOutlined, MailOutlined, MoreOutlined, PlusOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 import { showUpgradeInfo } from "../../utils/snackbar-utils";
 import { useNavigate } from "react-router-dom";
 
-const ContactOptions = ({ onDelete, onSave, onAdd, onEdit, isEdit, isEmail, onSend, onPreview }) => {
+const ContactOptions = ({ onDelete, onSave, onAdd, onEdit, isEdit, isEmail, onSend, onPreview, onAddNotes }) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const enableTags = useSelector((state)=>state.app.enableTags);
     const navigate = useNavigate();
@@ -20,6 +20,7 @@ const ContactOptions = ({ onDelete, onSave, onAdd, onEdit, isEdit, isEmail, onSe
         ...(isEdit ? [{ icon: <EditOutlined />, text: "Edit Contact", id: 2 }] : []),
         ...(!isEdit ? [{ icon: <EyeOutlined />, text: "Preview Contact", id: 5 }] : []),
         { icon: <DownloadOutlined />, text: "Save as Contact", id: 3 },
+        { icon: <BookOutlined />, text: "Add Notes", id: 6 },
         { icon: <DeleteOutlined style={{ color: "red" }} />, text: "Remove", id: 4, style: { color: "red" } },
     ];
 
@@ -44,7 +45,9 @@ const ContactOptions = ({ onDelete, onSave, onAdd, onEdit, isEdit, isEmail, onSe
             onDelete();
         } else if (index === 5) {
             onPreview();
-        } 
+        } else if (index === 6) {
+            onAddNotes();
+        }
         handleClose();
     };
 

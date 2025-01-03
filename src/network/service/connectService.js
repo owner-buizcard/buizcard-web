@@ -20,6 +20,10 @@ export async function addTags(contactId, tags){
     return await axiosClient.put(`/contact?contactId=${contactId}`, { tags });
 }
 
+export async function addNotes(contactId, notes){
+    return await axiosClient.put(`/contact?contactId=${contactId}`, { notes });
+}
+
 export async function removeContact(contactId){
     return await axiosClient.delete(`/contact?contactId=${contactId}`);
 }
